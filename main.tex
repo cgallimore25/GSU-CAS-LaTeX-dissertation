@@ -10,13 +10,46 @@
 %%                                                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\documentclass[12pt,gsu,online,openright,doubleside]{gsudiss}
+\listfiles
 \documentclass[12pt,gsu,online,openany,singleside,hidelinks]{gsudiss}
-\usepackage{natbib}
-%\usepackage{subfigure}                % To format bibliographies.
+% Original CAS template used the below for 'natbib'
+% \usepackage{natbib}  % apacite, betterbibtex (as alternative)
+%% \usepackage{subfigure}                % To format bibliographies.
 %% \usepackage{aastex}
-\setlength{\bibsep}{0pt}           % Necessary for bib entries to have
-                                   % correct line spacing.
+% \setlength{\bibsep}{0pt}           % Necessary for bib entries to have
+                                     % correct line spacing.
+
+% Added to switch to biblatex
+\usepackage[backend=biber, 
+            natbib=true, 
+            style=nature, 
+            maxbibnames=99, 
+            date=year, 
+            url=false]{biblatex}
+\addbibresource{bibliography.bib}   % if using biblatex
+
+%% --------------------------------------------------------------------------
+% The below commands correctly specify Sentence casing for article titles, but preserve Title casing for journals
+\DeclareFieldFormat{titlecase}{\MakeTitleCase{#1}}
+
+\newrobustcmd{\MakeTitleCase}[1]{%
+  \ifthenelse{\ifcurrentfield{booktitle}\OR\ifcurrentfield{booksubtitle}%
+    \OR\ifcurrentfield{maintitle}\OR\ifcurrentfield{mainsubtitle}%
+    \OR\ifcurrentfield{journaltitle}\OR\ifcurrentfield{journalsubtitle}%
+    \OR\ifcurrentfield{issuetitle}\OR\ifcurrentfield{issuesubtitle}%
+    \OR\ifentrytype{book}\OR\ifentrytype{mvbook}\OR\ifentrytype{bookinbook}%
+    \OR\ifentrytype{booklet}\OR\ifentrytype{suppbook}%
+    \OR\ifentrytype{collection}\OR\ifentrytype{mvcollection}%
+    \OR\ifentrytype{suppcollection}\OR\ifentrytype{manual}%
+    \OR\ifentrytype{periodical}\OR\ifentrytype{suppperiodical}%
+    \OR\ifentrytype{proceedings}\OR\ifentrytype{mvproceedings}%
+    \OR\ifentrytype{reference}\OR\ifentrytype{mvreference}%
+    \OR\ifentrytype{report}\OR\ifentrytype{thesis}}
+    {#1}
+    {\MakeSentenceCase{#1}}}
+
+%% --------------------------------------------------------------------------
+
 \usepackage{tocloft}
 \usepackage[hidelinks]{hyperref}
 
@@ -46,8 +79,10 @@
 % introduced by the NTG document classes
 \renewcommand\CaptionLabelFont{\normalsize}
 \renewcommand\CaptionTextFont{\normalsize}
-\usepackage{aas}                   % Some abbreviations for AAS references.
-\citestyle{aa}                     % Astronomy & Astrophysics cite style.
+                                   % may want to change this cite style
+% \usepackage{aas}                   % Some abbreviations for AAS references.
+% \citestyle{aa}                     % Astronomy & Astrophysics cite style.
+
 \usepackage{eucal}                 % Euler fonts for equations.
 \usepackage{verbatim}              % Allows quoting source with commands.
 \usepackage{graphicx}              % For powerful manipulation of figures.
@@ -263,16 +298,16 @@
 \include{frontmatter}              % See the frontmatter.tex file
 
 \mainmatter                        % Main chapters starts here
-\include{./Chapters/Chapter_1}
-\include{./Chapters/Chapter_2}
+\include{./Chapters/ch_01/Chapter_01}
+\include{./Chapters/ch_02/Chapter_02}
 
 \appendix
 \section*{Appendices}
 \addcontentsline{toc}{section}{Appendices}
 \renewcommand{\thesubsection}{\Alph{subsection}}
 
-\include{./Chapters/Appendix_A}
-\include{./Chapters/Appendix_B}
+\include{./Chapters/appendices/Appendix_A}
+\include{./Chapters/appendices/Appendix_B}
 
 \include{backmatter}               % See the backmatter.tex file
 
