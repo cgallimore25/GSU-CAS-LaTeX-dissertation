@@ -760,13 +760,13 @@
 \newcommand{\sepabbrev}[1]{}
 \newcommand{\setloaname}[1]{%
   \def\loaname{#1}}
-\IfFileExists{abbreviations.tex}
+\IfFileExists{Frontmatter/abbreviations.tex}
 {\RequirePackage{acronym}
   \renewcommand{\listofabbreviations}{%
     \chapter*{\loaname}
     \addcontentsline{toc}{chapter}{\loaname}
     \begin{acronym}
-      \input{abbreviations}
+      \input{Frontmatter/abbreviations.tex}
     \end{acronym}}}
 {\typeout{The file "abbreviations.tex" could not be found; I will continue
     without it.}}
