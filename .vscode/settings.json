@@ -1,0 +1,114 @@
+{
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.autoClean.run": "onBuilt",
+    "latex-workshop.intellisense.citation.backend": "biblatex",
+    "latex-workshop.latex.clean.method": "glob", // Required for clean.filetypes to have effect
+    "latex-workshop.latex.clean.fileTypes": [ 
+        "*.aux",
+        "*\\*.aux",   // specifying all subfolders
+        "*.bbl",
+        "*.blg",
+        "*.idx",
+        "*.ind",
+        "*.lof",
+        "*.lot",
+        "*.out",
+        "*.toc",
+        "*.acn",
+        "*.acr",
+        "*.alg",
+        "*.glg",
+        "*.glo",
+        "*.gls",
+        "*.fls",
+        "*.log",
+        "*.fdb_latexmk",
+        "*.snm",
+        "*.synctex(busy)",
+        "*.synctex.gz(busy)",
+        "*.nav",
+        "*.vrb",
+        "*.xdv" ],
+
+    // "latex-workshop.latex.clean.subfolder.enabled": true,
+
+    // for laptop work  -- NOTE: Inverse synctex with this configuration works much more smoothly
+    "latex-workshop.synctex.synctexjs.enabled": true,
+    "latex-workshop.view.pdf.viewer": "tab",
+
+    // for SumatraPDF external viewer -- NOTE: I found inverse synctex with this config annoyingly opened a new VS code instance
+    // "latex-workshop.view.pdf.viewer": "external",
+    // "latex-workshop.view.pdf.external.viewer.command": "C:/Users/cgallimore1/AppData/Local/SumatraPDF/SumatraPDF.exe",
+    // "latex-workshop.view.pdf.external.viewer.args": [
+    //     "-forward-search",
+    //     "%TEX%",
+    //     "%LINE%",
+    //     "-reuse-instance",
+    //     "-inverse-search",
+    //     "\"C:\\Users\\cgallimore1\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe\" \"C:\\Users\\cgallimore1\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\cli.js\" --ms-enable-electron-run-as-node -r -g \"%f:%l\"",
+    //     "%PDF%"
+    // ],
+    // "latex-workshop.view.pdf.external.synctex.command": "C:/Users/cgallimore1/AppData/Local/SumatraPDF/SumatraPDF.exe",
+    // "latex-workshop.view.pdf.external.synctex.args": [
+    //     "-forward-search",
+    //     "%TEX%",
+    //     "%LINE%",
+    //     "-reuse-instance",
+    //     "%PDF%"
+
+    //     // "-inverse-search",
+    //     // "\"C:\\Users\\cgallimore1\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe\" \"C:\\Users\\cgallimore1\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\cli.js\" --ms-enable-electron-run-as-node -r -g \"%f:%l\"",
+    //     // "%PDF%",
+
+    //     // For SumatraPDF advanced settings:
+    //     // InverseSearchCmdLine = "C:\Users\cgallimore1\AppData\Local\Programs\Microsoft VS Code\Code.exe" "C:\Users\cgallimore1\AppData\Local\Programs\Microsoft VS Code\resources\app\out\cli.js" --ms-enable-electron-run-as-node -r -g "%f:%l"
+    // ],
+    "latex-workshop.synctex.afterBuild.enabled": true,
+    "latex-workshop.view.pdf.zoom": "page-fit",
+
+    "latex-workshop.latex.recipes": [
+        {
+            // "name": "pdflatex -> biber -> pdflatex*2",
+            // "tools": [
+            //     "pdflatex",
+            //     "biber",
+            //     "pdflatex",
+            //     "pdflatex"
+            // ]
+            "name": "latexmk",
+            "tools": [
+              "latexmk"
+            ]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            // "name": "pdflatex",
+            // "command": "pdflatex",
+            // "args": [
+            //     "-synctex=1",
+            //     "-interaction=nonstopmode",
+            //     "-file-line-error",
+            //     "%DOC%"
+            // ]
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+            "-synctex=1",
+            "-interaction=nonstopmode",
+            "-file-line-error",
+            "-pdf",
+            "-outdir=%OUTDIR%",
+            "%DOC%"
+            ]
+        },
+        {
+            "name": "biber",
+            "command": "biber",
+            "args": [
+                "%DOCFILE%"
+            ]
+        }
+    ]
+
+}
