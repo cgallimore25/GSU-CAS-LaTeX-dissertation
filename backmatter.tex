@@ -2,15 +2,21 @@
 
 % The bibliography starts here.
 
-\bibliographystyle{apj}             % Please learn to use the
+% original CAS template used the below for 'natbib' -- uncomment the below two \bibliography{} commands and comment out \setlength and \printbibliography for natbib
+% \bibliographystyle{apj}             % Please learn to use the
                                     % formatting of Latex's Bibtex. It
                                     % will make your life easier.
 
-\bibliography{bibliography}
+% \bibliography{bibliography}
+
 %\bibliography{apj-jour,dissref}       % "paper.bib" contains all my
                                     % references. "apj-jour.bib"
                                     % contains abbreviations of
                                     % journals.
+
+% added to switch to biblatex
+\setlength\bibitemsep{0pt}   % if using biblatex
+\printbibliography
 
 
 \clearpage
