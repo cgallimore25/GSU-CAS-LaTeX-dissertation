@@ -106,11 +106,12 @@
 \expandafter\prepdef\csname endtable*\endcsname{\spew@tblnotes}% 
 \let\tableline=\hline 
 \long\def\@makecaption#1#2{\vskip 2ex\noindent#1\ #2\par}% 
-\newcommand\tablenum[1]{% 
- \def\thetable{#1}% 
- \let\@currentlabel\thetable 
- \addtocounter{table}{\m@ne}% 
-}% 
+% the comment below avoids a name collision error with pkg 'siunitx'
+% \newcommand\tablenum[1]{% 
+%  \def\thetable{#1}% 
+%  \let\@currentlabel\thetable 
+%  \addtocounter{table}{\m@ne}% 
+% }% 
 \newcommand\dummytable{\refstepcounter{table}}% 
 \newbox\pt@box 
 \newdimen\pt@width 
