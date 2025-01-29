@@ -50,7 +50,7 @@
             // ]
             "name": "latexmk",
             "tools": [
-              "latexmk"
+                "latexmk"
             ]
         }
     ],
@@ -71,7 +71,7 @@
                 "-interaction=nonstopmode",
                 "-file-line-error",
                 "-pdf",
-                "-outdir=%OUTDIR%",
+                "-outdir=%OUTDIR%",  // Puts auxiliary files for individual chapters in their respective directories
                 "%DOC%"
             ]
         },
