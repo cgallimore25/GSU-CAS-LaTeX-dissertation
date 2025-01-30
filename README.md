@@ -65,6 +65,15 @@ Structuring the project in this way confers a few advantages, namely:
 This design is also favorable for liberal use of git `branches`, allowing you to keep track of different "states" of the work. 
 While the `main` (or `master`) branch of your repository should always have the most current, "ready to publish" state, creation of separate `branches` allow you to prepare other versions (e.g. `advisor-edits`, or `journal-submission`) that you can maintain and develop in isolation without permanently altering the main body of work. 
 
+Another great feature of a multi-file structure is that we implement the `subfiles` package, which allows us to compile individual chapter sections directly.
+This gives us the option to do more focused work on a specific section (since dissertation sections can be quite long) without worrying about compiling or looking at the entire document.
+
+**NOTE:** One useful command for keeping your Chapters directory clean of auxiliary files after individual section compilation is to run the below snippet in your VS Code integrated powershell terminal (you'll know your terminal is powershell by navigating over to "Terminal" in the debug console at the very bottom, and seeing `PS ` beside your project's absolute path)
+
+```powershell
+gci .\Chapters -r *.tex | % { pushd $_.Directory; latexmk -C $_; popd }
+```
+
 ## Citation style
 
 If you've worked with LaTeX before, you know that citation formatting can be one of the largest, most painful hurdles. 
