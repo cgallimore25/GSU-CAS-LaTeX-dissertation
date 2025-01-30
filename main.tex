@@ -292,6 +292,8 @@
                                    % for example. Defaults to "August"
 \newcommand\omicron{o}
 
+\usepackage{subfiles}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %               The dissertation starts here.                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -300,17 +302,20 @@
 \include{TitleAbstract}            % See the TitleAbstract.tex file
 \include{frontmatter}              % See the frontmatter.tex file
 
-\mainmatter                        % Main chapters starts here
-\include{./Chapters/ch_01/Chapter_01}
-\include{./Chapters/ch_02/Chapter_02}
+\mainmatter                            % Main chapters start here
+\subfile{./Chapters/ch_01/Chapter_01}  % Use subfile instead of include
+\clearpage                             % ensure pagebreak between chapters
 
 \appendix
 \section*{Appendices}
 \addcontentsline{toc}{section}{Appendices}
 \renewcommand{\thesubsection}{\Alph{subsection}}
 
-\include{./Chapters/appendices/Appendix_A}
-\include{./Chapters/appendices/Appendix_B}
+% \include{./Chapters/appendices/Appendix_A}
+\subfile{./Chapters/appendices/Appendix_A}
+\clearpage
+\subfile{./Chapters/appendices/Appendix_B}
+\clearpage
 
 \include{backmatter}               % See the backmatter.tex file
 
