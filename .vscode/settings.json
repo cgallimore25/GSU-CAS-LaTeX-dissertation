@@ -5,7 +5,7 @@
     "latex-workshop.latex.clean.method": "glob", // Required for clean.filetypes to have effect
     "latex-workshop.latex.clean.fileTypes": [ 
         "*.aux",
-        "*\\*.aux",   // specifying all subfolders
+        "*/*/*.aux",   // manually specify two levels deep as fail-safe
         "*.bbl",
         "*.blg",
         "*.idx",
@@ -30,7 +30,7 @@
         "*.vrb",
         "*.xdv" ],
 
-    // "latex-workshop.latex.clean.subfolder.enabled": true,
+    "latex-workshop.latex.clean.subfolder.enabled": true,
 
     // for laptop work  -- NOTE: Inverse synctex with this configuration works much more smoothly
     "latex-workshop.synctex.synctexjs.enabled": true,
