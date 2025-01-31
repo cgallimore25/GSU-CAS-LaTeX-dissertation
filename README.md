@@ -94,3 +94,48 @@ The important thing is that you land on something that meets your requirements a
 
 I recommend creating your bibliography in [Zotero](https://www.zotero.org/), an open-source reference manager (also available in GSU's Software Center), using the [Better BibTeX](https://github.com/retorquere/zotero-better-bibtex) (BBT) for Zotero plugin.
 This extension is better optimized for text-based toolchains such as LaTeX and Markdown. 
+
+## Obscure possible errors
+
+Be careful using the `-pvc` (preview continuous) flag in latexmk. 
+It creates a persistent Perl daemon that watches your files and automatically rebuilds them when changes are detected. 
+Safe ways to use `-pvc`:
+
+Through VS Code LaTeX Workshop's controlled environment, set it in `settings.json`, allowing VS Code to manage the process lifecycle:
+
+```json
+"latex-workshop.latex.recipe.default": "latexmk (pvc)",
+"latex-workshop.latex.tools": [
+  {
+    "name": "latexmk (pvc)",
+    "command": "latexmk",
+    "args": [
+      "-pvc",
+      "-pdf",
+      "-interaction=nonstopmode",
+      "-synctex=1",
+      "%DOC%"
+    ]
+  }
+]
+```
+
+A safer command line approach is:
+
+```bash
+latexmk -pvc -pdf main.tex
+```
+
+Then to stop it with Ctrl+C in the same terminal window, properly terminating the watching process.
+
+Cautions in `-pvc` mode
+
+- Don't close VS Code/terminal without properly stopping the pvc process
+- Don't delete output files while pvc is running (it'll keep trying to regenerate them)
+- Always use Ctrl+C to stop the process, don't just close the window
+
+If things do get stuck:
+
+- Find and kill the perl.exe process in Task Manager
+- Clean auxiliary files AFTER killing the process
+- Start fresh with a new build
