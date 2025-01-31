@@ -29,7 +29,7 @@ The above icons link to installations.
 After installing requisite software, just download this repository as a zip file and extract it to wherever you'd like. 
 You can then set-up your own Github remote repo where you version control your dissertation and push your changes regularly.
 
-***Considerations***:
+***Important considerations***:
 - TeX Live is the **strongly recommended** [LaTeX distribution](https://github.com/James-Yu/latex-workshop/wiki/Install) by developers of the VS Code LaTeX Workshop extension. TeX Live binaries must then be added to your `PATH` environment variables. See [here](https://www.computerhope.com/issues/ch000549.htm) for Windows.
 - Installing Strawberry Perl regardless of the LaTeX distribution you choose is recommended. It is completely free, and must also be added to `PATH`.
 - If you are GSU student/faculty/staff, the Software Center for GSU networked machines supplies VS Code — while VS code is ultimately open-source, sometimes it's best to go through the Software Center when available. 
@@ -37,15 +37,15 @@ You can then set-up your own Github remote repo where you version control your d
 
 ## Structure
 
-### Class file
+### Class and package files
 
-The `gsudiss.cls` class file is made up of various macros and packages to make the outline and formatting of your dissertation easier. 
+The `gsudiss.cls` class file defines macros and commands to structure different page types (e.g. the abstract, table of contents, figure, table, and abbreviation lists) programmtically, automating the format of your document. Both class `.cls` and style `.sty` files are located in the 
+> "is made up of various macros and packages to make the outline and formatting of your dissertation easier. 
 It is by no means applicable to the entire Georgia State System. 
 Those of you who want to use LaTeX to prepare your dissertation, and who are not from CAS, however, can use this style file as a guide to make their own. 
 This file was developed to allow a wide range of formatting options, but users should bear in mind that the dissertation guide allows limited formatting beyond the supplied templates. 
-
-**NOTE:** This style file does not guarantee the satisfaction of all requirements specified by GSU CAS in perpetuity. 
-Styles change on a yearly basis and it is up to you (the writer or author) to follow all requirements specified by your specific college or department.
+This style file does not guarantee the satisfaction of all requirements specified by GSU CAS in perpetuity. 
+Styles change on a yearly basis and it is up to you (the writer or author) to follow all requirements specified by your specific college or department".
 
 ### Settings
 
@@ -57,13 +57,13 @@ The provided settings are rather minimalist, explicitly defining the citation ba
 
 ### Directories
 
-The core design of this repository is as a [multi-file project](https://github.com/James-Yu/LaTeX-Workshop/wiki/Compile#multi-file-projects), where individual Chapters have their own directory, and each section has its own `.tex` file which are included in the chapter file (e.g. `Chapter_XX.tex`) using `\input{}` commands. 
+The core design of this repository is as a [multi-file project](https://github.com/James-Yu/LaTeX-Workshop/wiki/Compile#multi-file-projects), where individual Chapters have their own [directory](https://github.com/cgallimore25/GSU-CAS-LaTeX-dissertation/tree/dev/Chapters), and each section has its own `.tex` file which are incorporated in the chapter file (e.g. `Chapter_XX.tex`) using `\subfile{}` commands. 
 Structuring the project in this way confers a few advantages, namely:
-1. The ability to work on specific sections in isolation without compiling/viewing the entire document.
+1. The ability to work on and view specific sections in isolation without compiling/viewing the entire document.
 2. The ability to version control (edit, commit, and push) individual section files separately, giving them their own history. 
 
 This design is also favorable for liberal use of git `branches`, allowing you to keep track of different "states" of the work. 
-While the `main` (or `master`) branch of your repository should always have the most current, "ready to publish" state, creation of separate `branches` allow you to prepare other versions (e.g. `advisor-edits`, or `journal-submission`) that you can maintain and develop in isolation without permanently altering the main body of work. 
+While the `main` (or `master`) branch of your repository should always have the most current, "ready to publish" state, creation of separate `branches` allow you to prepare other versions (e.g. `advisor-edits`, or `journal-submission`) that you can maintain and develop in isolation without affecting the main body of work. 
 
 Another great feature of a multi-file structure is that we implement the `subfiles` package, which allows us to compile individual chapter sections directly.
 This gives us the option to do more focused work on a specific section (since dissertation sections can be quite long) without worrying about compiling or looking at the entire document.
@@ -77,7 +77,7 @@ gci .\Chapters -r *.tex | % { pushd $_.Directory; latexmk -C $_; popd }
 ## Citation style
 
 If you've worked with LaTeX before, you know that citation formatting can be one of the largest, most painful hurdles. 
-Fortunately, you only have to solve it once. 
+Fortunately, you only have to solve it once. And here, it already is.
 
 ### Default
 
