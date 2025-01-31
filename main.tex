@@ -89,6 +89,7 @@
 \usepackage{eucal}                 % Euler fonts for equations.
 \usepackage{verbatim}              % Allows quoting source with commands.
 \usepackage{graphicx}              % For powerful manipulation of figures.
+\graphicspath{Plots/}              % Figure subdirectory
 \usepackage{amsmath,amsthm,amsfonts,amsopn,amssymb} % Some nice math packages.
 \usepackage{ctable}                % My preference table package.
 \usepackage[overlay]{textpos}      % Put stuff anywhere, I mean anywhere ...
@@ -305,6 +306,8 @@
 \mainmatter                            % Main chapters start here
 \subfile{./Chapters/ch_01/Chapter_01}  % Use subfile instead of include
 \clearpage                             % ensure pagebreak between chapters
+\subfile{./Chapters/ch_02/Chapter_02}
+\clearpage
 
 \appendix
 \section*{Appendices}
