@@ -21,7 +21,7 @@ This template was developed on a Windows 10 machine using:
 This repository was specifically designed for a Git + VS Code workflow using the [LaTeX Workshop](https://github.com/James-Yu/LaTeX-Workshop) extension. The main motivations for implementing the template in this way were:
 1. It is entirely open-source
 2. It enables and encourages rigorous version control (VC)
-3. VS code is an aesthetically pleasing, highly customizable text editor with great VC integration and text auto-completion functionalities (which default LaTeX editors, e.g. TeXworks, often lack). 
+3. It employs a user-friendly, highly customizable text editor (VS Code) with great VC integration and text auto-completion functionalities (often lacking in default LaTeX editors, e.g. TeXworks). 
 
 Version controlling with Git is by no means required, but is recommended for documents of this size.
 
@@ -29,8 +29,8 @@ The above icons link to installations.
 After installing requisite software, just download this repository as a zip file and extract it to wherever you'd like. 
 You can then set-up your own Github remote repo where you version control your dissertation and push your changes regularly.
 
-***Important considerations***:
-- TeX Live is the **strongly recommended** [LaTeX distribution](https://github.com/James-Yu/latex-workshop/wiki/Install) by developers of the VS Code LaTeX Workshop extension. TeX Live binaries must then be added to your `PATH` environment variables. See [here](https://www.computerhope.com/issues/ch000549.htm) for Windows.
+***Important steps & considerations***:
+- TeX Live is the **strongly recommended** [LaTeX distribution](https://github.com/James-Yu/latex-workshop/wiki/Install) by developers of the VS Code LaTeX Workshop extension. TeX Live binaries must then be added to your `PATH` environment variables. See [here](https://www.computerhope.com/issues/ch000549.htm) for modifying environment variables on Windows.
 - Installing Strawberry Perl regardless of the LaTeX distribution you choose is recommended. It is completely free, and must also be added to `PATH`.
 - If you are GSU student/faculty/staff, the Software Center for GSU networked machines supplies VS Code — while VS code is ultimately open-source, sometimes it's best to go through the Software Center when available. 
 - For machines where ***you do not have admin rights***, I recommend installing all of the above to your User directory to circumvent possible admin issues. If you are certain you ***do*** have admin rights, the above softwares can be installed to your system drive. 
