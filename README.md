@@ -11,29 +11,82 @@ This template was developed on a Windows 10 machine using:
 - Perl `v5.40.0`
 - Git `v2.47.1` 
 
+## Design
+
+This repository was specifically designed for a Git + VS Code workflow using the [LaTeX Workshop](https://github.com/James-Yu/LaTeX-Workshop) extension. 
+The main motivations for implementing the template in this way were:
+1. It is entirely open-source
+2. It enables and encourages rigorous version control (VC)
+3. It employs a user-friendly, highly customizable text editor (VS Code) with great VC integration and text auto-completion functionalities (often lacking in default LaTeX editors, e.g. TeXworks). 
+
+Version controlling with Git is by no means required, but is recommended for documents of this size, and compatibility with branching.
+
 ## Installation
+
+### Knowing which approach is right for you — the trade-off between required storage space and convenience
+
+### Option 1:
+
+If distribution size is no concern for you, install the TeXlive full distribution (~8gb). It will take a bit, but it comes with ***everything***, meaning you have it all on your local machine. 
+
+This gives you:
+1. The easiest configuration for adding new packages to your document whenever you want
+2. The most portability to work completely offline, and
+3. The full range of local and remote version control capabilities (e.g. branching) with Git
+
+You pay for that level of control with computer memory. And the LaTeX badge above will take you to this option. 
+
+### Option 2:
+
+If you need to be conservative with your computer's storage space (we've all hammered out a thesis on a 5-year old laptop on its last legs), then I recommend installing [TinyTex](https://yihui.org/tinytex/), compatible with Mac, Windows, and Linux. 
+
+You pay for this compactness with more complexity, and need to be comfortable with using only one command in the terminal — `tlmgr` — to install missing pieces if necessary. 
+I provide a `required_packages.txt` file that you should be able to pass to `tlmgr` using [insert script]. This, also being a local installation, is compatible with full Git functionality.
+
+***Takeaway***: Use a local installation of a LaTeX distribution if offline work and version control are important to you.
+
+### Option 3:
+
+If version control is not important to you, and you're looking for a user-friendly, cloud-based LaTeX alternative that you can easily collaborate with colleagues on real-time, this set-up should be fully compatible with Overleaf.
+Just move all files from the Styles directory to the main project directory where `main.tex` is.
+
+***Drawbacks:*** 
+You forfeit autonomy when you opt for cloud-based over local.
+- Git integration through Overleaf directly requires a premium subscription. 
+You may be able to version control locally using command line Git without an Overleaf subscription, but I have not pursued this avenue. 
+- You will only be able to work on this document with an internet connection. 
+If Overleaf's servers are down, you cannot write. 
+
+### Software
 
 [![LaTeX](https://img.shields.io/badge/latex-%23008080.svg?style=for-the-badge&logo=latex&logoColor=white)](https://www.tug.org/texlive/)
 [![Perl](https://img.shields.io/badge/perl-%2339457E.svg?style=for-the-badge&logo=perl&logoColor=white)](https://strawberryperl.com/)
 [![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)](https://code.visualstudio.com/download)
 [![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com/downloads)
 
-This repository was specifically designed for a Git + VS Code workflow using the [LaTeX Workshop](https://github.com/James-Yu/LaTeX-Workshop) extension. The main motivations for implementing the template in this way were:
-1. It is entirely open-source
-2. It enables and encourages rigorous version control (VC)
-3. It employs a user-friendly, highly customizable text editor (VS Code) with great VC integration and text auto-completion functionalities (often lacking in default LaTeX editors, e.g. TeXworks). 
-
-Version controlling with Git is by no means required, but is recommended for documents of this size.
-
 The above icons link to installations. 
-After installing requisite software, just download this repository as a zip file and extract it to wherever you'd like. 
+After installing requisite software, just download this repository as a .zip and extract it to wherever you'd like. 
 You can then set-up your own Github remote repo where you version control your dissertation and push your changes regularly.
 
-***Important steps & considerations***:
-- TeX Live is the **strongly recommended** [LaTeX distribution](https://github.com/James-Yu/latex-workshop/wiki/Install) by developers of the VS Code LaTeX Workshop extension. TeX Live binaries must then be added to your `PATH` environment variables. See [here](https://www.computerhope.com/issues/ch000549.htm) for modifying environment variables on Windows.
+#### Important considerations & follow-up steps:
+- TeX Live is the **strongly recommended** [LaTeX distribution](https://github.com/James-Yu/latex-workshop/wiki/Install) by developers of the VS Code LaTeX Workshop extension. **Note**: [MacTeX](https://www.tug.org/mactex/mactex-download.html) is recommended for Mac users wanting a TeX live distribution. TeX Live binaries must then be added to your `PATH` environment variables. See [here](https://www.computerhope.com/issues/ch000549.htm) for modifying environment variables on Windows, and [here](https://techpp.com/2021/09/08/set-path-variable-in-macos-guide/) for Mac.
+    - if you're an R user, ... TinyTex and Latex workshop toolchain. R is also free, and also supplied by the GSU Software Center. 
 - Installing Strawberry Perl regardless of the LaTeX distribution you choose is recommended. It is completely free, and must also be added to `PATH`.
 - If you are GSU student/faculty/staff, the Software Center for GSU networked machines supplies VS Code — while VS code is ultimately open-source, sometimes it's best to go through the Software Center when available. 
 - For machines where ***you do not have admin rights***, I recommend installing all of the above to your User directory to circumvent possible admin issues. If you are certain you ***do*** have admin rights, the above softwares can be installed to your system drive. 
+
+
+After installing the LaTeX distribution in your preferred way, Strawberry Perl, VS Code, and Git (Optional), and all are added to the `PATH`, proceed with installing the LaTeX Workshop extension in VS Code
+
+The required_packages list can be installed with:
+```cmd
+tlmgr install $(type required_packages.txt)
+```
+
+For Mac/Unix:
+```bash
+tlmgr install $(cat required_packages.txt)
+```
 
 ## Structure
 
