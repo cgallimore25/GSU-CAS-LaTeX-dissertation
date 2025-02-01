@@ -68,6 +68,64 @@ The above icons link to installations.
 After installing requisite software, just download this repository as a .zip and extract it to wherever you'd like. 
 You can then set-up your own Github remote repo where you version control your dissertation and push your changes regularly.
 
+### Step 0: 
+Download and extract this repository as .zip file to a directory of your choosing (Probably your `Documents` folder, or the like).
+We'll come back to this directory in Step 3. 
+
+### Step 1:
+If you dont have admin rights, select the Portable zip installer in the Strawberry Perl badge link above and extract it to a new folder in your user directory (e.g. `C:/Users/myName/strawberry/`). 
+Add the `C:/Users/myName/strawberry/perl/bin`, `C:/Users/myName/strawberry/perl/site/bin`, and `C:/Users/myName/strawberry/c/bin` directories to your `PATH` by editing environment variables for your account.
+
+### Step 2:
+Install LaTeX — either the TeX Live distribution linked above, or [TinyTex](https://yihui.org/tinytex/), if you want your distribution local. 
+For TinyTex, downloading the `install-bin-windows.bat` referenced in the docs (for Windows) to the basic Downloads directory and double-clicking will automatically add it to the user `PATH`. 
+TinyTex in general was written with the possibility that you may not have admin rights in mind, so it intelligently makes sound directory choices and takes care of `PATH` overhead for you. 
+Follow the respective steps for Mac or Linux.
+
+To verify TinyTex is on the path, you can run 
+```cmd
+echo %PATH%
+```
+
+in your default terminal `C:/Users/myName>` opened after searching `cmd` in the Windows Search bar, and then verify that `tlmgr` is accessible to the path using
+
+```cmd
+tlmgr --version
+```
+
+Installing packages:
+```cmd
+tlmgr install biblatex
+```
+
+Verifying if package can be found/its location:
+```cmd
+kpsewhich biblatex.sty
+```
+
+Updating packages:
+```cmd
+tlmgr update --all
+```
+
+### Step 3:
+
+Now navigate to your extracted directory (Windows may want backslashes)
+```cmd
+cd path/to/extractedDir
+```
+
+Then run this terminal command from inside your extracted template project directory that installs other standalone package requirements:
+```cmd
+for /f "delims=" %i in (required_packages.txt) do tlmgr install %i
+```
+
+### Step 4:
+
+Now that you have your TeX distribution and Perl available to the path, as well as all the packages we'll need, make sure you have VS Code installed.
+With VS Code installed, you can right-click in a blank space of your template subdirectory and click "Open with Code". 
+In VS Code, click Extensions in the far left-side pane, search for `LaTeX Workshop`, then install it. 
+
 #### Important considerations & follow-up steps:
 - TeX Live is the **strongly recommended** [LaTeX distribution](https://github.com/James-Yu/latex-workshop/wiki/Install) by developers of the VS Code LaTeX Workshop extension. **Note**: [MacTeX](https://www.tug.org/mactex/mactex-download.html) is recommended for Mac users wanting a TeX live distribution. TeX Live binaries must then be added to your `PATH` environment variables. See [here](https://www.computerhope.com/issues/ch000549.htm) for modifying environment variables on Windows, and [here](https://techpp.com/2021/09/08/set-path-variable-in-macos-guide/) for Mac.
     - if you're an R user, ... TinyTex and Latex workshop toolchain. R is also free, and also supplied by the GSU Software Center. 
