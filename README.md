@@ -221,6 +221,10 @@ This gives us the option to do more focused work on a specific section (since di
 gci .\Chapters -r *.tex | % { pushd $_.Directory; latexmk -C $_; popd }
 ```
 
+## Git guides
+
+This repository incorporates a [git-guides](/git-guides/) submodule, a small collection of cheatsheets designed to reference while getting comfortable with Git. 
+
 ## Citation style
 
 If you've worked with LaTeX before, you know that citation formatting can be one of the largest, most painful hurdles. 
