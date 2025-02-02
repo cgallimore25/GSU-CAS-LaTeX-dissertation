@@ -3,30 +3,81 @@
 
 \begin{document}
 
-\section{Examples}
+\section{Section structure}
 
-	\subsection{Citations, figures, tables}
+	\subsection{subsection}
 
-	Hooray for Chapter 2!!! Here's an example of citing things, I'm going to cite a brilliant paper - \supercite{aartsSolutionDependencyUsing2014}. See bibliography.bib for doing references.
+	\subsubsection{subsubsection}
 
-	\begin{figure*}
-		\includegraphics[height =5in]{./Plots/nature.jpg}
+\section{Content examples}
+
+	\subsection{Citations}
+
+	Hooray for Chapter 2!!! 
+	I'm going to cite a brilliant paper\supercite{aartsSolutionDependencyUsing2014}. 
+	See bibliography.bib for doing references.
+
+	\subsection{Abbreviations}
+
+	The \verb|acronym| package helps you manage the insertion of abbreviations, applied programmatically when inserted with the commands below. 
+	Take a look at the \verb|abbreviations.tex| file to see how they're defined.
+	Review the documentation for exhaustive command list.
+
+	\begin{verbatim}
+		\ac{ERP}		 % first instance expanded
+		\ac{ERP}		 % second + thereafter truncated
+		\acp{ERP}		% plural
+		\Acf{ERP}		% force full expansion, capitalize
+	  \end{verbatim}
+
+	\ac{ERP}, \ac{ERP}, \acp{ERP}, \Acf{ERP}	
+
+	You can even compose acronyms from others, for example, \ac{NMDA} elicits responses from \acp{NMDAR}. 
+	A variety of neuropsychiatric disease states are associated with \ac{NRH}.
+
+	\subsection{SI units}
+
+	The \verb|siunitx| package allows us to insert units in a typographically consistent way, ensuring proper height, spacing, and proper formatting of units (e.g. prevention of linebreaks).
+	It's desirable in this context for much the same reasons as the \verb|acronym| package.
+
+	The concentration of drug was \SI[per-mode=fraction]{0.02}{\mol\per\L} (20mM)).
+	After a \SI{30}{\minute} period for pharmacological action, mice were placed in a chamber, anesthetized under 3\% isoflurane, then fixed in a nose cone delivering the same anesthetic mixture. 
+	Samples were extracted, tin foil wrapped, and placed in a \SI{-80}{\degreeCelsius} freezer for 25 minutes to achieve firmness. 
+
+	\subsection{Equations}
+
+	Here I'll show you how to use some math, incorporating some more examples of units and abbreviations.
+
+	\Acf{CSD}, $\Phi$, was calculated by a numerical approximation of the second spatial derivative of voltage, expressed as:
+
+	\begin{equation}
+		\Phi_{t, c} = -\frac{\phi_{t, c+1} - 2\phi_{t, c} + \phi_{t, c-1}}{\Delta c^2 \times g}
+	\end{equation}
+
+	where $\phi_{t, c}$ represents recorded voltages at time-point $t$ and channel $c$ on the linear electrode array, such that constant $\Delta c$ is the spacing between adjacent contacts. 
+	The constant $g$ represents the conductivity of the extracellular medium, defined for these analyses as \SI[per-mode=fraction]{0.3}{\siemens\per\m}, consistent with putative bounds of extracellular impedance measurements (\qtyrange[range-units=single,range-phrase=-]{\sim 0.3}{0.6}{\siemens\per\m}) for frequencies below \SI{10}{\kHz}. 
+	% notice how \siemens\per\m, when attached to a constant, is a fraction, but uses exponent notation when expressed for a range
+	Checkout the code that generates these units. 
+
+	\subsection{Figures}
+
+	\begin{figure*}[hb] % place approximately here 'h', OR at the bottom 'b' of the page (adding 'b' relaxes the demand)
+		\centering
+		\includegraphics[height =4in]{./Plots/nature.jpg} 
 		\caption{An individual figure!}
 	\end{figure*}
 			
-	\begin{figure*}[h]
+	\begin{figure}[H] % place float exactly here 'H'
 		\subfloat[\label{fig:HD8538_ellplot}]{\includegraphics[height =2.5in]{./Plots/nature.jpg}} 
 		\subfloat[\label{fig:HD8538_phot}]{\includegraphics[height =2.5in]{./Plots/rocks.jpg}} \\
 		\subfloat[\label{fig:HD8538_vis}]{\includegraphics[height =2.5in]{./Plots/rocks.jpg}}
 		\subfloat[\label{fig:HD8538_HRD}]{\includegraphics[height =2.5in]{./Plots/nature.jpg}}
 		\caption{Multiple figures!}
-	\end{figure*}
+	\end{figure}
 
 
+	\subsection{Tables}
 	\input{./Tables/Sample_Table.tex}
 
-	\subsection{Abbreviations and SI units}
-
-	Here are some examples of more complex use-cases for abbreviations and SI units. 
 
 \end{document}
