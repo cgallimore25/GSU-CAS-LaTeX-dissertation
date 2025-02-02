@@ -142,12 +142,12 @@ This step runs a useful terminal command that installs remaining dependencies li
 Though running them won't do any harm.
 - If you went with the compact TinyTex distribution, then proceed.
 
-Navigate to your extracted directory in the `cmd` terminal (Windows may want backslashes)
+On a Windows machine, navigate to your extracted directory in the `cmd` terminal (Windows may autocomplete with backslashes)
 ```cmd
 cd path/to/extractedDir
 ```
 
-Then run this terminal command from inside your extracted template project directory that installs other standalone package requirements:
+Then run the below terminal command from inside your extracted template project directory that installs other standalone package requirements:
 ```cmd
 for /f "delims=" %i in (required_packages.txt) do tlmgr install %i
 ```
@@ -176,11 +176,11 @@ Now that you have your TeX distribution and Perl available to the path, as well 
 ***NOTE:***
 - If you are GSU student/faculty/staff, the Software Center for GSU networked machines supplies VS Code — while VS code is ultimately open-source, sometimes it's best to go through the Software Center when available. 
 
-After installing Strawberry Perl, your preferred LaTeX distribution, VS Code, and Git (Optional), and all are on your user `PATH`, proceed with installing the LaTeX Workshop extension in VS Code. 
-Once installed, right-click in a blank space of your template subdirectory in file explorer/finder and click "Open with Code". 
-In VS Code, click Extensions in the far left-side pane, search for `LaTeX Workshop`, then install it. 
+After installing Strawberry Perl, your preferred LaTeX distribution, VS Code, and Git (Optional), and all are on your user `PATH`, proceed with installing the LaTeX Workshop extension in VS Code:
+1. Open VS Code by right-clicking in a blank space of your template subdirectory in file explorer/finder and click "Open with Code". 
+2. In VS Code, click Extensions in the far left-side pane, search for `LaTeX Workshop`, then install it. 
 
-Once the extension is installed, you should be able to compile (play button in the top right corner) while on the file `main.tex`. 
+Once the extension is installed, you should be able to compile (play button in the top right corner) while on the open file `main.tex`. 
 
 Happy TeX'ing!
 
