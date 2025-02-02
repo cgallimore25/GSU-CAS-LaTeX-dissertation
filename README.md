@@ -90,7 +90,7 @@ Add the
 2. `C:/Users/myName/strawberry/perl/site/bin`, and 
 3. `C:/Users/myName/strawberry/c/bin` 
 
-directories to your `PATH` by editing environment variables for your account.
+directories to your `PATH` by editing environment variables for your user account [[Windows](https://www.computerhope.com/issues/ch000549.htm) | [MacOS](https://techpp.com/2021/09/08/set-path-variable-in-macos-guide/)]
 
 
 ### Step 2:
@@ -103,13 +103,14 @@ Install LaTeX, if you want your distribution local.
 
 For a lean distribution (~650 MB), go with TinyTex. 
 Downloading the `install-bin-windows.bat` referenced in their docs (for Windows) to the basic `Downloads` directory then double-clicking will automatically create a the TinyTex install directory in `User/AppData/Roaming` and add it to the user `PATH` (bearing in mind you may not have admin rights). 
+
 Follow the respective steps in their linked docs for Mac or Linux.
 
 ***NOTE:*** 
 - TeX Live is the **strongly recommended** [LaTeX distribution](https://github.com/James-Yu/latex-workshop/wiki/Install) by developers of the VS Code LaTeX Workshop extension, and all of the links here provide TeX Live dists. If you *really* want to use MiKTeX, I leave that up to you. 
-- TeX Live binaries (e.g. `C:/Users/myName/texlive/2024/bin/windows`) must then be added to your `PATH` environment variables. See [here](https://www.computerhope.com/issues/ch000549.htm) for modifying environment variables on Windows, and [here](https://techpp.com/2021/09/08/set-path-variable-in-macos-guide/) for Mac.
+- TeX Live binaries (e.g. `C:/Users/myName/texlive/2024/bin/windows`) must then be added to your `PATH` environment variables. 
 
-To verify your distribution is on the path, you can search `cmd` in the Windows Search bar: 
+To verify your distribution is on the path, you can search `cmd` in the Windows Search bar, then run: 
 ```cmd
 echo %PATH%
 ```
@@ -134,9 +135,11 @@ The below `tlmgr` commands are common across all OS.
 
 ### Step 3:
 
+This step runs a useful terminal command that installs remaining dependencies listed in `required_packages.txt`, which aren't supplied by our [Styles](/Styles/) subdirectory. 
+
 ***NOTE:***
 - If you installed a larger TeX Live distribution, you may not need the below commands.
-Though running them they won't do any harm.
+Though running them won't do any harm.
 - If you went with the compact TinyTex distribution, then proceed.
 
 Navigate to your extracted directory in the `cmd` terminal (Windows may want backslashes)
@@ -149,7 +152,7 @@ Then run this terminal command from inside your extracted template project direc
 for /f "delims=" %i in (required_packages.txt) do tlmgr install %i
 ```
 
-For MacOS/Linux, you can try these `bash` commands:
+For MacOS/Linux, you can try these `bash` commands from the project dir:
 
 ```bash
 while read package; do
@@ -165,14 +168,6 @@ for package in $(cat required_packages.txt); do
 done
 ```
 
-Or potentially using `xargs`:
-
-```bash
-cat required_packages.txt | xargs tlmgr install
-```
-
-The `xargs` method *may* or *may not* work for Unix-like systems, if `tlmgr` can receive a list. You should look it up first.
-
 
 ### Step 4:
 
@@ -181,7 +176,7 @@ Now that you have your TeX distribution and Perl available to the path, as well 
 ***NOTE:***
 - If you are GSU student/faculty/staff, the Software Center for GSU networked machines supplies VS Code — while VS code is ultimately open-source, sometimes it's best to go through the Software Center when available. 
 
-After installing the LaTeX distribution in your preferred way, Strawberry Perl, VS Code, and Git (Optional), and all are added to the `PATH`, proceed with installing the LaTeX Workshop extension in VS Code. 
+After installing Strawberry Perl, your preferred LaTeX distribution, VS Code, and Git (Optional), and all are on your user `PATH`, proceed with installing the LaTeX Workshop extension in VS Code. 
 Once installed, right-click in a blank space of your template subdirectory in file explorer/finder and click "Open with Code". 
 In VS Code, click Extensions in the far left-side pane, search for `LaTeX Workshop`, then install it. 
 
