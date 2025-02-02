@@ -21,34 +21,34 @@ The main motivations for implementing the template in this way were:
 
 Version controlling with Git is by no means required, but is recommended for documents of this size, and compatibility with branching.
 
-## Installation
-
-### Knowing which approach is right for you — the trade-off between required storage space and convenience
+## Determining the right distribution for you
 
 ### Option 1:
 
-If distribution size is no concern for you, install the TeXlive full distribution (~8gb). It will take a bit, but it comes with ***everything***, meaning you have it all on your local machine. 
+If distribution size is no concern for you, install the TeX Live full distribution (~9 GB). It will take a while, but it comes with ***everything***, meaning you have it all on your local machine. 
 
 This gives you:
 1. The easiest configuration for adding new packages to your document whenever you want
 2. The most portability to work completely offline, and
 3. The full range of local and remote version control capabilities (e.g. branching) with Git
 
-You pay for that level of control with computer memory. And the LaTeX badge above will take you to this option. 
+You pay for that level of control with computer memory. And the LaTeX badge in the  [procedure](#installation-procedure) below will take you to this option. 
 
 ### Option 2:
 
 If you need to be conservative with your computer's storage space (we've all hammered out a thesis on a 5-year old laptop on its last legs), then I recommend installing [TinyTex](https://yihui.org/tinytex/), compatible with Mac, Windows, and Linux. 
+I include a procedure for a *very* lean distribution (~650 MB). 
 
-You pay for this compactness with more complexity, and need to be comfortable with using only one command in the terminal — `tlmgr` — to install missing pieces if necessary. 
-I provide a `required_packages.txt` file that you should be able to pass to `tlmgr` using [insert script]. This, also being a local installation, is compatible with full Git functionality.
+You pay for this compactness with more complexity, and will at some point or another need to become comfortable using only one command in the terminal — `tlmgr` — to install missing pieces if necessary. 
+I provide a `required_packages.txt` file and some suggested installation routines (see [Step 3](#step-3) below). 
+This, also being a local installation, is compatible with full Git functionality.
 
 ***Takeaway***: Use a local installation of a LaTeX distribution if offline work and version control are important to you.
 
 ### Option 3:
 
 If version control is not important to you, and you're looking for a user-friendly, cloud-based LaTeX alternative that you can easily collaborate with colleagues on real-time, this set-up should be fully compatible with Overleaf.
-Just move all files from the Styles directory to the main project directory where `main.tex` is.
+Just move all files from the [Styles](/Styles/) directory to the main project directory where `main.tex` is.
 
 ***Drawbacks:*** 
 You forfeit autonomy when you opt for cloud-based over local.
@@ -57,60 +57,89 @@ You may be able to version control locally using command line Git without an Ove
 - You will only be able to work on this document with an internet connection. 
 If Overleaf's servers are down, you cannot write. 
 
-### Software
+## Installation procedure
 
 [![LaTeX](https://img.shields.io/badge/latex-%23008080.svg?style=for-the-badge&logo=latex&logoColor=white)](https://www.tug.org/texlive/)
 [![Perl](https://img.shields.io/badge/perl-%2339457E.svg?style=for-the-badge&logo=perl&logoColor=white)](https://strawberryperl.com/)
 [![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)](https://code.visualstudio.com/download)
 [![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com/downloads)
 
-The above icons link to installations. 
-After installing requisite software, just download this repository as a .zip and extract it to wherever you'd like. 
-You can then set-up your own Github remote repo where you version control your dissertation and push your changes regularly.
+***Read these steps before going forward with any of the above icons linked to installations.***
+
 
 ### Step 0: 
 Download and extract this repository as .zip file to a directory of your choosing (Probably your `Documents` folder, or the like).
 We'll come back to this directory in Step 3. 
 
+**[Optional]:** install Git as well. 
+
+
 ### Step 1:
-If you dont have admin rights, select the Portable zip installer in the Strawberry Perl badge link above and extract it to a new folder in your user directory (e.g. `C:/Users/myName/strawberry/`). 
-Add the `C:/Users/myName/strawberry/perl/bin`, `C:/Users/myName/strawberry/perl/site/bin`, and `C:/Users/myName/strawberry/c/bin` directories to your `PATH` by editing environment variables for your account.
+
+| Admin Rights   | Yes     | No |
+| :----------:   | :------: | :-----: |
+| Perl Installer | MSI *or* Portable zip | Portable zip    |
+
+
+If you ***don't*** have admin rights on your computer, select the Portable zip installer in the Strawberry Perl badge link above and extract it to a new folder in your user directory (e.g. `C:/Users/myName/strawberry/`). 
+
+If you ***do*** have admin rights, you can use the MSI installer if you want it to be available to any user on the system, or portable for a custom directory. 
+
+Add the 
+1. `C:/Users/myName/strawberry/perl/bin`
+2. `C:/Users/myName/strawberry/perl/site/bin`, and 
+3. `C:/Users/myName/strawberry/c/bin` 
+
+directories to your `PATH` by editing environment variables for your account.
+
 
 ### Step 2:
-Install LaTeX — either the TeX Live distribution linked above, or [TinyTex](https://yihui.org/tinytex/), if you want your distribution local. 
-For TinyTex, downloading the `install-bin-windows.bat` referenced in the docs (for Windows) to the basic Downloads directory and double-clicking will automatically add it to the user `PATH`. 
-TinyTex in general was written with the possibility that you may not have admin rights in mind, so it intelligently makes sound directory choices and takes care of `PATH` overhead for you. 
-Follow the respective steps for Mac or Linux.
 
-To verify TinyTex is on the path, you can run 
+| Operating System | Windows  | MacOS   |  Linux  |
+| :--------------: | :------: | :-----: | :-----: |
+| TeX distribution | [TeX Live](https://www.tug.org/texlive/) *or* [TinyTex](https://yihui.org/tinytex/) | [TinyTex](https://yihui.org/tinytex/) *or* [MacTeX](https://www.tug.org/mactex/mactex-download.html) |  [TinyTex](https://yihui.org/tinytex/)
+
+Install LaTeX, if you want your distribution local. 
+
+For a lean distribution (~650 MB), go with TinyTex. 
+Downloading the `install-bin-windows.bat` referenced in their docs (for Windows) to the basic `Downloads` directory then double-clicking will automatically create a the TinyTex install directory in `User/AppData/Roaming` and add it to the user `PATH` (bearing in mind you may not have admin rights). 
+Follow the respective steps in their linked docs for Mac or Linux.
+
+***NOTE:*** 
+- TeX Live is the **strongly recommended** [LaTeX distribution](https://github.com/James-Yu/latex-workshop/wiki/Install) by developers of the VS Code LaTeX Workshop extension, and all of the links here provide TeX Live dists. If you *really* want to use MiKTeX, I leave that up to you. 
+- TeX Live binaries (e.g. `C:/Users/myName/texlive/2024/bin/windows`) must then be added to your `PATH` environment variables. See [here](https://www.computerhope.com/issues/ch000549.htm) for modifying environment variables on Windows, and [here](https://techpp.com/2021/09/08/set-path-variable-in-macos-guide/) for Mac.
+
+To verify your distribution is on the path, you can search `cmd` in the Windows Search bar: 
 ```cmd
 echo %PATH%
 ```
 
-in your default terminal `C:/Users/myName>` opened after searching `cmd` in the Windows Search bar, and then verify that `tlmgr` is accessible to the path using
-
-```cmd
-tlmgr --version
+or in a MacOS/Linux terminal:
+```bash
+echo $PATH
 ```
 
-Installing packages:
-```cmd
-tlmgr install biblatex
-```
+The below `tlmgr` commands are common across all OS.
 
-Verifying if package can be found/its location:
-```cmd
-kpsewhich biblatex.sty
-```
 
-Updating packages:
-```cmd
-tlmgr update --all
-```
+| Function              |       Command            |
+| :-------------------: | :----------------------: |
+|`tlmgr` accessibility  |    `tlmgr --version`     |
+| package installation  | `tlmgr install biblatex` |
+| package location      |  `kpsewhich package.sty` |
+| package update        |   `tlmgr update --all`   |
+| manager update        |   `tlmgr update --self`  |
+
+
 
 ### Step 3:
 
-Now navigate to your extracted directory (Windows may want backslashes)
+***NOTE:***
+- If you installed a larger TeX Live distribution, you may not need the below commands.
+Though running them they won't do any harm.
+- If you went with the compact TinyTex distribution, then proceed.
+
+Navigate to your extracted directory in the `cmd` terminal (Windows may want backslashes)
 ```cmd
 cd path/to/extractedDir
 ```
@@ -120,43 +149,52 @@ Then run this terminal command from inside your extracted template project direc
 for /f "delims=" %i in (required_packages.txt) do tlmgr install %i
 ```
 
+For MacOS/Linux, you can try these `bash` commands:
+
+```bash
+while read package; do
+    tlmgr install "$package"
+done < required_packages.txt
+```
+
+Or for loop:
+
+```bash
+for package in $(cat required_packages.txt); do
+    tlmgr install "$package"
+done
+```
+
+Or potentially using `xargs`:
+
+```bash
+cat required_packages.txt | xargs tlmgr install
+```
+
+The `xargs` method *may* or *may not* work for Unix-like systems, if `tlmgr` can receive a list. You should look it up first.
+
+
 ### Step 4:
 
 Now that you have your TeX distribution and Perl available to the path, as well as all the packages we'll need, make sure you have VS Code installed.
-With VS Code installed, you can right-click in a blank space of your template subdirectory and click "Open with Code". 
+
+***NOTE:***
+- If you are GSU student/faculty/staff, the Software Center for GSU networked machines supplies VS Code — while VS code is ultimately open-source, sometimes it's best to go through the Software Center when available. 
+
+After installing the LaTeX distribution in your preferred way, Strawberry Perl, VS Code, and Git (Optional), and all are added to the `PATH`, proceed with installing the LaTeX Workshop extension in VS Code. 
+Once installed, right-click in a blank space of your template subdirectory in file explorer/finder and click "Open with Code". 
 In VS Code, click Extensions in the far left-side pane, search for `LaTeX Workshop`, then install it. 
 
-#### Important considerations & follow-up steps:
-- TeX Live is the **strongly recommended** [LaTeX distribution](https://github.com/James-Yu/latex-workshop/wiki/Install) by developers of the VS Code LaTeX Workshop extension. **Note**: [MacTeX](https://www.tug.org/mactex/mactex-download.html) is recommended for Mac users wanting a TeX live distribution. TeX Live binaries must then be added to your `PATH` environment variables. See [here](https://www.computerhope.com/issues/ch000549.htm) for modifying environment variables on Windows, and [here](https://techpp.com/2021/09/08/set-path-variable-in-macos-guide/) for Mac.
-    - if you're an R user, ... TinyTex and Latex workshop toolchain. R is also free, and also supplied by the GSU Software Center. 
-- Installing Strawberry Perl regardless of the LaTeX distribution you choose is recommended. It is completely free, and must also be added to `PATH`.
-- If you are GSU student/faculty/staff, the Software Center for GSU networked machines supplies VS Code — while VS code is ultimately open-source, sometimes it's best to go through the Software Center when available. 
-- For machines where ***you do not have admin rights***, I recommend installing all of the above to your User directory to circumvent possible admin issues. If you are certain you ***do*** have admin rights, the above softwares can be installed to your system drive. 
+Once the extension is installed, you should be able to compile (play button in the top right corner) while on the file `main.tex`. 
 
-
-After installing the LaTeX distribution in your preferred way, Strawberry Perl, VS Code, and Git (Optional), and all are added to the `PATH`, proceed with installing the LaTeX Workshop extension in VS Code
-
-The required_packages list can be installed with:
-```cmd
-tlmgr install $(type required_packages.txt)
-```
-
-For Mac/Unix:
-```bash
-tlmgr install $(cat required_packages.txt)
-```
+Happy TeX'ing!
 
 ## Structure
 
 ### Class and package files
 
-The `gsudiss.cls` class file defines macros and commands to structure different page types (e.g. the abstract, table of contents, figure, table, and abbreviation lists) programmtically, automating the format of your document. Both class `.cls` and style `.sty` files are located in the 
-> "is made up of various macros and packages to make the outline and formatting of your dissertation easier. 
-It is by no means applicable to the entire Georgia State System. 
-Those of you who want to use LaTeX to prepare your dissertation, and who are not from CAS, however, can use this style file as a guide to make their own. 
-This file was developed to allow a wide range of formatting options, but users should bear in mind that the dissertation guide allows limited formatting beyond the supplied templates. 
-This style file does not guarantee the satisfaction of all requirements specified by GSU CAS in perpetuity. 
-Styles change on a yearly basis and it is up to you (the writer or author) to follow all requirements specified by your specific college or department".
+The `gsudiss.cls` class file defines macros and commands to structure different page types (e.g. the abstract, table of contents, figure, table, and abbreviation lists) programmtically, automating the format of your document. Both class `.cls` and pre-supplied style `.sty` files are located in the [Styles](/Styles/) subdirectory of this template. 
+
 
 ### Settings
 
@@ -168,7 +206,7 @@ The provided settings are rather minimalist, explicitly defining the citation ba
 
 ### Directories
 
-The core design of this repository is as a [multi-file project](https://github.com/James-Yu/LaTeX-Workshop/wiki/Compile#multi-file-projects), where individual Chapters have their own [directory](https://github.com/cgallimore25/GSU-CAS-LaTeX-dissertation/tree/dev/Chapters), and each section has its own `.tex` file which are incorporated in the chapter file (e.g. `Chapter_XX.tex`) using `\subfile{}` commands. 
+The core design of this repository is as a [multi-file project](https://github.com/James-Yu/LaTeX-Workshop/wiki/Compile#multi-file-projects), where individual Chapters have their own [directory](/Chapters/), and each section has its own `.tex` file which are incorporated in the chapter file (e.g. `Chapter_XX.tex`) using `\subfile{}` commands. 
 Structuring the project in this way confers a few advantages, namely:
 1. The ability to work on and view specific sections in isolation without compiling/viewing the entire document.
 2. The ability to version control (edit, commit, and push) individual section files separately, giving them their own history. 
@@ -179,7 +217,8 @@ While the `main` (or `master`) branch of your repository should always have the 
 Another great feature of a multi-file structure is that we implement the `subfiles` package, which allows us to compile individual chapter sections directly.
 This gives us the option to do more focused work on a specific section (since dissertation sections can be quite long) without worrying about compiling or looking at the entire document.
 
-**NOTE:** One useful command for keeping your Chapters directory clean of auxiliary files after individual section compilation is to run the below snippet in your VS Code integrated powershell terminal (you'll know your terminal is powershell by navigating over to "Terminal" in the debug console at the very bottom, and seeing `PS ` beside your project's absolute path)
+***NOTE:*** 
+- One useful command for keeping your Chapters directory clean of auxiliary files after individual section compilation is to run the below snippet in your VS Code integrated powershell terminal (you'll know your terminal is powershell by navigating over to "Terminal" in the debug console at the very bottom, and seeing `PS ` beside your project's absolute path)
 
 ```powershell
 gci .\Chapters -r *.tex | % { pushd $_.Directory; latexmk -C $_; popd }
