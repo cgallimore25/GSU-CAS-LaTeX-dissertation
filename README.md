@@ -223,7 +223,7 @@ gci .\Chapters -r *.tex | % { pushd $_.Directory; latexmk -C $_; popd }
 
 ## Git guides
 
-This repository incorporates a [git-guides](/git-guides/) submodule, a small collection of cheatsheets designed to reference while getting comfortable with Git. 
+This repository incorporates a [git-guides](/git-guides/) submodule, a small collection of markdown cheatsheets to reference while getting comfortable with Git. 
 
 ## Citation style
 
