@@ -193,9 +193,10 @@ The `gsudiss.cls` class file defines macros and commands to structure different 
 
 ### Settings
 
-The `settings.json` file in [.vscode](https://github.com/cgallimore25/GSU-CAS-LaTeX-dissertation/tree/main/.vscode) defines the VS code settings you'd like to use. 
+The `settings.json` file in [.vscode](/.vscode/) defines the VS code settings you'd like to use. 
 May be helpful to review official [documentation](https://code.visualstudio.com/docs/getstarted/settings#_settings-file-locations). 
 This file is intended to be project-specific, and a ***wide*** variety of LaTeX Workshop [compilation](https://github.com/James-Yu/LaTeX-Workshop/wiki/Compile) rules and recipes can be defined here. 
+
 The provided settings are rather minimalist, explicitly defining the citation backend and build recipe (`biblatex`, and `latexmk`, respectively), as well as some auto-cleaning of auxiliary files and "synctex" for snapping PDF interactions to location in code, and vice versa from code to PDF. 
 
 
@@ -213,7 +214,8 @@ Another great feature of a multi-file structure is that we implement the `subfil
 This gives us the option to do more focused work on a specific section (since dissertation sections can be quite long) without worrying about compiling or looking at the entire document.
 
 ***NOTE:*** 
-- One useful command for keeping your Chapters directory clean of auxiliary files after individual section compilation is to run the below snippet in your VS Code integrated powershell terminal (you'll know your terminal is powershell by navigating over to "Terminal" in the debug console at the very bottom, and seeing `PS ` beside your project's absolute path)
+- If you're compiling individual sections, one useful utility command for keeping your Chapters directory clean of auxiliary files is to run the below snippet in your VS Code integrated powershell terminal (you'll know your terminal is powershell by navigating over to "Terminal" in the debug console at the very bottom, and seeing `PS ` beside your project's absolute path)
+- This clean-up routine clears out LaTeX compilation artifacts
 
 ```powershell
 gci .\Chapters -r *.tex | % { pushd $_.Directory; latexmk -C $_; popd }
@@ -226,7 +228,7 @@ Fortunately, you only have to solve it once. And here, it already is.
 
 ### Default
 
-The default style implemented here is superscripted citations using the Springer Nature style (Biblatex, with Biber backend), where article titles follow sentence casing.
+The default style implemented here is superscripted citations using the Springer Nature style (`biblatex`, with `biber` backend), where article titles follow sentence casing.
 This choice was a personal preference based on the style's compactness (and the fact that it doesn't seem to be strictly specified by CAS in Neuroscience dissertations I've seen). 
 
 Citation style can be changed by modifying the arguments to `\usepackage[...]{biblatex}` in `main.tex`.
@@ -242,7 +244,7 @@ This extension is better optimized for text-based toolchains such as LaTeX and M
 
 ## Obscure possible errors
 
-Be careful using the `-pvc` (preview continuous) flag in latexmk. 
+Be careful using the `-pvc` (preview continuous) flag in the `latexmk` settings toolchain. 
 It creates a persistent Perl daemon that watches your files and automatically rebuilds them when changes are detected. 
 Safe ways to use `-pvc`:
 
@@ -271,7 +273,7 @@ A safer command line approach is:
 latexmk -pvc -pdf main.tex
 ```
 
-Then to stop it with Ctrl+C in the same terminal window, properly terminating the watching process.
+Then stop it with Ctrl+C in the same terminal window, properly terminating the watching process.
 
 Cautions in `-pvc` mode
 
@@ -281,6 +283,6 @@ Cautions in `-pvc` mode
 
 If things do get stuck:
 
-- Find and kill the perl.exe process in Task Manager
+- Find and kill the `perl.exe` process in Task Manager
 - Clean auxiliary files AFTER killing the process
 - Start fresh with a new build
