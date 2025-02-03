@@ -225,6 +225,8 @@ gci .\Chapters -r *.tex | % { pushd $_.Directory; latexmk -C $_; popd }
 
 This repository incorporates a [git-guides](/git-guides/) submodule, a small collection of markdown cheatsheets to reference while getting comfortable with Git. 
 
+If you have a suggestion for a new git guide that would cover operations currently not present, try having Claude or ChatGPT generate one for you in Markdown (`.md`), then make a pull request on the [git-guides repo](https://github.com/cgallimore25/git-guides). 
+
 ## Citation style
 
 If you've worked with LaTeX before, you know that citation formatting can be one of the largest, most painful hurdles. 
