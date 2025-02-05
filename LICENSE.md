@@ -3,9 +3,10 @@ distributed here, I did make a number of modifications that improve the user's
 ability to:
 1. Make and use SI units
 2. Compile individual section files for focused work
-3. Integrate Git into their writing process
-4. Work specifically in a VS Code environment
-5. Use Perl/latexmk utilities for path mgmt and auxiliary file cleaning
+3. Learn and integrate Git into their writing process
+4. Install a 'lean' LaTeX distribution with only the required packages
+5. Work specifically in a VS Code environment
+6. Use Perl/latexmk utilities for path mgmt and auxiliary file cleaning
 
 My major contributions to the GSU CAS LaTeX template pertain to the *process* 
 of writing, not the content itself, and it's the specific configuration I've 
