@@ -40,7 +40,7 @@ If you need to be conservative with your computer's storage space (we've all ham
 I include a procedure for a *very* lean distribution (~650 MB). 
 
 You pay for this compactness with more complexity, and will at some point or another need to become comfortable using only one command in the terminal — `tlmgr` — to install missing pieces if necessary. 
-I provide a `required_packages.txt` file and some suggested installation routines (see [Step 3](#step-3) below). 
+I provide a `required_packages.txt` file and some suggested installation routines (see [Step 4](#step-4) below). 
 This, also being a local installation, is compatible with full Git functionality.
 
 ***Takeaway***: Use a local installation of a LaTeX distribution if offline work and version control are important to you.
@@ -59,56 +59,81 @@ If Overleaf's servers are down, you cannot write.
 
 ## Installation procedure
 
-[![LaTeX](https://img.shields.io/badge/latex-%23008080.svg?style=for-the-badge&logo=latex&logoColor=white)](https://www.tug.org/texlive/)
-[![Perl](https://img.shields.io/badge/perl-%2339457E.svg?style=for-the-badge&logo=perl&logoColor=white)](https://strawberryperl.com/)
 [![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)](https://code.visualstudio.com/download)
 [![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com/downloads)
+[![Perl](https://img.shields.io/badge/perl-%2339457E.svg?style=for-the-badge&logo=perl&logoColor=white)](https://strawberryperl.com/)
+[![LaTeX](https://img.shields.io/badge/latex-%23008080.svg?style=for-the-badge&logo=latex&logoColor=white)](https://www.tug.org/texlive/)
 
 ***Read these steps before going forward with any of the above icons linked to installations.***
+***The order of the badges at the top is the best order to install these softwares in.***
 
 
-### Step 0: 
-Download and extract this repository as .zip file to a directory of your choosing (Probably your `Documents` folder, or the like).
-We'll come back to this directory in Step 3. 
+### Step 0: Get the template
 
-**[Optional]:** install Git as well. 
+Download and extract this repository as .zip file to a directory of your choosing (probably your `Documents` folder, or the like).
+
+We'll come back to this directory in [Step 4](#step-4). 
+
+### Step 1: Install VS Code
+
+Install VS Code using the link in the badge above. 
+Alternatively, if you are GSU student/faculty/staff, the Software Center for GSU networked machines also supplies VS Code — while it is ultimately open-source, sometimes it's best to go through the Software Center when available. 
+
+All software here should be added to your `PATH` environment variables, which allows you to run programs at the command line from any directory under your User folder (e.g. `C:/Users/myName/`, for a Windows machine).
+
+Visit these links to learn how to add programs to your `PATH` environment variables [[Windows](https://www.computerhope.com/issues/ch000549.htm) | [MacOS](https://techpp.com/2021/09/08/set-path-variable-in-macos-guide/)]
 
 
-### Step 1:
+#### Optional: 
+
+If version control is of interest to you (i.e. Git), now would be the time to install it. 
+I specify this **after** VS code installation because you can then specify VS Code as your default editor during Git install.
+
+
+### Step 2: Install Perl
+
+Perl is a useful scripting language that you'll never have to use here explicitly.
+The reason for installing it is this template (as I've configured it) specifies `latexmk` as the document compilation mechanism, which itself is a Perl script.
+
+The decision table below indicates which Perl installer you should use depending on your admin rights status: 
 
 | Admin Rights   | Yes     | No |
 | :----------:   | :------: | :-----: |
 | Perl Installer | MSI *or* Portable zip | Portable zip    |
 
+If you ***have*** admin rights, you can use either the MSI installer — if you want it to be available to ***any*** User on the system — or the Portable installer for a custom directory that will be specific to ***your*** User. 
+
+***NOTE:*** Installing to your *system* (MSI) will automatically add the variables to the `PATH`. 
 
 If you ***don't*** have admin rights on your computer, select the Portable zip installer in the Strawberry Perl badge link above and extract it to a new folder in your user directory (e.g. `C:/Users/myName/strawberry/`). 
 
-If you ***do*** have admin rights, you can use the MSI installer if you want it to be available to any user on the system, or portable for a custom directory. 
-
-Add the 
+Add the following Perl directories (these will depend on your installer method)
 1. `C:/Users/myName/strawberry/perl/bin`
 2. `C:/Users/myName/strawberry/perl/site/bin`, and 
 3. `C:/Users/myName/strawberry/c/bin` 
 
-directories to your `PATH` by editing environment variables for your user account [[Windows](https://www.computerhope.com/issues/ch000549.htm) | [MacOS](https://techpp.com/2021/09/08/set-path-variable-in-macos-guide/)]
+to your `PATH` by editing environment variables for your user account, as linked in [Step 1](#step-1)
 
 
-### Step 2:
+### Step 3: Install LaTeX
+
+This step may take anywhere from 30 minutes to a few hours, depending on which LaTeX installation method you landed on after [Determining the distribution for you](#determining-the-right-distribution-for-you). 
 
 | Operating System | Windows  | MacOS   |  Linux  |
 | :--------------: | :------: | :-----: | :-----: |
 | TeX distribution | [TeX Live](https://www.tug.org/texlive/) *or* [TinyTex](https://yihui.org/tinytex/) | [TinyTex](https://yihui.org/tinytex/) *or* [MacTeX](https://www.tug.org/mactex/mactex-download.html) |  [TinyTex](https://yihui.org/tinytex/)
 
-Install LaTeX, if you want your distribution local. 
-
-For a lean distribution (~650 MB), go with TinyTex. 
-Downloading the `install-bin-windows.bat` referenced in their docs (for Windows) to the basic `Downloads` directory then double-clicking will automatically create a the TinyTex install directory in `User/AppData/Roaming` and add it to the user `PATH` (bearing in mind you may not have admin rights). 
-
+For a lean distribution (~650 MB), go with TinyTex, linked in [Option 2](#option-2):
+- Downloading the `install-bin-windows.bat` referenced in their docs (for Windows) to the basic `Downloads` directory then double-clicking will automatically create a the TinyTex install directory in `User/AppData/Roaming` **and** add it to the user `PATH` (bearing in mind you may not have admin rights). 
 Follow the respective steps in their linked docs for Mac or Linux.
+
+For a larger distribution, see the TeX Live options linked in the LaTeX badge above:
+- Distributions installed this way, however, will ***NOT*** automatically be added to the `PATH`, so their binaries (typically inside of `C:/Users/myName/texlive/2024/bin/windows`) ***must*** also be added using the Windows and Mac specific methods from [Step 1](#step-1)
+
 
 ***NOTE:*** 
 - TeX Live is the **strongly recommended** [LaTeX distribution](https://github.com/James-Yu/latex-workshop/wiki/Install) by developers of the VS Code LaTeX Workshop extension, and all of the links here provide TeX Live dists. If you *really* want to use MiKTeX, I leave that up to you. 
-- TeX Live binaries (e.g. `C:/Users/myName/texlive/2024/bin/windows`) must then be added to your `PATH` environment variables. 
+
 
 To verify your distribution is on the path, you can search `cmd` in the Windows Search bar, then run: 
 ```cmd
@@ -120,34 +145,36 @@ or in a MacOS/Linux terminal:
 echo $PATH
 ```
 
-The below `tlmgr` commands are common across all OS.
+The below `tlmgr` commands are common across all OS, and are worth knowing for i) verifying that `tlmgr` (i.e. TeX Live) is available on the `PATH`, and ii) later package management when using LaTeX. 
 
 
 | Function              |       Command            |
 | :-------------------: | :----------------------: |
 |`tlmgr` accessibility  |    `tlmgr --version`     |
-| package installation  | `tlmgr install biblatex` |
+| package installation  | `tlmgr install package` |
 | package location      |  `kpsewhich package.sty` |
 | package update        |   `tlmgr update --all`   |
 | manager update        |   `tlmgr update --self`  |
 
 
 
-### Step 3:
+### Step 4: Required packages
 
+As mentioned in [Step 0](#step-0), we now turn back to the directory where you extracted this template to. 
 This step runs a useful terminal command that installs remaining dependencies listed in `required_packages.txt`, which aren't supplied by our [Styles](/Styles/) subdirectory. 
 
 ***NOTE:***
 - If you installed a larger TeX Live distribution, you may not need the below commands.
 Though running them won't do any harm.
-- If you went with the compact TinyTex distribution, then proceed.
+- If you went with the compact TinyTex distribution, then you *will* need the below commands.
 
-On a Windows machine, navigate to your extracted directory in the `cmd` terminal (Windows may autocomplete with backslashes)
+Pull up your `cmd` terminal, and navigate to your extracted template directory.
+For example, on a Windows machine (may autocomplete with backslashes) and if you're inside of your user folder (`C:/Users/myName`)
 ```cmd
-cd path/to/extractedDir
+cd Documents/extractedDir
 ```
 
-Then run the below terminal command from inside your extracted template project directory that installs other standalone package requirements:
+Then run the below terminal command from inside the extracted template project directory. This installs other standalone package requirements:
 ```cmd
 for /f "delims=" %i in (required_packages.txt) do tlmgr install %i
 ```
@@ -169,18 +196,13 @@ done
 ```
 
 
-### Step 4:
+### Step 5:
 
-Now that you have your TeX distribution and Perl available to the path, as well as all the packages we'll need, make sure you have VS Code installed.
-
-***NOTE:***
-- If you are GSU student/faculty/staff, the Software Center for GSU networked machines supplies VS Code — while VS code is ultimately open-source, sometimes it's best to go through the Software Center when available. 
-
-After installing Strawberry Perl, your preferred LaTeX distribution, VS Code, and Git (Optional), and all are on your user `PATH`, proceed with installing the LaTeX Workshop extension in VS Code:
-1. Open VS Code by right-clicking in a blank space of your template subdirectory in file explorer/finder and click "Open with Code". 
+Now that you have Strawberry Perl, your preferred LaTeX distribution, VS Code, and Git (Optional), and all are on your user `PATH`, proceed with installing the LaTeX Workshop extension in VS Code:
+1. Open VS Code by right-clicking in a blank space of your template subdirectory in File explorer/Finder and click "Open with Code". 
 2. In VS Code, click Extensions in the far left-side pane, search for `LaTeX Workshop`, then install it. 
 
-Once the extension is installed, you should be able to compile (play button in the top right corner) while on the open file `main.tex`. 
+Once the extension is installed, open the file `main.tex` and you should be able to compile (play button in the top right corner)
 
 Happy TeX'ing!
 
