@@ -1,0 +1,20 @@
+# LaTeX auxiliary files -- as sample stuff
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.dvi
+
+# Uncomment the following line if you don't want to track PDF outputs
+# *.pdf
+
+# Editor specific files
+*.bak
+*~
