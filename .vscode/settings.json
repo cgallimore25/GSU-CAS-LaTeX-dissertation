@@ -1,7 +1,14 @@
 {
-    "latex-workshop.latex.autoBuild.run": "onSave",
+    // "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.autoBuild.run": "never",
     "latex-workshop.latex.autoClean.run": "onSucceeded",
     "latex-workshop.intellisense.citation.backend": "biblatex",
+    "latex-workshop.intellisense.command.user": {
+        "subfile": "filepath"
+    },
+    "latex-workshop.intellisense.package.enabled": true,
+    "latex-workshop.intellisense.package.extra": ["subfiles", "acronym"],
+
     "latex-workshop.latex.clean.method": "glob", // Required for clean.filetypes to have effect
     "latex-workshop.latex.clean.fileTypes": [ 
         "*.aux",
