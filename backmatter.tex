@@ -3,34 +3,45 @@
 % The bibliography starts here.
 
 % original CAS template used the below for 'natbib' -- uncomment the below two \bibliography{} commands and comment out \setlength and \printbibliography for natbib
-% \bibliographystyle{apj}             % Please learn to use the
-                                    % formatting of Latex's Bibtex. It
-                                    % will make your life easier.
-
+% \bibliographystyle{apj}             % Please learn to use the formatting of Latex's Bibtex. It will make your life easier.
 % \bibliography{bibliography}
+% \bibliography{apj-jour,dissref}       % "paper.bib" contains all my references. "apj-jour.bib" contains abbreviations of journals.
 
-%\bibliography{apj-jour,dissref}       % "paper.bib" contains all my
-                                    % references. "apj-jour.bib"
-                                    % contains abbreviations of
-                                    % journals.
-
-% added to switch to biblatex
+% The biblatex bibliography starts here.
 \setlength\bibitemsep{0pt}   % if using biblatex
-\printbibliography
+\printbibliography[heading=bibintoc, title=REFERENCES]
+
+\clearpage
 
 
+\beforechapterheadname{Appendix}         % Optional text to put in front of the chapter number.
+% \afterchapterheadname{}                % Optional text to put after the
+
+% \addcontentsline{toc}{chapter}{APPENDIX}
+
+
+\chapter*{APPENDICES}  % Create a proper chapter heading
+\addcontentsline{toc}{chapter}{APPENDICES}  % Add to TOC at chapter level
+
+\appendix
+
+% This is crucial - directly modify how ToC entries will appear; need to do this BEFORE the sections are created
+\addtocontents{toc}{%
+  \protect\renewcommand{\protect\cftsecpresnum}{Appendix }%
+  \protect\setlength{\protect\cftsecnumwidth}{7em}%
+}
+
+
+% \include{./Chapters/appendices/Appendix_A}
+\subfile{./Chapters/appendices/Appendix_A}
+\clearpage
+\subfile{./Chapters/appendices/Appendix_B}
 \clearpage
 
 % If you have only one appendix chapter, use the command
 % \begin{appendix}...\end{appendix} instead.
 % This takes care of the requirement (of the Graduate Office) for one
 % appendix chapter to be labeled as 'Appendix', not 'Appendix A'.
-
-\beforechapterheadname{APPENDIX}         % Optional text to put in front of
-                                   % the chapter number.
-\afterchapterheadname{}          % Optional text to put after the
-
-\addcontentsline{toc}{chapter}{APPENDIX}
 
 %\begin{appendix}
 %  \input{appendixI}                     % Your appendices go here.
