@@ -505,43 +505,62 @@
 \def\signline{%
   \rule{0.5\paperwidth}{0.1pt}}
 
+% Define a counter to track committee size
+\newcounter{committeesize}
+
 \def\committee{%
+  \setcounter{committeesize}{0}%
   \@ifnextchar({\committee@i}{\committee@i(Albert Einstein [supervisor])}%)
 }
 \def\committee@i(#1){%
   \@ifnextchar[{\committee@ii(#1)}{\committee@ii(#1)[]}%]
 }
 \def\committee@ii(#1)[#2]{%
-  \@ifnextchar({\committee@iii(#1)[#2]}{\committee@iii(#1)[#2](Marie Curie)}%)
+  \stepcounter{committeesize}%
+  \@ifnextchar({\committee@iii(#1)[#2]}{\committee@finish(#1)[#2]()()()()()()[Marie Curie]}%)
 }
 \def\committee@iii(#1)[#2](#3){%
-  \@ifnextchar({\committee@iv(#1)[#2](#3)}{\committee@iv(#1)[#2](#3)(Neils Bohr)}%)
+  \stepcounter{committeesize}%
+  \@ifnextchar({\committee@iv(#1)[#2](#3)}{\committee@finish(#1)[#2](#3)()()()()()[Neils Bohr]}%)
 }
 \def\committee@iv(#1)[#2](#3)(#4){%
-  \@ifnextchar({\committee@v(#1)[#2](#3)(#4)}{\committee@v(#1)[#2](#3)(#4)(Alvin Das)}%)
+  \stepcounter{committeesize}%
+  \@ifnextchar({\committee@v(#1)[#2](#3)(#4)}{\committee@finish(#1)[#2](#3)(#4)()()()()[Alvin Das]}%)
 }
 \def\committee@v(#1)[#2](#3)(#4)(#5){%
-  \@ifnextchar({\committee@vi(#1)[#2](#3)(#4)(#5)}{\committee@vi(#1)[#2](#3)(#4)(#5)(Albert Einstein)}%)
+  \stepcounter{committeesize}%
+  \@ifnextchar({\committee@vi(#1)[#2](#3)(#4)(#5)}{\committee@finish(#1)[#2](#3)(#4)(#5)()()()[Isaac Newton]}%)
 }
 \def\committee@vi(#1)[#2](#3)(#4)(#5)(#6){%
-  \@ifnextchar({\committee@vii(#1)[#2](#3)(#4)(#5)(#6)}{\committee@vii(#1)[#2](#3)(#4)(#5)(#6)()}%)
+  \stepcounter{committeesize}%
+  \@ifnextchar({\committee@vii(#1)[#2](#3)(#4)(#5)(#6)}{\committee@finish(#1)[#2](#3)(#4)(#5)(#6)()()[Richard Feynman]}%)
 }
 \def\committee@vii(#1)[#2](#3)(#4)(#5)(#6)(#7){%
-  \@ifnextchar({\committee@viii(#1)[#2](#3)(#4)(#5)(#6)(#7)}{\committee@viii(#1)[#2](#3)(#4)(#5)(#6)(#7)()}%)
+  \stepcounter{committeesize}%
+  \@ifnextchar({\committee@viii(#1)[#2](#3)(#4)(#5)(#6)(#7)}{\committee@finish(#1)[#2](#3)(#4)(#5)(#6)(#7)()[Alan Turing]}%)
 }
 \def\committee@viii(#1)[#2](#3)(#4)(#5)(#6)(#7)(#8){%
-  \@ifnextchar[{\committee@ix(#1)[#2](#3)(#4)(#5)(#6)(#7)(#8)}{\committee@ix(#1)[#2](#3)(#4)(#5)(#6)(#7)(#8)[Isaac Newton (chair of dept.)]}%]
+  \stepcounter{committeesize}%
+  \@ifnextchar[{\committee@finish(#1)[#2](#3)(#4)(#5)(#6)(#7)(#8)}{\committee@finish(#1)[#2](#3)(#4)(#5)(#6)(#7)(#8)[John von Neumann]}%]
 }
-\def\committee@ix(#1)[#2](#3)(#4)(#5)(#6)(#7)(#8)[#9]{%
 
+% Final processor that formats the committee members based on how many were provided
+\def\committee@finish(#1)[#2](#3)(#4)(#5)(#6)(#7)(#8)[#9]{%
   \def\supervisor{#1}
 
   \def\committeemembers{\hspace{1.6in}
-%    \centerline{\parbox[t]{0.2\textwidth}{\setstretch{1} Major Professor:\\Committee:}
     \centerline{\parbox[t]{0.3\textwidth}{\setstretch{2} Committee Chair:\\Committee:}
-%      \hspace{1cm}\parbox[t]{0.3\textwidth}{\setstretch{1}
-      \hspace{1cm} \parbox[t]{0.3\textwidth}{\raggedleft \setstretch{2}        { #1}\\\ifthenelse{\equal{#2}{}}{}{{ #2}\\}{ #3}\\{#4}\\{ #5}\\{ #6}
-        \ifthenelse{\equal{#7}{}}{}{\\{#7}}\ifthenelse{\equal{ #8}{}}{}{\\{#8}}}}\vspace{1cm}}
+      \hspace{1cm} \parbox[t]{0.3\textwidth}{\raggedleft \setstretch{2}
+        {#1}\\
+        \ifthenelse{\equal{#2}{}}{}{{#2}\\}
+        \ifthenelse{\equal{#3}{}}{}{{#3}\\}
+        \ifthenelse{\equal{#4}{}}{}{{#4}\\}
+        \ifthenelse{\equal{#5}{}}{}{{#5}\\}
+        \ifthenelse{\equal{#6}{}}{}{{#6}\\}
+        \ifthenelse{\equal{#7}{}}{}{{#7}\\}
+        \ifthenelse{\equal{#8}{}}{}{{#8}\\}
+      }}
+    \vspace{1cm}}
 
 
   \def\trick{%
