@@ -336,10 +336,10 @@
   \typeout{\@chapapp\space\thechapter.}%
   \ifthenelse{\equal{\chapterpage@number}{none}}
   {\thispagestyle{empty}}{}
-  \ifthenelse{\equal{\appendixpagename}{Appendix}}
-  {\renewcommand{\thefigure}{A.\arabic{figure}}
-    \renewcommand{\thetable}{A.\arabic{table}}
-    \def\thechapter{}\def\chaptertitlename{}\def\afterchaptername{}
+\ifthenelse{\equal{\appendixpagename}{Appendix}}
+  {\renewcommand{\thefigure}{\thechapter\arabic{figure}}
+    \renewcommand{\thetable}{\thechapter\arabic{table}}
+    \def\chaptertitlename{}\def\afterchaptername{}
     \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}}
   {\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}}%
   \else
