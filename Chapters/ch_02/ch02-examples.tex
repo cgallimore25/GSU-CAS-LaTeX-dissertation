@@ -13,8 +13,10 @@
 
 	\subsection{Citations}
 
-	Hooray for Chapter 2!!! 
-	I'm going to cite a brilliant paper\supercite{aartsSolutionDependencyUsing2014}. 
+	Woo! 
+	Chapter 2!
+	Here's how to cite a random paper\supercite{aartsSolutionDependencyUsing2014}. 
+	According to \citeauthor{aartsSolutionDependencyUsing2014} \citeyear{aartsSolutionDependencyUsing2014}, you can also do it this way.
 	See bibliography.bib for doing references.
 
 	\subsection{Abbreviations}
@@ -40,9 +42,13 @@
 	The \verb|siunitx| package allows us to insert units in a typographically consistent way, ensuring proper height, spacing, and proper formatting of units (e.g. prevention of linebreaks).
 	It's desirable in this context for much the same reasons as the \verb|acronym| package.
 
-	The concentration of drug was \SI[per-mode=fraction]{0.02}{\mol\per\L} (20mM)).
-	After a \SI{30}{\minute} period for pharmacological action, mice were placed in a chamber, anesthetized under 3\% isoflurane, then fixed in a nose cone delivering the same anesthetic mixture. 
-	Samples were extracted, tin foil wrapped, and placed in a \SI{-80}{\degreeCelsius} freezer for 25 minutes to achieve firmness. 
+	% millimolar is not an SI unit, but we can define it ourselves
+	% defined in usercommands.tex as
+	% \DeclareSIUnit{\mM}{mM}        % millimolar
+
+	The concentration of drug was \SI[per-mode=fraction]{0.02}{\mol\per\L} (\SI{20}{\mM})).
+	After a \SI{30}{\minute} period for pharmacological action, mice were placed in a chamber, anesthetized under \qty{3}{\percent} isoflurane, then fixed in a nose cone delivering the same anesthetic mixture. 
+	Samples were extracted, tin foil wrapped, and placed in a \SI{-80}{\degreeCelsius} freezer for 25 minutes to achieve firmness. We also used 
 
 	\subsection{Equations}
 
