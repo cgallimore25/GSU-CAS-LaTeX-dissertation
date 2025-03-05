@@ -7,7 +7,7 @@
         "subfile": "filepath"
     },
     "latex-workshop.intellisense.package.enabled": true,
-    "latex-workshop.intellisense.package.extra": ["subfiles", "acronym"],
+    "latex-workshop.intellisense.package.extra": ["subfiles", "acronym", "siunitx"],
 
     "latex-workshop.latex.clean.method": "glob", // Required for clean.filetypes to have effect
     "latex-workshop.latex.clean.fileTypes": [ 
