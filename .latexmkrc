@@ -1,5 +1,6 @@
 $pdf_mode = 1;    # Use pdflatex
 $bibtex_use = 2;  # Use biber for bibliography management
+$do_cd = 1;       # Change to the directory of the TeX file
 
 # Add ./Styles to the TeX search path
 ensure_path( 'TEXINPUTS', './Styles//' );

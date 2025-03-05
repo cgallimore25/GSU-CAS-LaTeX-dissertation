@@ -40,11 +40,15 @@
     "latex-workshop.latex.clean.subfolder.enabled": true,
 
     // for laptop work  -- NOTE: Inverse synctex with this configuration works much more smoothly
-    "latex-workshop.synctex.synctexjs.enabled": true,
     "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.synctex.synctexjs.enabled": true,
 
     "latex-workshop.synctex.afterBuild.enabled": true,
     "latex-workshop.view.pdf.zoom": "page-fit",
+    "latex-workshop.view.pdf.internal.synctex.keybinding": "ctrl-click",
+
+    // Root file handling for subfiles -- ensures forward synctex works with subfile structure
+    "latex-workshop.latex.rootFile.useSubFile": false,
 
     "latex-workshop.latex.recipes": [
         {
