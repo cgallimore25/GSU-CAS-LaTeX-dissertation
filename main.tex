@@ -50,7 +50,6 @@
 \usepackage{afterpage}               % Useful for absolute placement of figures and tables.
 \usepackage{pdflscape}               % for 'landscape' environment
 \usepackage[inline]{enumitem}
-% \setlist{noitemsep}                  % prevent enumitem from increasing 'List of Abbreviations' (LoA) vertical spacing
 
 %\input{figures}                     % My defined figures, see the file "figures.tex".
 
@@ -90,8 +89,7 @@
 }
 
 % User commands
-\input{usercommands}                 % User defined commands go in this file called "usercommands.tex".
-                                     % Of course you can rename it.
+\input{usercommands}                 % User defined commands go in this file called "usercommands.tex"
 
 \usepackage{subfiles}                % Load subfiles package for modular section compilation last
 
@@ -110,12 +108,12 @@
 \raggedbottom
 
 % Table of Contents (ToC) and caption settings
-\settocname{TABLE OF CONTENTS}           % Set the ToC name. This is the default. You can use "Table of Contents" for example.
-\setlofname{LIST OF FIGURES}             % Change the name from 'List of Figures'. Use whatever you wish.
-\setlotname{LIST OF TABLES}              % Change the name from 'List of Tables'. Use whatever suit your fancy.
-\settocbibname{REFERENCES}               % Change the name from 'Bibliography'. Change it back if you feel like it.
-\setloaname{LIST OF ABBREVIATIONS}       % 'List of Abbreviations' (LoA). Use any name that makes sense here. 
-                                         % If you don't have an "abbreviations.tex" file, this command will do nothing.
+\settocname{TABLE OF CONTENTS}           % Default ToC name. You can use "Table of Contents" for example.
+\setlofname{LIST OF FIGURES}             % Change other front and backmatter names and ToC entries
+\setlotname{LIST OF TABLES}              
+\newcommand{\bibtocname}{REFERENCES}    
+\setloaname{LIST OF ABBREVIATIONS}       % 'List of Abbreviations' (LoA). Does nothing
+                                         % if you don't have an "abbreviations.tex" file
 \setfigname{Figure\ }                    % Set the caption labels for figures.
 \settabname{Table\ }                     % Set the caption labels for tables.
 \setcapfont{pnc}                         % Set the caption font for both tables and figures.
@@ -130,17 +128,17 @@
 \renewcommand{\cftparafont}{\mdseries}                                   
 
 % Chapter formatting
-\chapternumsize{\normalsize}            % You can use any standard latex sizes here.
-\chapterheadsize{\normalsize}           % You can use any standard latex sizes here.
-\chaptertitlesize{\normalsize}          % You can use any standard latex sizes here.
-\beforechapterheadname{CHAPTER}         % Optional text to put in front of the chapter number.
-\afterchapterheadname{}                 % Optional text to put after the chapter number. 
+\chapternumsize{\normalsize}            % These 3 accept any standard latex sizes
+\chapterheadsize{\normalsize}           
+\chaptertitlesize{\normalsize}          
+\beforechapterheadname{CHAPTER}         % Optional text in front of chapter number.
+\afterchapterheadname{}                 % Optional text after chapter number. 
                                         % The default looks like this: --1--; can change this to any format, for e.g. $\sim$
 \chapterheadpos{center}                 % Accepts 'right', 'left', 'center'.
-\chaptertitlepos{center}                % Accepts 'right', 'left', 'center'.
+\chaptertitlepos{center}                % " "
 \chapterheadverticalspace{-1em}         % The space between the Chapter head and the top of page. 
-                                        % This distance is not absolute, but relative to the parameters set by the geometry package
-                                        % Play around with this number to suit your needs.
+                                        % This distance is relative to the parameters set by the geometry package
+                                        % Adjust to suit your needs.
 \chapterbetweentitlespace{-1.em}        % The space between the chapter head and the title head. 
 \titleheadverticalspace{2em}            % The space between the title head and the text.
 
@@ -196,6 +194,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
+
 \include{TitleAbstract}            % See the TitleAbstract.tex file
 \include{frontmatter}              % See the frontmatter.tex file
 
