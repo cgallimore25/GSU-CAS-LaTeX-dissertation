@@ -12,9 +12,6 @@
 *.cb2
 .*.lb
 
-## Ignore dev directory
-dev/
-
 ## Intermediate documents:
 *.dvi
 *.xdv
