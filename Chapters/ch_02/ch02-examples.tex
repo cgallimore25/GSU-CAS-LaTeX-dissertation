@@ -26,22 +26,22 @@
 	Review the documentation for exhaustive command list.
 
 	\begin{verbatim}
-		\ac{ERP}		 % first instance expanded
-		\ac{ERP}		 % second + thereafter truncated
-		\acp{ERP}		% plural
-		\Acf{ERP}		% force full expansion, capitalize
+		\gls{erp}		 % first instance expanded
+		\gls{erp}		 % second + thereafter truncated
+		\glspl{erp}		% plural
+		\Acrfull{erp}		% force full expansion, capitalize
 	  \end{verbatim}
 
 	Produces: 
 	\begin{enumerate*}[label=(\roman*), itemjoin={{, }}, itemjoin={{, }}, itemjoin*={{, and }}]
-	\item \ac{ERP}
-	\item \ac{ERP}
-	\item \acp{ERP}
-	\item \Acf{ERP}	
+	\item \gls{erp}
+	\item \gls{erp}
+	\item \glspl{erp}
+	\item \Acrfull{erp}
 	\end{enumerate*}
 
-	You can even compose acronyms from others, for example, \ac{NMDA} elicits responses from \acp{NMDAR}. 
-	A variety of neuropsychiatric disease states are associated with \ac{NRH}.
+	You can even compose acronyms from others, for example, \gls{nmda} elicits responses from \glspl{nmdar}. 
+	A variety of neuropsychiatric disease states are associated with \gls{nrh}.
 
 	\subsection{SI units}
 
@@ -60,7 +60,7 @@
 
 	Here I'll show you how to use some math, incorporating some more examples of units and abbreviations.
 
-	\Acf{CSD}, $\Phi$, was calculated by a numerical approximation of the second spatial derivative of voltage, expressed as:
+	\Acrfull{csd}, $\Phi$, was calculated by a numerical approximation of the second spatial derivative of voltage, expressed as:
 
 	\begin{equation}
 		\Phi_{t, c} = -\frac{\phi_{t, c+1} - 2\phi_{t, c} + \phi_{t, c-1}}{\Delta c^2 \times g}
