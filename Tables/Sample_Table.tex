@@ -1,13 +1,35 @@
+% The below was in the original latex template, which uses the `deluxetable.sty` package.
+% The deluxetable package sucks, defining commands that collide with definitions in other packages.
+% I avoid it at all costs, and provide an alternative for making tables with more friendly pkgs
+% \begin{landscape}
+%     \centering
+%     \begin{longtable}{cccccccccccccc}
+%         \caption{Insert Table Caption here}\\
+%         \label{tab:disk}\\
+%         \hline\endhead  % header material
+%         \hline\endfoot  % footer material
+%         \hline
+%         Blah & Blah & Blah \\
+%         \hline
+%         Stuff & Things & etc. \\
+%         ... & ... & ... \\
+%     \end{longtable}
+% \end{landscape}
+
+% New table example -- see `usercommands.tex` for customizable table formatting specifications
 \begin{landscape}
-\begin{longtable}{cccccccccccccc}
-\label{tab:disk}\\
-\caption{Insert Table Caption here}\\
-\hline\endhead  % header material
-\hline\endfoot  % footer material
-\hline
-Blah & Blah & Blah \\
-\hline
-Stuff & Things & etc. \\
-\nodata & \nodata & \nodata \\
-\end{longtable}
+    \begin{table}[H]
+        \centering
+        \caption{Insert Table Caption here}
+        \begin{tabular}{@{} l c c c @{}}
+        \toprule
+        \thead{Blah} & \thead{Blah} & \thead{Blah}\\
+        \midrule
+        Stuff & Things & etc.\\
+        ...   & ...    & ... \\
+        \bottomrule
+        \end{tabular}
+        
+        \label{tab:my_table}
+    \end{table}
 \end{landscape}
