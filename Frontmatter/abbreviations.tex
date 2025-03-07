@@ -1,18 +1,31 @@
 % Abbreviations list
 
-\begingroup  % this group ensures correct vertical spacing of abbrevs when enumitem package exists
-\setlength{\itemsep}{1pt}
-\setlength{\parskip}{0pt}
-\setlength{\parsep}{0pt}
+% \begingroup  % this group ensures correct vertical spacing of abbrevs when enumitem package exists
+% \setlength{\itemsep}{1pt}
+% \setlength{\parskip}{0pt}
+% \setlength{\parsep}{0pt}
 
-\acro{ANOVA}{analysis of variance}
-\acro{CSD}{current source density}
-\acro{ERP}{event-related potential}
-\acro{IACUC}{Institutional Animal Care and Use Committee}
-\acro{MK-801}{an NMDA receptor pore blocker\acroextra{ (``Dizocilpine''; $\mathrm{C_{16}H_{15}N}$)}}
-\acro{NMDA}{N-methyl-D-aspartate}
-\acro{NMDAR}{\acs{NMDA} receptor}
-\acro{NRH}{\acs{NMDAR} hypofunction}
-\acro{ROI}{region of interest}
+% \acro{ANOVA}{analysis of variance}
+% \acro{CSD}{current source density}
+% \acro{ERP}{event-related potential}
+% \acro{IACUC}{Institutional Animal Care and Use Committee}
+% \acro{MK-801}{an NMDA receptor pore blocker\acroextra{ (``Dizocilpine''; $\mathrm{C_{16}H_{15}N}$)}}
+% \acro{NMDA}{N-methyl-D-aspartate}
+% \acro{NMDAR}{\acs{NMDA} receptor}
+% \acro{NRH}{\acs{NMDAR} hypofunction}
+% \acro{ROI}{region of interest}
 
-\endgroup
+% \endgroup
+
+\newacronym{anova}{ANOVA}{analysis of variance}
+\newacronym[user1={spike}]{ap}{AP}{action potential}
+\newacronym{csd}{CSD}{current source density}
+\newacronym{erp}{ERP}{event-related potential}
+\newacronym{iacuc}{IACUC}{Institutional Animal Care and Use Committee}
+\newacronym{nmda}{NMDA}{N-methyl-D-aspartate}
+\newacronym{nmdar}{NMDAR}{\glsentryshort{nmda} receptor}
+\newacronym[description={an \glsentryshort{nmdar} pore blocker 
+    \textup{(``Dizocilpine''; \chemform{C_{16}H_{15}N})}},
+    ]{mk801}{MK-801}{an \glsentryshort{nmdar} pore blocker}
+\newacronym{nrh}{NRH}{\glsentryshort{nmdar} hypofunction}
+\newacronym[longplural={regions of interest}]{roi}{ROI}{region of interest}
