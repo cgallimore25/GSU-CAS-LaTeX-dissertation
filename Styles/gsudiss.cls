@@ -775,20 +775,15 @@
 
 %------------------------List of Abbreviations----------------------------
 \def\loaname{LIST OF ABBREVIATIONS}
-\def\listofabbreviations{}
-\newcommand{\sepabbrev}[1]{}
+
 \newcommand{\setloaname}[1]{%
   \def\loaname{#1}}
-\IfFileExists{Frontmatter/abbreviations.tex}
-{\RequirePackage{acronym}
-  \renewcommand{\listofabbreviations}{%
-    \chapter*{\loaname}
-    \addcontentsline{toc}{chapter}{\loaname}
-    \begin{acronym}
-      \input{Frontmatter/abbreviations.tex}
-    \end{acronym}}}
-{\typeout{The file "abbreviations.tex" could not be found; I will continue
-    without it.}}
+
+\newcommand{\listofabbreviations}{%
+  \chapter*{\loaname}                       % makes a separate chapter for LoA
+  \addcontentsline{toc}{chapter}{\loaname}  % adds LoA to the ToC
+  \@ifundefined{printabbreviations}{\relax}{\printabbreviations}
+}
 
 \ifthenelse{\equal{\onlinesubmission}{no}}
 {\ifthenelse{\equal{\fontify}{pbk}}
