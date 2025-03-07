@@ -49,6 +49,19 @@
 
 % ------------------------------------------------------- %
 
+% -------------- Table specific settings ---------------- %
+
+\renewcommand\theadalign{bc}          % bottom-aligned text (vertically), center-aligned text (horizontally)
+\renewcommand\theadfont{\bfseries}    % defines the font style for all \thead content, makes all header text bold. 
+% \renewcommand\theadgape{\Gape[4pt]}   % add vertical spacing above and below the text in header cells
+% \renewcommand\cellgape{\Gape[4pt]}    % similar to above, add vertical spacing to regular cells
+% \renewcommand\arraystretch{1.5}       % for making rows and columns wider, increasing surrounding white space
+% \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}  % defines a new column type named 'C' that you can use in table specifications
+                                                         % takes one parameter (width) e.g. C{2.5cm}
+
+
+% ------------------------------------------------------- %
+
 % ------------ Glossary specific settings --------------- %
 
 % Define our implementation for the listofabbreviations hook
