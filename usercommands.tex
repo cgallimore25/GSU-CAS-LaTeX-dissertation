@@ -49,6 +49,50 @@
 
 % ------------------------------------------------------- %
 
+% ------------ Glossary specific settings --------------- %
+
+% Define our implementation for the listofabbreviations hook
+\newcommand{\printabbreviations}{%
+  \renewcommand{\glossarysection}[2][]{}
+  \glsaddall
+  \setlength{\LTleft}{0pt}
+  \setlength{\LTright}{0pt}
+  \vspace{-1.1\baselineskip}
+  \renewcommand{\arraystretch}{1}
+  \printnoidxglossary[type=acronym,style=mylong,toctitle=\loaname,nonumberlist]
+}
+
+\renewcommand{\glsnamefont}[1]{\textbf{#1}}
+\loadglsentries{Frontmatter/abbreviations.tex}
+\makenoidxglossaries
+
+% Custom glossary formatting
+\renewcommand{\glossentrydesc}[1]{%
+  \glsentrylong{#1}%
+  \ifglshasfield{user1}{#1}{%
+    \space(``\glsuseri{#1}'')%
+  }{}%
+}
+
+% Commands for alternate glossary terms
+\newcommand{\altgls}[1]{%
+  \ifglshasfield{user1}{#1}{%
+    \glsuseri{#1}%
+  }{%
+    \gls{#1}%
+  }%
+}
+
+\newcommand{\altglspl}[1]{%
+  \ifglshasfield{user1}{#1}{%
+    \glsuseri{#1}s%
+  }{%
+    \glspl{#1}%
+  }%
+}
+
+% ------------------------------------------------------- %
+
 % ------------------ SI unit commands ------------------- %
 
 % Declare some new SI units
