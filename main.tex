@@ -22,13 +22,18 @@
 
 \usepackage{lscape}
 \usepackage{geometry}
-\usepackage{array}
+
+% Below packages are for creating tables
+\usepackage{multirow}
+\usepackage{array, booktabs}    % booktabs provides \toprule, \midrule, \bottomrule
+\usepackage{makecell}           % provides \thead
+
 \usepackage{tocloft}
 \usepackage{float}
 \usepackage{siunitx}  % added package for SI units (e.g. micrometers)
 \sisetup{group-separator = {,}, group-minimum-digits = 4}
 
-\usepackage{deluxetable}
+% \usepackage{deluxetable}
 %\usepackage{aastex_hack}
 \usepackage{longtable,ltcaption}  % ltcaption package supports \CaptionLabelFont & \CaptionTextFont introduced by NTG document classes
 \usepackage[caption = false]{subfig}
