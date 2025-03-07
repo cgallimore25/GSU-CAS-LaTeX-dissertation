@@ -88,6 +88,21 @@
     pdfborder={0 0 0},
 }
 
+% Finally load glossaries packages (after hyperref)
+\usepackage[acronym,nogroupskip,hyperfirst]{glossaries}
+\usepackage{glossaries-extra}
+\RestoreAcronyms
+
+% Glossary setup -- mimick longtable format of CAS specifications
+\newglossarystyle{mylong}{%
+  \setglossarystyle{long}%
+  \renewenvironment{theglossary}%
+    {\begin{longtable}[l]{@{}p{7.5em}@{\hspace{2em}}p{0.7\textwidth}}}%
+    {\end{longtable}}%
+}
+
+% make and printglossary are found in the `usercommands.tex`' file below
+
 % User commands
 \input{usercommands}                 % User defined commands go in this file called "usercommands.tex"
 
@@ -152,9 +167,6 @@
 \subsubsectiontitlesize{\normalsize}
 \subsubsectiontitlepos{left}
 \subsubsectiontitleverticalspace{0.5em}
-
-\sepabbrev{7em}                    % Space between the abbreviation lists, that is, if you have one. **Has to be >= 5em.**
-
 
 % Other dissertation settings
 \prettify{pnc}
