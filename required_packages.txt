@@ -4,6 +4,7 @@ biber
 biblatex
 biblatex-nature
 bigfoot
+booktabs
 pgfmath-xfp
 pstricks
 relsize
