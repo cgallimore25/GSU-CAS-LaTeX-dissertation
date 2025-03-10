@@ -21,7 +21,7 @@
 
 	\subsection{Abbreviations}
 
-	The \verb|acronym| package helps you manage the insertion of abbreviations, applied programmatically when inserted with the commands below. 
+	The \verb|glossaries| and \verb|glossaries-extra| packages help you manage the insertion of abbreviations, applied programmatically when inserted with the commands below. 
 	Take a look at the \verb|abbreviations.tex| file to see how they're defined.
 	Review the documentation for exhaustive command list.
 
@@ -30,7 +30,7 @@
 		\gls{erp}		 % second + thereafter truncated
 		\glspl{erp}		% plural
 		\Acrfull{erp}		% force full expansion, capitalize
-	  \end{verbatim}
+	\end{verbatim}
 
 	Produces: 
 	\begin{enumerate*}[label=(\roman*), itemjoin={{, }}, itemjoin={{, }}, itemjoin*={{, and }}]
@@ -40,8 +40,29 @@
 	\item \Acrfull{erp}
 	\end{enumerate*}
 
-	You can even compose acronyms from others, for example, \gls{nmda} elicits responses from \glspl{nmdar}. 
-	A variety of neuropsychiatric disease states are associated with \gls{nrh}.
+	\subsubsection{Compositionality}
+
+	The original implementation of this template utilized the \verb|acronym| package, though the \verb|glossaries| package allows more flexibility and control over more complicated cases.
+	For example, \verb|glossaries| by default sorts your defined terms alphanumerically before rendering them in your \gls{loa} page. 
+	This is more ideal for compositionality in your abbreviations (i.e. using small acronyms as building blocks for others). 
+	See the code in \verb|abbreviations.tex| that generates the following example case and their appearance in the \gls{loa}: 
+	\begin{displayquote}  % uses the csquotes package
+		``\gls{nmda} elicits responses from \glspl{nmdar}. 
+		A variety of neuropsychiatric disease states are associated with \gls{nrh}.''	
+	\end{displayquote}
+
+	\subsubsection{Alternate forms}
+
+	One more noteworthy feature of \verb|glossaries| I'll draw your attention to is the ability to define alternate versions of your acronyms for terms used interchangeably.
+	This is done using wrapper commands that check for user-defined inputs in definitions.
+	For example, in neuroscience: 
+	
+	\begin{displayquote}
+		``\glspl{ap} emitted by a brain cell are often referred to as \altglspl{ap}.''
+	\end{displayquote}
+
+	Both of these commands will link back to the defintion of \glspl{ap} in the \gls{loa}.
+	This is one of a variety of ways you could possibly implement and customize your management of abbreviations.
 
 	\subsection{SI units}
 
@@ -52,9 +73,12 @@
 	% defined in usercommands.tex as
 	% \DeclareSIUnit{\mM}{mM}        % millimolar
 
-	The concentration of drug was \SI[per-mode=fraction]{0.02}{\mol\per\L} (\SI{20}{\mM}).
-	After a \SI{30}{\minute} period for pharmacological action, mice were placed in a chamber, anesthetized under \qty{3}{\percent} isoflurane, then fixed in a nose cone delivering the same anesthetic mixture. 
-	Samples were extracted, tin foil wrapped, and placed in a \SI{-80}{\degreeCelsius} freezer for 25 minutes to achieve firmness.
+
+	\begin{displayquote}
+		``The concentration of drug was \SI[per-mode=fraction]{0.02}{\mol/\L} (\SI{20}{\mM}), which can also be formatted as \SI[per-mode=fraction]{0.02}{\mol\per\L}.
+		After a \SI{30}{\minute} period for pharmacological action, mice were placed in a chamber, anesthetized under \qty{3}{\percent} isoflurane, then fixed in a nose cone delivering the same anesthetic mixture. 
+		Samples were extracted, tin foil wrapped, and placed in a \SI{-80}{\degreeCelsius} freezer for 25 minutes to achieve firmness.''
+	\end{displayquote}
 
 	\subsection{Equations}
 
@@ -67,7 +91,7 @@
 	\end{equation}
 
 	where $\phi_{t, c}$ represents recorded voltages at time-point $t$ and channel $c$ on the linear electrode array, such that constant $\Delta c$ is the spacing between adjacent contacts. 
-	The constant $g$ represents the conductivity of the extracellular medium, defined for these analyses as \SI[per-mode=fraction]{0.3}{\siemens\per\m}, consistent with putative bounds of extracellular impedance measurements (\qtyrange[range-units=single,range-phrase=-]{\sim 0.3}{0.6}{\siemens\per\m}) for frequencies below \SI{10}{\kHz}. 
+	The constant $g$ represents the conductivity of the extracellular medium, defined for these analyses as \SI[per-mode=fraction]{0.3}{\siemens/\m}, consistent with putative bounds of extracellular impedance measurements (\qtyrange[range-units=single,range-phrase=-]{\sim 0.3}{0.6}{\siemens\per\m}) for frequencies below \SI{10}{\kHz}. 
 	% notice how \siemens\per\m, when attached to a constant, is a fraction, but uses exponent notation when expressed for a range
 	Checkout the code that generates these units. 
 
