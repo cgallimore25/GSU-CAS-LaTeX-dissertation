@@ -40,3 +40,8 @@ Other features built into this repository:
 ## Installation
 
 The steps to set-up this workflow have migrated over to the repository [Wiki](https://github.com/cgallimore25/GSU-CAS-LaTeX-dissertation/wiki)!
+
+## Contributing
+
+In addition to the modularization and package updates that I've included here, there are likely many more ways that this template could be further improved.
+I'd love to incorporate user modifications which make this better, so please feel free to start a Discussion, or open an Issue or Pull Request from the tabs at the top of the GitHub home page.
