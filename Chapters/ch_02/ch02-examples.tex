@@ -64,16 +64,17 @@
 	Both of these commands will link back to the defintion of \glspl{ap} in the \gls{loa}.
 	This is one of a variety of ways you could possibly implement and customize your management of abbreviations.
 
+	Notice also that the definition for \acrfull{mk801} includes the drug common name and chemical formula in a description field, which, here, \textit{will not} behave as an alternate form that we can reference using the \verb|altgls{}| form command.
+	This can be useful when you want to supply supplementary information not intended to be used or referenced back to the \gls{loa} page from the text.
+	All of these commands are custom, and can be further modified or built upon to meet your needs.
+
 	\subsection{SI units}
 
 	The \verb|siunitx| package allows us to insert units in a typographically consistent way, ensuring proper height, spacing, and proper formatting of units (e.g. prevention of linebreaks).
 	It's desirable in this context for much the same reasons as the \verb|acronym| package.
-
 	% millimolar is not an SI unit, but we can define it ourselves
 	% defined in usercommands.tex as
 	% \DeclareSIUnit{\mM}{mM}        % millimolar
-
-
 	\begin{displayquote}
 		``The concentration of drug was \SI[per-mode=fraction]{0.02}{\mol/\L} (\SI{20}{\mM}), which can also be formatted as \SI[per-mode=fraction]{0.02}{\mol\per\L}.
 		After a \SI{30}{\minute} period for pharmacological action, mice were placed in a chamber, anesthetized under \qty{3}{\percent} isoflurane, then fixed in a nose cone delivering the same anesthetic mixture. 
