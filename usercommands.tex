@@ -27,6 +27,9 @@
 \newcommand{\arcpt}{${{\lower3pt\hbox{$^{\prime\prime}$}}\atop{\raise4pt\hbox{.}}}$}
 \newcommand{\msun}{$M_\odot$}
 
+\newcommand{\chemform}[1]{$\mathrm{#1}$}  % For glossary entries
+
+
 % ------------ Biblatex specific settings --------------- %
 
 % Force sentence casing for article titles in bibliography
@@ -81,7 +84,14 @@
 
 % Custom glossary formatting
 \renewcommand{\glossentrydesc}[1]{%
-  \glsentrylong{#1}%
+  % First try using the description field directly
+  \ifglshasfield{description}{#1}{%
+    \glsentrydesc{#1}%
+  }{%
+    % Fall back to long form if no description available
+    \glsentrylong{#1}%
+  }%
+  % Then check if we should add user1 in quotes
   \ifglshasfield{user1}{#1}{%
     \space(``\glsuseri{#1}'')%
   }{}%
