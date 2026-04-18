@@ -28,7 +28,7 @@
 \newcommand{\msun}{$M_\odot$}
 
 \newcommand{\chemform}[1]{$\mathrm{#1}$}  % For glossary entries
-
+% ------------------------------------------------------- %
 
 % ------------ Biblatex specific settings --------------- %
 
@@ -50,6 +50,22 @@
     {#1}
     {\MakeSentenceCase{#1}}}
 
+
+\newcommand{\authoryr}[1]{\citeauthor{#1} (\citeyear{#1})}
+
+% ------------------------------------------------------- %
+
+% ----------------- Cleveref settings ------------------- %
+
+% For referencing figures, tables, equations, theorems, etc
+
+\newcommand{\crefrangeconjunction}{--}  % for usage with \Crefrange
+\newcommand{\crefpairconjunction}{--}     % used with supplied pairs
+\newcommand{\subpanelrange}[3]{%  % #1=first label ref, #2=second label ref, #3=end letter (corresponds to second label ref)
+  Fig.~\ref{#1}--\hyperref[#2]{#3}%
+}
+\newcommand{\fshort}[1]{Fig.~\ref{#1}}
+
 % ------------------------------------------------------- %
 
 % -------------- Table specific settings ---------------- %
@@ -61,8 +77,6 @@
 % \renewcommand\arraystretch{1.5}       % for making rows and columns wider, increasing surrounding white space
 % \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}  % defines a new column type named 'C' that you can use in table specifications
                                                          % takes one parameter (width) e.g. C{2.5cm}
-
-
 % ------------------------------------------------------- %
 
 % ------------ Glossary specific settings --------------- %
@@ -82,7 +96,7 @@
 \loadglsentries{Frontmatter/abbreviations.tex}
 \makenoidxglossaries
 
-% Custom glossary formatting
+% Custom glossary formatting - alternative definitions for entries
 \renewcommand{\glossentrydesc}[1]{%
   % First try using the description field directly
   \ifglshasfield{description}{#1}{%
