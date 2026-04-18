@@ -33,14 +33,23 @@
 \usepackage{tocloft}
 \usepackage{float}
 \usepackage{siunitx}  % added package for SI units (e.g. micrometers)
+
+% add separator between numbers (check if appropriate for your field)
 \sisetup{group-separator = {,}, group-minimum-digits = 4}
+
+\sisetup{       % make siunitx respect surrounding font series commands
+text-series-to-math = true ,
+propagate-math-font = true
+}    
 
 % \usepackage{deluxetable}
 %\usepackage{aastex_hack}
-\usepackage{longtable,ltcaption}  % ltcaption package supports \CaptionLabelFont & \CaptionTextFont introduced by NTG document classes
-\usepackage[caption = false]{subfig}
-\renewcommand\CaptionLabelFont{\normalsize}
-\renewcommand\CaptionTextFont{\normalsize}
+% Caption packages
+\usepackage{xstring}                       % for manipulating strings and substrings
+\usepackage{longtable,ltcaption}
+% \usepackage[caption = false]{subfig}     % conflicts with subcaption, removing -- CG
+\usepackage[compatibility=false]{caption}  % ignore original class, give user control here
+\usepackage{subcaption}
                                      % may want to change this cite style
 % \usepackage{aas}                   % Some abbreviations for AAS references.
 % \citestyle{aa}                     % Astronomy & Astrophysics cite style.
@@ -95,6 +104,8 @@
     pdfborder={0 0 0},
 }
 
+\usepackage{cleveref}  % must be loaded after hyperref
+
 % Finally load glossaries packages (after hyperref)
 \usepackage[acronym,nogroupskip,hyperfirst]{glossaries}
 \usepackage{glossaries-extra}
@@ -120,22 +131,46 @@
 \renewcommand{\bottomfraction}{0.85}     % and various other space requirements for figures.
 \renewcommand{\textfraction}{0.10}       % These 5 lines are not necessary
 \renewcommand{\floatpagefraction}{0.80}  % but I think its better than latex default.
-\renewcommand{\arraystretch}{0.5}
-\setlength{\tabcolsep}{3pt}              % shrink column spacing so your tables can be wider (yay Todd Tables)
-%\setlength{\LTcapwidth}{\textwidth}     % so your rotated, normal-sized longtable titles won't wrap oddly.
-\clubpenalty=1000                        % Make Latex try hard to fix "stray lines" in paragraphs,
-                                         % i.e. paragraph that begin at the last line of a page, or end with
-                                         % the last line on the following page. This looks silly.
-\widowpenalty=1000                                                     
-\raggedbottom
+% \renewcommand{\arraystretch}{0.5}
+\setlength{\tabcolsep}{3pt}         
 
-% Table of Contents (ToC) and caption settings
+% shrink column spacing so your tables can be wider (yay Todd Tables)
+%\setlength{\LTcapwidth}{\textwidth}     % so your rotated, normal-sized longtable titles won't wrap oddly.
+
+% Prevent awkward paragraph page breaks
+% \clubpenalty=1000                        % Make Latex try hard to fix "stray lines" in paragraphs,
+%                                          % i.e. paragraph that begin at the last line of a page, or end with
+%                                          % the last line on the following page. This looks silly.
+% \widowpenalty=1000                                                     
+% \raggedbottom
+
+% Prevent awkward return hyphenations
+\pretolerance=5000
+\tolerance=9000
+\emergencystretch=0pt
+\righthyphenmin=4
+\lefthyphenmin=4
+
+% Caption settings
+% Configure subcaption refs of subpanels 
+\captionsetup{subrefformat=parens}              % for parenthetical \subref style
+\renewcommand{\thesubfigure}{\Alph{subfigure}}  % change subcaption counters to use capital letters
+\renewcommand{\thesubtable}{\Alph{subtable}}
+
+% Specify general caption font size (#1, in pt) and line spacing (#2, in pt)
+\DeclareCaptionFont{smallestcaptfont}{\fontsize{10}{10}\selectfont}
+\captionsetup{font=smallestcaptfont}
+
+% Position captions: tables above, figures below
+\captionsetup[table]{position=top}
+\captionsetup[figure]{position=below}
+
+% Table of Contents (ToC) settings
 \settocname{TABLE OF CONTENTS}           % Default ToC name. You can use "Table of Contents" for example.
 \setlofname{LIST OF FIGURES}             % Change other front and backmatter names and ToC entries
 \setlotname{LIST OF TABLES}              
 \newcommand{\bibtocname}{REFERENCES}    
-\setloaname{LIST OF ABBREVIATIONS}       % 'List of Abbreviations' (LoA). Does nothing
-                                         % if you don't have an "abbreviations.tex" file
+\setloaname{LIST OF ABBREVIATIONS}       % 'List of Abbreviations' (LoA). Does nothing if no "abbreviations.tex" file
 \setfigname{Figure\ }                    % Set the caption labels for figures.
 \settabname{Table\ }                     % Set the caption labels for tables.
 \setcapfont{pnc}                         % Set the caption font for both tables and figures.
