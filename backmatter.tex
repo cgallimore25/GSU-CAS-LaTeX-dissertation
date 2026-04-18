@@ -8,7 +8,10 @@
 % \bibliography{apj-jour,dissref}       % "paper.bib" contains all my references. "apj-jour.bib" contains abbreviations of journals.
 
 % The biblatex bibliography starts here.
-\setlength\bibitemsep{0pt}   % if using biblatex
+% \setlength\bibitemsep{0pt}            % if using biblatex, do this for double-spaced bib
+\singlespacing
+% \setlength\bibitemsep{2\baselineskip}   % do this for single-spaced refs, double between entries
+\setlength\bibitemsep{\baselineskip}   % do this for single-spaced refs, double between entries
 \printbibliography[heading=bibintoc, title=\bibtocname]
 
 \clearpage
