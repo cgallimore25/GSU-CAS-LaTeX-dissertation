@@ -13,7 +13,7 @@
 \listfiles
 \documentclass[12pt,gsu,online,openany,singleside,hidelinks]{gsudiss}
 
-% Original CAS template used the below for 'natbib'
+% Original 2006 CAS template used the below for 'natbib'
 % \usepackage{natbib}  % apacite, betterbibtex (as alternative)
 %% \usepackage{subfigure}                % To format bibliographies.
 %% \usepackage{aastex}
@@ -29,18 +29,28 @@
 \usepackage{makecell}           % provides \thead
 
 \usepackage{csquotes}           % For quotes / block quotes
+\usepackage{dirtree}            % For file structure tree
 
 \usepackage{tocloft}
 \usepackage{float}
-\usepackage{siunitx}  % added package for SI units (e.g. micrometers)
+\usepackage{siunitx}            % added package for SI units (e.g. micrometers)
+
+% add separator between numbers (check if appropriate for your field)
 \sisetup{group-separator = {,}, group-minimum-digits = 4}
+
+\sisetup{       % make siunitx respect surrounding font series commands
+text-series-to-math = true ,
+propagate-math-font = true
+}    
 
 % \usepackage{deluxetable}
 %\usepackage{aastex_hack}
-\usepackage{longtable,ltcaption}  % ltcaption package supports \CaptionLabelFont & \CaptionTextFont introduced by NTG document classes
-\usepackage[caption = false]{subfig}
-\renewcommand\CaptionLabelFont{\normalsize}
-\renewcommand\CaptionTextFont{\normalsize}
+% Caption packages
+\usepackage{xstring}                       % for manipulating strings and substrings
+\usepackage{longtable,ltcaption}
+% \usepackage[caption = false]{subfig}     % conflicts with subcaption, removing -- CG
+\usepackage[compatibility=false]{caption}  % ignore original class, give user control here
+\usepackage{subcaption}
                                      % may want to change this cite style
 % \usepackage{aas}                   % Some abbreviations for AAS references.
 % \citestyle{aa}                     % Astronomy & Astrophysics cite style.
@@ -53,7 +63,6 @@
 \usepackage{amsmath,amsthm,amsfonts,amsopn,amssymb} % Some nice math packages.
 \usepackage{ctable}                  % My preference table package.
 \usepackage[overlay]{textpos}        % Put stuff anywhere, I mean anywhere ...
-\usepackage{pstricks}                % Draw stuff especially on top figures etc...
 \usepackage{afterpage}               % Useful for absolute placement of figures and tables.
 \usepackage{pdflscape}               % for 'landscape' environment
 \usepackage[inline]{enumitem}
@@ -66,8 +75,6 @@
 
 
 \usepackage{fancyvrb}
-\DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
-\DefineVerbatimEnvironment{example}{Verbatim}{fontsize=\small}
 
 
 \usepackage{atbeginend}            % Modify space before and after equations. Original author preferences.
@@ -83,7 +90,8 @@
             style=nature, 
             maxbibnames=99, 
             date=year, 
-            url=false]{biblatex}
+            url=false,
+            isbn=false]{biblatex}
 \addbibresource{bibliography.bib}   % if using biblatex
 
 % `usercommands.tex` contains a command for sentence case article title formatting
@@ -94,6 +102,8 @@
     colorlinks=false,
     pdfborder={0 0 0},
 }
+
+\usepackage{cleveref}  % must be loaded after hyperref
 
 % Finally load glossaries packages (after hyperref)
 \usepackage[acronym,nogroupskip,hyperfirst]{glossaries}
@@ -120,22 +130,51 @@
 \renewcommand{\bottomfraction}{0.85}     % and various other space requirements for figures.
 \renewcommand{\textfraction}{0.10}       % These 5 lines are not necessary
 \renewcommand{\floatpagefraction}{0.80}  % but I think its better than latex default.
-\renewcommand{\arraystretch}{0.5}
-\setlength{\tabcolsep}{3pt}              % shrink column spacing so your tables can be wider (yay Todd Tables)
-%\setlength{\LTcapwidth}{\textwidth}     % so your rotated, normal-sized longtable titles won't wrap oddly.
-\clubpenalty=1000                        % Make Latex try hard to fix "stray lines" in paragraphs,
-                                         % i.e. paragraph that begin at the last line of a page, or end with
-                                         % the last line on the following page. This looks silly.
-\widowpenalty=1000                                                     
-\raggedbottom
+% \renewcommand{\arraystretch}{0.5}
+\setlength{\tabcolsep}{3pt}         
 
-% Table of Contents (ToC) and caption settings
+% shrink column spacing so your tables can be wider (yay Todd Tables)
+%\setlength{\LTcapwidth}{\textwidth}     % so your rotated, normal-sized longtable titles won't wrap oddly.
+
+% Prevent awkward paragraph page breaks
+% \clubpenalty=1000                        % Make Latex try hard to fix "stray lines" in paragraphs,
+%                                          % i.e. paragraph that begin at the last line of a page, or end with
+%                                          % the last line on the following page. This looks silly.
+% \widowpenalty=1000                                                     
+% \raggedbottom
+
+% Prevent awkward return hyphenations
+\pretolerance=5000
+\tolerance=9000
+\emergencystretch=0pt
+\righthyphenmin=4
+\lefthyphenmin=4
+
+% Caption settings
+% Configure subcaption refs of subpanels 
+\captionsetup{subrefformat=parens}              % for parenthetical \subref style
+\renewcommand{\thesubfigure}{\Alph{subfigure}}  % change subcaption counters to use capital letters
+\renewcommand{\thesubtable}{\Alph{subtable}}
+
+% Specify general caption font size (#1, in pt) and line spacing (#2, in pt)
+\DeclareCaptionFont{smallestcaptfont}{\fontsize{10}{10}\selectfont}
+\captionsetup{font=smallestcaptfont}
+
+% Position captions: tables above, figures below
+\captionsetup[table]{position=top}
+\captionsetup[figure]{position=below}
+
+% Make verbatim environments use single spacing (e.g. for code listings)
+\makeatletter
+\def\verbatim@font{\linespread{1}\normalfont\ttfamily}
+\makeatother
+
+% Table of Contents (ToC) settings
 \settocname{TABLE OF CONTENTS}           % Default ToC name. You can use "Table of Contents" for example.
 \setlofname{LIST OF FIGURES}             % Change other front and backmatter names and ToC entries
 \setlotname{LIST OF TABLES}              
 \newcommand{\bibtocname}{REFERENCES}    
-\setloaname{LIST OF ABBREVIATIONS}       % 'List of Abbreviations' (LoA). Does nothing
-                                         % if you don't have an "abbreviations.tex" file
+\setloaname{LIST OF ABBREVIATIONS}       % 'List of Abbreviations' (LoA). Does nothing if no "abbreviations.tex" file
 \setfigname{Figure\ }                    % Set the caption labels for figures.
 \settabname{Table\ }                     % Set the caption labels for tables.
 \setcapfont{pnc}                         % Set the caption font for both tables and figures.
@@ -183,8 +222,8 @@
 
 % Your specific information
 \author(First and Last Name)              % Name required.
-\title(Your Title in Title Caps)          % Title of dissertation Required.
-\titlesize(11)(11)                        % This is for changing the default font size for your title. 
+\title(Your Title in Title Caps)          % Title of dissertation Required, must be in Title Case
+\titlesize(12)(12)                        % This is for changing the default font size for your title. 
                                           % The first argument is the font size, the second is the line spacing for long titles that wrap to more than one line.
                                           % Default is equivalent to the \LARGE command, which is roughly (22)(22).
 
@@ -199,7 +238,7 @@
           (Committee Member)
           (Committee Member)
 
-\department(Department of Physics and Astronomy) % Your Department name. Other departments you can use include 
+\department(Department of Neuroscience) % Your Department name. Other departments you can use include 
                                                  % \department(School of Arts \& Design) or \department(School of Music), etc...
 
 \departmenttitle(Chair)            % For Arts and Music school students use \departmenttitle{Director}
@@ -221,6 +260,9 @@
 \subfile{./Chapters/ch_01/Chapter_01}  % Use subfile instead of include
 \clearpage                             % ensure pagebreak between chapters
 \subfile{./Chapters/ch_02/Chapter_02}
+\clearpage
+
+\subfile{./Chapters/ch_03/Chapter_03}
 \clearpage
 
 \include{backmatter}               % See the backmatter.tex file
