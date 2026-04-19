@@ -374,17 +374,33 @@
   {\renewcommand{\tablename}{Table}}
   {\renewcommand{\tablename}{#1}}}
 
-% Different font in captions
+% Ignores font family changes when submission is online, forcing \normalfont
 \newcommand{\setcapfont}[1]{%
   \ifthenelse{\equal{\onlinesubmission}{yes}}
   {\newcommand{\captionfonts}{\normalfont}}
   {\newcommand{\captionfonts}{\fontfamily{#1}\selectfont}}}
 
+% New command for setting caption font size, works regardless of submission mode w/ any size cmd
+\newcommand{\setcapsize}[1]{%
+  \ifthenelse{\equal{\onlinesubmission}{yes}}
+  {\newcommand{\captionsize}{#1}}
+  {\newcommand{\captionsize}{#1}}}
+
+% Combined command to set both font size and family simultaneously
+\newcommand{\setcapfonts}[2]{%
+  \ifthenelse{\equal{\onlinesubmission}{yes}}
+  {\renewcommand{\captionfonts}{#1#2}}
+  {\renewcommand{\captionfonts}{\fontfamily{#2}\selectfont#1}}}
+
+% Default caption size (set to normalsize initially)
+\newcommand{\captionsize}{\normalsize}
+
+% Add caption size control to the caption-generating command
 \long\def\@makecaption#1#2{%
   \vskip\abovecaptionskip
-  \sbox\@tempboxa{{\captionfonts #1: #2}}%
+  \sbox\@tempboxa{{\captionsize\captionfonts #1: #2}}%
   \ifdim \wd\@tempboxa >\hsize
-    {\captionfonts #1: #2\par}
+    {\captionsize\captionfonts #1: #2\par}
   \else
     \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
   \fi
