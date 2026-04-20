@@ -3,9 +3,58 @@
 
 \section{The First Section of the First Chapter}
 	
-    You should probably introduce some stuff here
+    You should probably introduce some stuff here.
     
-    Checkout the \verb|gsudiss.cls| file first when you want to change things in how the document is laid out (also, the `Copyright by Your Name' bit is hard-coded there, so you'll have to change that).
+    % Checkout the \verb|gsudiss.cls| file first when you want to change things in how the document is laid out (also, the `Copyright by Your Name' bit is hard-coded there, so you'll have to change that).
+
+\section{Template structure}
+
+    This template is a multi-file project, structured in a hierarchical way that allows you to develop and version control different sections of your document in isolation while still being able to compile the whole thing together. 
+    The overall typesetting layout of this document (e.g. Frontmatter and main Chapter pages) is defined by \verb|gsudiss.cls| in the Styles directory.
+    The main file (\verb|main.tex|) initializes packages and environments, specifies parameters for citations, linking, and naming conventions, and acts as the master document that includes front, main, and backmatter sections. 
+    As written, each chapter is itself a parent file that is included in \verb|main.tex| via the \verb|subfiles| package, and which includes individual sections as separate files, all of which can be compiled as standalone files to reduce time.
+
+    This structure can be visualized as:
+    \\
+
+    \hspace*{2em} % Adjust this value for the desired indentation
+    \begin{minipage}{\dimexpr\textwidth-2em} % Ensure width fits page after indent
+    \dirtree{%
+        .1 root/.
+        .2 main.tex.
+        .2 Chapters/.
+        .3 ch\_01/.
+        .4 ch01-section.tex.
+        .4 Chapter\_01.tex.
+        .3 ch\_xx/.
+        .2 Plots/.
+        .2 Tables/.
+    }
+    \end{minipage}
+    \\
+
+    Given dissertation chapter sections (e.g. Methods, Results) can be quite long, this separation can be beneficial for troubleshooting when errors occur and reduce compilation time when working on targeted sections. 
+    Though you could just as easily put all of the content for a chapter in one file.
+
+
+\section{Document interactions}
+
+    Multi-file projects are good for version control and isolated work, but involve navigating back forth between different documents.
+    In VS Code, the editor this template was primarily developed with, you can drag the tab of the open PDF off to side of your window to separate the pane for document viewing alongside its open source tab. 
+    It's useful to know how to quickly jump from PDF to its generating \verb|.tex| source code (Reverse SyncTeX), and from source code to its location in the PDF (Forward SyncTeX).   
+
+    \subsection{Reverse SyncTeX}
+
+    \verb|Ctrl + Double-click| on the PDF will snap to the approximate position in the source code file.
+
+    \subsection{Forward SyncTeX}
+
+    \verb|Ctrl+Alt+J| from your cursor position in the source code will snap to its corresponding location rendered in the PDF.
+    
+    
+     
+
+
 
 
 \end{document}
