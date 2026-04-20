@@ -1,14 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        Originally written:
 %        gsudiss.sty (July 2006)----Varendra Das, GSU
 %        das@chara.gsu.edu
 %        This style file should be used for the on-line submission of
 %        your dissertation.
+%        Updated: 
+%        gsudiss.cls (April 2026)----Connor Gallimore, GSU
+%        cggallimore@gmail.com
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This Dissertation style file was developed for the College Arts &
 % Sciences department, Georgia State University, by Varendra Das, for
 % graduation during the Summer, 2006. This file is made up of various
 % macros and packages to make the outline and formatting of your
-% dissertation easier. It is by no means \applicable to the entire
+% dissertation easier. It is by no means applicable to the entire
 % Georgia State System. Those of you who want to use latex to prepare
 % your dissertation, and who are not from the College of Arts &
 % Sciences, however, can use this style file as a guide to make their
@@ -32,7 +36,8 @@
 \ProvidesClass{gsudiss}[2006/07/01]
 \typeout{}
 \typeout{++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++}
-\typeout{Dissertation class file (gsudiss.cls) version 1.00, July 2006}
+% \typeout{Dissertation class file (gsudiss.cls) version 1.00, July 2006}
+\typeout{Dissertation class file (gsudiss.cls) version 2.00, April 2026}
 \typeout{for Georgia State University Ph.D. dissertations.}
 \typeout{This class file was developed to conform to the requirements}
 \typeout{of the Graduate Office for the College of Arts and Sciences}
@@ -43,8 +48,8 @@
 \typeout{will not accept any responsibility for failed requirements}
 \typeout{due to the usage of this class file.}
 \typeout{++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++}
-\typeout{URL: http://www.chara.gsu.edu/(tilde)das/gsudiss.cls}
-\typeout{email: das@chara.gsu.edu}
+\typeout{URL: https://github.com/cgallimore25/GSU-CAS-LaTeX-dissertation
+\typeout{email: cggallimore@gmail.com}
 \typeout{}
 
 \RequirePackage{calc}
