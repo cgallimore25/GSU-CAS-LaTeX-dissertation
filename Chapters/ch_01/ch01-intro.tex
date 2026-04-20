@@ -10,7 +10,7 @@
 \section{Template structure}
 
     This template is a multi-file project, structured in a hierarchical way that allows you to develop and version control different sections of your document in isolation while still being able to compile the whole thing together. 
-    The overall typesetting layout of this document (e.g. Frontmatter and main Chapter pages) is defined by \verb|gsudiss.cls|.
+    The overall typesetting layout of this document (e.g. Frontmatter and main Chapter pages) is defined by \verb|gsudiss.cls| in the Styles directory.
     The main file (\verb|main.tex|) initializes packages and environments, specifies parameters for citations, linking, and naming conventions, and acts as the master document that includes frontmatter, chapters, and backmatter sections. 
     As written, each chapter is itself a parent file that is included in \verb|main.tex| via the \verb|subfiles| package, and which includes individual sections as separate files, all of which can be compiled standalone for easier focus and troubleshooting.
 
