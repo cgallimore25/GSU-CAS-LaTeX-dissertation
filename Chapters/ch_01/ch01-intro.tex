@@ -11,8 +11,8 @@
 
     This template is a multi-file project, structured in a hierarchical way that allows you to develop and version control different sections of your document in isolation while still being able to compile the whole thing together. 
     The overall typesetting layout of this document (e.g. Frontmatter and main Chapter pages) is defined by \verb|gsudiss.cls| in the Styles directory.
-    The main file (\verb|main.tex|) initializes packages and environments, specifies parameters for citations, linking, and naming conventions, and acts as the master document that includes frontmatter, chapters, and backmatter sections. 
-    As written, each chapter is itself a parent file that is included in \verb|main.tex| via the \verb|subfiles| package, and which includes individual sections as separate files, all of which can be compiled standalone for easier focus and troubleshooting.
+    The main file (\verb|main.tex|) initializes packages and environments, specifies parameters for citations, linking, and naming conventions, and acts as the master document that includes front, main, and backmatter sections. 
+    As written, each chapter is itself a parent file that is included in \verb|main.tex| via the \verb|subfiles| package, and which includes individual sections as separate files, all of which can be compiled as standalone files to reduce time.
 
     This structure can be visualized as:
     \\
@@ -31,6 +31,7 @@
         .2 Tables/.
     }
     \end{minipage}
+    \\
 
     Given PhD sections (e.g. Methods, Results) can be quite long, this separation can be beneficial for troubleshooting when errors occur and reduce compilation time when working on targeted sections. 
     Though you could just as easily put all of the content for a chapter in one file.
