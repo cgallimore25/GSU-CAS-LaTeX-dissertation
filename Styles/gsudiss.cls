@@ -48,7 +48,7 @@
 \typeout{will not accept any responsibility for failed requirements}
 \typeout{due to the usage of this class file.}
 \typeout{++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++}
-\typeout{URL: https://github.com/cgallimore25/GSU-CAS-LaTeX-dissertation
+\typeout{URL: https://github.com/cgallimore25/GSU-CAS-LaTeX-dissertation}
 \typeout{email: cggallimore@gmail.com}
 \typeout{}
 
