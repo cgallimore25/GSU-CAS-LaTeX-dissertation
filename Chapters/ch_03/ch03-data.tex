@@ -1,0 +1,99 @@
+\documentclass[../../main.tex]{subfiles}  % Two levels up to main.tex
+\graphicspath{{\subfix{../Plots/}}}
+
+\begin{document}
+
+\section{Visualizing data}
+
+	\subsection{Tables}
+
+	Below is an example table that demonstrates control of column width and alignment, missing value handling, font size and weight, row spacing, and the usage of horizontal rules. 
+	Table captions are placed above figures in CAS dissertations. 
+	The lines of source code below are aliased inside of the \texttt{.vscode} directory in the \texttt{diss-latex.code-snippets} file, allowing you to type the prefix---e.g. \verb|qrh| (``quantity range hyphenated'') for \verb|qtyrange|---and tab its completion, followed by tabbing your cursor through the three inputs.
+	\\
+
+	\SaveVerb[fontsize=\normalsize]{nrverb}|\numrange[range-phrase = --]{10}{20}|
+	\SaveVerb[fontsize=\normalsize]{msverb}|\qtyrange[range-units=single,range-phrase=-]{100}{200}{\ms}|
+	\SaveVerb[fontsize=\normalsize]{hertzverb}|\qtyrange[range-units=single,range-phrase=-]{2}{101}{\hertz}|
+	\SaveVerb[fontsize=\normalsize]{hzverb}|\qtyrange[range-units=single,range-phrase=-]{2}{101}{\Hz}|
+	\SaveVerb[fontsize=\normalsize]{umverb}|\qtyrange[range-units=single,range-phrase=-]{50}{100}{\um}|
+	\SaveVerb[fontsize=\normalsize]{smexpverb}|\qtyrange[range-units=single,range-phrase=-]{0.1}{0.2}{\mol\per\L}|
+	\SaveVerb[fontsize=\normalsize]{smfrcverb}|\qtyrange[range-units=single,range-phrase=-]{0.1}{0.2}{\mol/\L}|
+	
+
+	\renewcommand\arraystretch{1.5}
+	\begin{table}[h]
+		\centering
+		\caption{Unit table showing various hyphenated ranges. Shown here are a unitless range, a pre-configured shorthand command for milliseconds, proper display of units involving greek letters, two different commands for the same unit, and lastly two different notations for conveying ratios.}
+		\label{tab:unit_table}
+		\footnotesize
+		\begin{tabular}{>{\centering\arraybackslash}p{2.75cm}>{\centering\arraybackslash}p{2.75cm}p{10cm}c}
+			\toprule
+			\textbf{Display} & \textbf{Unit} & \textbf{Source Code} \\
+			\midrule
+			\numrange[range-phrase = --]{10}{20}
+			& \textbf{---}
+			& {\scriptsize\UseVerb{nrverb}} \\
+			\qtyrange[range-units=single,range-phrase=-]{100}{200}{\ms}
+			& milliseconds
+			& {\scriptsize\UseVerb{msverb}} \\
+			\qtyrange[range-units=single,range-phrase=-]{50}{100}{\um}
+			& micrometers
+			& {\scriptsize\UseVerb{umverb}} \\
+			\qtyrange[range-units=single,range-phrase=-]{2}{101}{\hertz}
+			& hertz
+			& {\scriptsize\UseVerb{hertzverb}} \\
+			\qtyrange[range-units=single,range-phrase=-]{2}{101}{\Hz}
+			& hertz
+			& {\scriptsize\UseVerb{hzverb}} \\
+			\qtyrange[range-units=single,range-phrase=-]{0.1}{0.2}{\mol\per\L}
+			& mol per L
+			& {\scriptsize\UseVerb{smexpverb}} \\
+			\qtyrange[range-units=single,range-phrase=-]{0.1}{0.2}{\mol/\L}
+			& mol per L
+			& {\scriptsize\UseVerb{smfrcverb}} \\
+
+			\bottomrule
+		\end{tabular}
+	\end{table}
+
+	\Cref{tab:landscape} below shows an example of a table positioned on its own page in landscape orientation.
+	
+	\input{./Tables/Sample_Table.tex}
+	
+
+	\subsection{Equations}
+
+	Below is an example mathematical equation that incorporates more units and abbreviations, as well as a demonstration of typesetting inline math.
+
+	\Acrfull{csd}, $\Phi$, was calculated by a numerical approximation of the second spatial derivative of voltage, expressed as:
+
+	\begin{equation}\label{eq:csd}
+		\Phi_{t, c} = -\frac{\phi_{t, c+1} - 2\phi_{t, c} + \phi_{t, c-1}}{\Delta c^2 \times g}
+	\end{equation}
+
+	where $\phi_{t, c}$ represents recorded voltages at time-point $t$ and channel $c$ on the linear electrode array, such that constant $\Delta c$ is the spacing between adjacent contacts. 
+	The constant $g$ in \Cref{eq:csd} represents the conductivity of the extracellular medium, defined for these analyses as \SI[per-mode=fraction]{0.3}{\siemens/\m}, consistent with putative bounds of extracellular impedance measurements (\qtyrange[range-units=single,range-phrase=-]{\sim 0.3}{0.6}{\siemens\per\m}) for frequencies below \SI{10}{\kHz}. 
+	
+	Notice how \verb|\siemens\per\m|---much like the examples in the above table---can be displayed as a fraction or exponential notation. 
+	Also note that the above equation can be shortened when you reference it with its lowercase \verb|\cref{eq:csd}| commmand, which appears as \cref{eq:csd}. 
+	
+
+	\subsection{Figures}
+
+	\begin{figure*}[hb] % place approximately here 'h', OR at the bottom 'b' of the page (adding 'b' relaxes the demand)
+		\centering
+		\includegraphics[height =4in]{./Plots/nature.jpg} 
+		\caption{An individual figure!}
+	\end{figure*}
+			
+	% \begin{figure}[H] % place float exactly here 'H'
+	% 	\subfloat[\label{fig:HD8538_ellplot}]{\includegraphics[height =2.5in]{./Plots/nature.jpg}} 
+	% 	\subfloat[\label{fig:HD8538_phot}]{\includegraphics[height =2.5in]{./Plots/rocks.jpg}} \\
+	% 	\subfloat[\label{fig:HD8538_vis}]{\includegraphics[height =2.5in]{./Plots/rocks.jpg}}
+	% 	\subfloat[\label{fig:HD8538_HRD}]{\includegraphics[height =2.5in]{./Plots/nature.jpg}}
+	% 	\caption{Multiple figures!}
+	% \end{figure}
+
+
+\end{document}
