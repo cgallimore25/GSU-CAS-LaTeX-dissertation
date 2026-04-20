@@ -167,6 +167,11 @@ propagate-math-font = true
 \captionsetup[table]{position=top}
 \captionsetup[figure]{position=below}
 
+% Make verbatim environments use single spacing (e.g. for code listings)
+\makeatletter
+\def\verbatim@font{\linespread{1}\normalfont\ttfamily}
+\makeatother
+
 % Table of Contents (ToC) settings
 \settocname{TABLE OF CONTENTS}           % Default ToC name. You can use "Table of Contents" for example.
 \setlofname{LIST OF FIGURES}             % Change other front and backmatter names and ToC entries
