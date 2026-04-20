@@ -13,7 +13,7 @@
 \listfiles
 \documentclass[12pt,gsu,online,openany,singleside,hidelinks]{gsudiss}
 
-% Original CAS template used the below for 'natbib'
+% Original 2006 CAS template used the below for 'natbib'
 % \usepackage{natbib}  % apacite, betterbibtex (as alternative)
 %% \usepackage{subfigure}                % To format bibliographies.
 %% \usepackage{aastex}
@@ -29,10 +29,11 @@
 \usepackage{makecell}           % provides \thead
 
 \usepackage{csquotes}           % For quotes / block quotes
+\usepackage{dirtree}            % For file structure tree
 
 \usepackage{tocloft}
 \usepackage{float}
-\usepackage{siunitx}  % added package for SI units (e.g. micrometers)
+\usepackage{siunitx}            % added package for SI units (e.g. micrometers)
 
 % add separator between numbers (check if appropriate for your field)
 \sisetup{group-separator = {,}, group-minimum-digits = 4}
@@ -92,7 +93,8 @@ propagate-math-font = true
             style=nature, 
             maxbibnames=99, 
             date=year, 
-            url=false]{biblatex}
+            url=false,
+            isbn=false]{biblatex}
 \addbibresource{bibliography.bib}   % if using biblatex
 
 % `usercommands.tex` contains a command for sentence case article title formatting
@@ -219,7 +221,7 @@ propagate-math-font = true
 % Your specific information
 \author(First and Last Name)              % Name required.
 \title(Your Title in Title Caps)          % Title of dissertation Required, must be in Title Case
-\titlesize(11)(11)                        % This is for changing the default font size for your title. 
+\titlesize(12)(12)                        % This is for changing the default font size for your title. 
                                           % The first argument is the font size, the second is the line spacing for long titles that wrap to more than one line.
                                           % Default is equivalent to the \LARGE command, which is roughly (22)(22).
 
@@ -234,7 +236,7 @@ propagate-math-font = true
           (Committee Member)
           (Committee Member)
 
-\department(Department of Physics and Astronomy) % Your Department name. Other departments you can use include 
+\department(Department of Neuroscience) % Your Department name. Other departments you can use include 
                                                  % \department(School of Arts \& Design) or \department(School of Music), etc...
 
 \departmenttitle(Chair)            % For Arts and Music school students use \departmenttitle{Director}
@@ -258,6 +260,9 @@ propagate-math-font = true
 \subfile{./Chapters/ch_01/Chapter_01}  % Use subfile instead of include
 \clearpage                             % ensure pagebreak between chapters
 \subfile{./Chapters/ch_02/Chapter_02}
+\clearpage
+
+\subfile{./Chapters/ch_03/Chapter_03}
 \clearpage
 
 \include{backmatter}               % See the backmatter.tex file
