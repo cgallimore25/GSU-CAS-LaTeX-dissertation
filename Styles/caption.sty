@@ -6,7 +6,9 @@
 %%
 %% caption.dtx  (with options: `package')
 %% 
-%% Copyright (C) 1994-2012 Axel Sommerfeldt (axel.sommerfeldt@f-m.fm)
+%% Copyright (C) 1994-2023 Axel Sommerfeldt (axel.sommerfeldt@f-m.fm)
+%% 
+%% https://gitlab.com/axelsommerfeldt/caption
 %% 
 %% --------------------------------------------------------------------------
 %% 
@@ -22,21 +24,35 @@
 %% 
 %% This Current Maintainer of this work is Axel Sommerfeldt.
 %% 
-%% This work consists of the files caption.ins, caption.dtx, caption2.dtx,
-%% caption3.dtx, bicaption.dtx, ltcaption.dtx, subcaption.dtx, and newfloat.dtx,
-%% the derived files caption.sty, caption2.sty, caption3.sty,
-%% bicaption.sty, ltcaption.sty, subcaption.sty, and newfloat.sty,
-%% and the user manuals caption-deu.tex, caption-eng.tex, and caption-rus.tex.
+%% This work consists of the files
+%%   caption.ins, caption.dtx, caption-light.dtx, caption2.dtx, caption3.dtx,
+%%   caption-ams-smf.dtx, caption-beamer.dtx, caption-elsarticle.dtx,
+%%   caption-koma.dtx, caption-memoir.dtx, caption-ntg.dtx,
+%%   caption-thesis.dtx, bicaption.dtx, ltcaption.dtx, subcaption.dtx,
+%% the derived files
+%%   caption.sty, caption-light.sty, caption2.sty, caption3.sty,
+%%   caption-ams-smf.sto, caption-beamer.sto, caption-elsarticle.sto,
+%%   caption-koma.sto, caption-memoir.sto, caption-ntg.sto,
+%%   caption-thesis.sto, bicaption.sty, ltcaption.sty, subcaption.sty.
 %% 
 \NeedsTeXFormat{LaTeX2e}[1994/12/01]
-\ProvidesPackage{caption}[2012/02/19 v3.2f Customizing captions (AR)]
-\RequirePackage{caption3}[2011/08/30] % needs v1.4 or newer
-\caption@ifbool{documentclass}{}{%
-  \caption@WarningNoLine{%
-    Unsupported document class (or package) detected,\MessageBreak
-    usage of the caption package is not recommended}%
-  \caption@InfoNoLine{\string\@makecaption\space=\space\meaning\@makecaption}%
-}
+\providecommand\DeclareRelease[3]{}
+\providecommand\DeclareCurrentRelease[2]{}
+\DeclareRelease{v1}{1994-10-27}{caption_1995-04-05.sty}
+\DeclareRelease{v3.0}{2003-12-20}{caption_2007-04-16.sty}
+\DeclareRelease{v3.1}{2007-09-01}{caption_2010-01-09.sty}
+\DeclareRelease{v3.2}{2011-08-06}{caption_2011-11-10.sty}
+\DeclareRelease{v3.3}{2013-01-10}{caption_2019-09-01.sty}
+\DeclareRelease{v3.4}{2019-11-24}{caption_2020-07-29.sty}
+\DeclareRelease{v3.5}{2020-08-30}{caption_2020-10-26.sty}
+\DeclareCurrentRelease{v3.6}{2022-02-20}
+\ProvidesPackage{caption}[2023/08/05 v3.6o Customizing captions (AR)]
+\RequirePackage{caption3}[2023/07/31] % needs v2.4d or newer
+\caption@ifdocumentclass{unknown}%
+  {\caption@WarningNoLine{%
+     Unknown document class (or package),\MessageBreak
+     standard defaults will be used}}%
+  {}
 \@ifpackageloaded{caption2}{%
   \caption@Error{%
     You can't use both, the (obsolete) caption2 *and*\MessageBreak
@@ -44,121 +60,90 @@
   \endinput
 }{}
 \caption@AtBeginDocument{%
-  \@ifpackageloaded{ftcap}{\caption@DisablePositionOption{ftcap}}{}%
-  \@ifpackageloaded{nonfloat}{\caption@DisablePositionOption{nonfloat}}{}%
-  \@ifpackageloaded{topcapt}{\caption@DisablePositionOption{topcapt}}{}}
-\newcommand*\caption@DisablePositionOption[1]{%
-  \caption@InfoNoLine{%
-    `#1' package detected; setting `position=b' for compatibility reasons}%
-  \caption@setposition b%
-  \DeclareCaptionOption{position}{%
-    \caption@Error{Usage of the `position' option is incompatible\MessageBreak
-      to the `#1' package}}}
-\@onlypreamble\caption@DisablePositionOption
-\DeclareCaptionOption{figureposition}{%
-  \captionsetup*[figure]{position=#1}}
-\@onlypreamble@key{caption}{figureposition}
-\DeclareCaptionOption{tableposition}{%
-  \captionsetup*[table]{position=#1}}
-\@onlypreamble@key{caption}{tableposition}
-\DeclareCaptionOption{figurename}{\caption@SetName{figure}{#1}}
-\@onlypreamble@key{caption}{figurename}
-\DeclareCaptionOption{tablename}{\caption@SetName{table}{#1}}
-\@onlypreamble@key{caption}{tablename}
-\DeclareCaptionOption{name}{\caption@setname\@captype{#1}}
-\DeclareCaptionOption{listfigurename}{\caption@SetName{listfigure}{#1}}
-\@onlypreamble@key{caption}{listfigurename}
-\DeclareCaptionOption{listtablename}{\caption@SetName{listtable}{#1}}
-\@onlypreamble@key{caption}{listtablename}
-\newcommand*\caption@SetName[2]{%
-  \caption@NewFloat{\newfloat@setname{#1}{#2}}}
-\@onlypreamble\caption@SetName
-\newcommand*\caption@setname[2]{%
-  \@namedef{#1name}{#2}}
-\newcommand*\caption@DeclareWithinOption[1]{%
-  \DeclareCaptionOption{#1within}{\caption@Within{#1}{##1}}%
-  \DeclareCaptionOptionNoValue{#1without}{\caption@Within{#1}{none}}}
-\@onlypreamble\caption@DeclareWithinOption
-\caption@DeclareWithinOption{figure}
-\caption@DeclareWithinOption{table}
-\DeclareCaptionOption{within}{%
-  \caption@NewFloat{\newfloatsetup{within=#1}}}
-\DeclareCaptionOptionNoValue{without}{%
-  \caption@NewFloat{\newfloatsetup{without}}}
-\newcommand*\caption@Within[2]{%
-  \caption@NewFloat{\newfloat@setwithin{#1}{#2}}}
-\newcommand*\caption@NewFloat[1]{%
-  \let\KV@prefix@ORI\KV@prefix
-  \let\@tempc@ORI\@tempc
-  \caption@ifpackageloaded{newfloat}{#1}{}%
-  \let\@tempc\@tempc@ORI
-  \let\KV@prefix\KV@prefix@ORI}
+  \caption@setincompatible{\@ifpackageloaded{captcont}}{captcont package}%
+  \caption@setincompatible{\@ifpackageloaded{ftcap}}{ftcap package}%
+  \caption@setincompatible{\@ifpackageloaded{nonfloat}}{nonfloat package}%
+  \caption@setincompatible{\@ifpackageloaded{topcapt}}{topcapt package}}
+\newcommand*\caption@setincompatible[2]{%
+  #1{%
+    \caption@Error{%
+      The #2 is incompatible to the\MessageBreak
+      current version of the `caption' package,\MessageBreak
+      so try \string\usepackage{caption}[=v1] instead}%
+  }{}}
+\@onlypreamble\caption@setincompatible
+\DeclareCaptionPosition{auto}{#2}{%
+  \caption@ifsubcaption@above{#2}{%
+    \ifvmode
+      \caption@autoposition{#1}{#2}%
+    \else
+      #2%
+    \fi}}
 \DeclareCaptionOption*{config}[caption]{%
    \InputIfFileExists{#1.cfg}%
      {\typeout{*** Local configuration file #1.cfg used ***}}%
      {\caption@Warning{Configuration file #1.cfg not found}}}
-\newcommand*\caption@setparboxrestore[1]{%
-  \caption@ifinlist{#1}{full}{%
-    \caption@setfullparboxrestore
-  }{\caption@ifinlist{#1}{default,light,partial}{%
-    \let\caption@parboxrestore\@secondoftwo
+\newcommand*\caption@selectlistentry[1]{%
+  \caption@ifinlist{#1}{heading}{%
+    \let\caption@iflistheading\@firstoftwo
+  }{\caption@ifinlist{#1}{default,list-entry,entry}{%
+    \let\caption@iflistheading\@secondoftwo
   }{%
-    \caption@Error{Undefined parboxrestore `#1'}%
+    \caption@Error{Undefined list-entry selection `#1'}%
   }}}
-\newcommand*\caption@setfullparboxrestore{%
-  \let\caption@parboxrestore\@firstoftwo}
-\DeclareCaptionOption{parboxrestore}{\caption@setparboxrestore{#1}}
-\captionsetup{parboxrestore=default}
+\DeclareCaptionOption{list-entry}{\caption@selectlistentry{#1}}
+\captionsetup{list-entry=default}
 \DeclareCaptionOption{@minipage}{%
   \caption@ifinlist{#1}{auto,default}%
     {\let\caption@if@minipage\@gobbletwo}%
     {\caption@set@bool\caption@if@minipage{#1}}}
 \captionsetup{@minipage=default}
-\DeclareCaptionOption{compatibility}[1]{\caption@setbool{compatibility}{#1}}
+\DeclareCaptionOption{compatibility}[1]{%
+  \caption@ifinlist{#1}{1,true,yes,on}{%
+    \caption@Error{%
+      Obsolete compatibility value `#1',\MessageBreak
+      please use either \string\usepackage{caption}[=v1]\MessageBreak
+      or \string\usepackage{caption-light} instead}%
+  }{\caption@ifinlist{#1}{0,false,no,off}{%
+      \let\caption@ifcompatibility\@secondoftwo % not used; for backward compatibility only
+  }{%
+    \caption@Error{Undefined compatibility value `#1'}%
+  }}}
 \@onlypreamble@key{caption}{compatibility}
+\caption@setbool{compatibility}{0} % default: Try not to be compatible to v1.x
 \DeclareCaptionOptionNoValue*{normal}{%
-  \caption@setformat{plain}%
-  \caption@setjustification{justified}}
+  \caption@setup{format=plain,justification=justified}}
 \DeclareCaptionOptionNoValue*{isu}{%
-  \caption@setformat{hang}%
-  \caption@setjustification{justified}}
+  \caption@setup{format=hang,justification=justified}}
 \DeclareCaptionOptionNoValue*{hang}{%
-  \caption@setformat{hang}%
-  \caption@setjustification{justified}}
+  \caption@setup{format=hang,justification=justified}}
 \DeclareCaptionOptionNoValue*{center}{%
-  \caption@setformat{plain}%
-  \caption@setjustification{centering}}
-\DeclareCaptionOptionNoValue*{anne}{%
-  \caption@setformat{plain}%
-  \caption@setjustification{centerlast}}
+  \caption@setup{format=plain,justification=centering}}
 \DeclareCaptionOptionNoValue*{centerlast}{%
-  \caption@setformat{plain}%
-  \caption@setjustification{centerlast}}
+  \caption@setup{format=plain,justification=centerlast}}
 \DeclareCaptionOptionNoValue*{scriptsize}{\def\captionfont{\scriptsize}}
 \DeclareCaptionOptionNoValue*{footnotesize}{\def\captionfont{\footnotesize}}
 \DeclareCaptionOptionNoValue*{small}{\def\captionfont{\small}}
 \DeclareCaptionOptionNoValue*{normalsize}{\def\captionfont{\normalsize}}
 \DeclareCaptionOptionNoValue*{large}{\def\captionfont{\large}}
 \DeclareCaptionOptionNoValue*{Large}{\def\captionfont{\Large}}
-\DeclareCaptionOptionNoValue*{up}{\l@addto@macro\captionlabelfont\upshape}
-\DeclareCaptionOptionNoValue*{it}{\l@addto@macro\captionlabelfont\itshape}
-\DeclareCaptionOptionNoValue*{sl}{\l@addto@macro\captionlabelfont\slshape}
-\DeclareCaptionOptionNoValue*{sc}{\l@addto@macro\captionlabelfont\scshape}
-\DeclareCaptionOptionNoValue*{md}{\l@addto@macro\captionlabelfont\mdseries}
-\DeclareCaptionOptionNoValue*{bf}{\l@addto@macro\captionlabelfont\bfseries}
-\DeclareCaptionOptionNoValue*{rm}{\l@addto@macro\captionlabelfont\rmfamily}
-\DeclareCaptionOptionNoValue*{sf}{\l@addto@macro\captionlabelfont\sffamily}
-\DeclareCaptionOptionNoValue*{tt}{\l@addto@macro\captionlabelfont\ttfamily}
-\DeclareCaptionOptionNoValue*{nooneline}{\caption@setbool{slc}{0}}
+\DeclareCaptionOptionNoValue*{up}{\caption@setup{labelfont+=up}}
+\DeclareCaptionOptionNoValue*{it}{\caption@setup{labelfont+=it}}
+\DeclareCaptionOptionNoValue*{sl}{\caption@setup{labelfont+=sl}}
+\DeclareCaptionOptionNoValue*{sc}{\caption@setup{labelfont+=sc}}
+\DeclareCaptionOptionNoValue*{md}{\caption@setup{labelfont+=md}}
+\DeclareCaptionOptionNoValue*{bf}{\caption@setup{labelfont+=bf}}
+\DeclareCaptionOptionNoValue*{rm}{\caption@setup{labelfont+=rm}}
+\DeclareCaptionOptionNoValue*{sf}{\caption@setup{labelfont+=sf}}
+\DeclareCaptionOptionNoValue*{tt}{\caption@setup{labelfont+=tt}}
+\DeclareCaptionOptionNoValue*{nooneline}{\caption@setup{slc=0}}
 \caption@setbool{ruled}{0}
 \DeclareCaptionOptionNoValue*{ruled}{\caption@setbool{ruled}{1}}
 \DeclareCaptionOptionNoValue*{flushleft}{%
-  \caption@setformat{plain}%
-  \caption@setjustification{raggedright}}
+  \caption@setup{format=plain,justification=raggedright}}
 \DeclareCaptionOptionNoValue*{flushright}{%
-  \caption@setformat{plain}%
-  \caption@setjustification{raggedleft}}
-\DeclareCaptionOptionNoValue*{oneline}{\caption@setbool{slc}{1}}
+  \caption@setup{format=plain,justification=raggedleft}}
+\DeclareCaptionOptionNoValue*{oneline}{\caption@setup{slc=1}}
 \DeclareCaptionOptionNoValue*{ignoreLTcapwidth}{%
   \caption@WarningNoLine{Obsolete option `ignoreLTcapwidth' ignored}}
 \DeclareCaptionOption*{caption}{%
@@ -180,109 +165,61 @@
 \DeclareCaptionOption{hypcap}[1]{\caption@setbool{hypcap}{#1}}
 \DeclareCaptionOption{hypcapspace}{\def\caption@hypcapspace{#1}}
 \captionsetup{hypcap=1,hypcapspace=.5\baselineskip}
-\caption@ifamsclass{%
-  \caption@InfoNoLine{AMS or SMF document class}%
-  \setlength\belowcaptionskip{0pt}% set to 12pt by AMS class
-}
-\caption@ifkomaclass{%
-  \caption@InfoNoLine{KOMA-Script document class}%
-  \g@addto@macro\@tablecaptionabovetrue{\captionsetup*[table]{position=t}}
-  \g@addto@macro\@tablecaptionabovefalse{\captionsetup*[table]{position=b}}
-  \if@tablecaptionabove
-    \@tablecaptionabovetrue
-  \else
-    \@tablecaptionabovefalse
-  \fi
-  \g@addto@macro\onelinecaptionstrue{\let\caption@ifslc\@firstoftwo}
-  \g@addto@macro\onelinecaptionsfalse{\let\caption@ifslc\@secondoftwo}
-  \ifonelinecaptions
-    \onelinecaptionstrue
-  \else
-    \onelinecaptionsfalse
-  \fi
-  \g@addto@macro\@captionabovetrue{\let\caption@position\@firstoftwo}
-  \g@addto@macro\@captionabovefalse{\let\caption@position\@secondoftwo}
-  \DeclareCaptionOption{figureposition}{%
-    \caption@WarningNoLine{Option `figureposition=#1' has no effect\MessageBreak
-    when used with a KOMA script document class}}
-  \DeclareCaptionOption{tableposition}{%
-    \caption@WarningNoLine{Option `tableposition=#1' has no effect\MessageBreak
-    when used with a KOMA script document class}}
-  \let\caption@KOMA@setcapindent\@setcapindent
-  \renewcommand*\@setcapindent[1]{%
-    \caption@KOMA@setcapindent{#1}\caption@setcapindent}
-  \let\caption@KOMA@@setcapindent\@@setcapindent
-  \renewcommand*\@@setcapindent[1]{%
-    \caption@KOMA@@setcapindent{#1}\caption@setcapindent}
-  \newcommand*\caption@setcapindent{%
-    \captionsetup{indent=\ifdim\cap@indent<\z@\z@\else\cap@indent\fi}}
-  \caption@ifundefined\cap@indent{}{\caption@setcapindent}
-  \expandafter\let\expandafter\caption@KOMA@setcapwidth
-                  \csname\string\setcapwidth\endcsname
-  \@namedef{\string\setcapwidth}[#1]#2{%
-    \caption@KOMA@setcapwidth[#1]{#2}\caption@setcapwidth{#1}}
-  \newcommand*\caption@setcapwidth[1]{%
-    \ifx\\#1\\\else
-      \caption@ifundefined\cap@margin{}{%
-        \def\@tempa{captionbeside}%
-        \ifx\@tempa\@currenvir\else\caption@Warning{%
-          Ignoring optional argument [#1] of \string\setcapwidth\MessageBreak}%
-        \fi}%
-    \fi
-    \captionsetup{width=\cap@width}}
-  \def\caption@tempa{\hsize}%
-  \ifx\caption@tempa\cap@width \else
-    \caption@setcapwidth{?}
-  \fi
-  \expandafter\let\expandafter\caption@KOMA@setcapmargin
-                  \csname\string\@setcapmargin\endcsname
-  \@namedef{\string\@setcapmargin}[#1]#2{%
-    \caption@KOMA@setcapmargin[#1]{#2}\caption@setcapmargin}
-  \expandafter\let\expandafter\caption@KOMA@@setcapmargin
-                  \csname\string\@@setcapmargin\endcsname
-  \@namedef{\string\@@setcapmargin}[#1]#2{%
-    \caption@KOMA@@setcapmargin[#1]{#2}\caption@setcapmargin}
-  \newcommand*\caption@setcapmargin{%
-    \begingroup
-      \let\onelinecaptionsfalse\relax
-      \def\@twoside{0}%
-      \def\if@twoside{\def\@twoside{1}\iffalse}%
-      \cap@margin
-      \def\@tempa{\endgroup}%
-      \ifx\cap@left\hfill\else\ifx\cap@right\hfill\else
-        \def\hspace##1##{\@firstofone}%
-        \edef\@tempa{\endgroup
-          \noexpand\captionsetup{%
-            twoside=\@twoside,slc=0,%
-            margin={\cap@left,\cap@right}}}%
-      \fi\fi
-      \@tempa}
-  \ifx\cap@margin\relax \else
-    \caption@setcapmargin
-  \fi
-}
+\caption@documentclass@code
+\let\caption@documentclass@code\@undefined
+\let\AtCaptionPackage\@firstofone
 \caption@SetupOptions{caption}{\caption@setkeys{#1}{#2}}
 \caption@ProcessOptions*{caption}
+\newcounter{caption@flags}
+\newcommand*\caption@clrflags{%
+  \setcounter{caption@flags}{0}}
+\newcommand*\caption@ifflags{%
+  \ifcase\c@caption@flags
+    \expandafter\@secondoftwo
+  \else
+    \expandafter\@firstoftwo
+  \fi}
+\newcommand*\caption@setflag[1]{%
+  \caption@ifflag{#1}{}{\addtocounter{caption@flags}{#1}}}
+\newcommand*\caption@ifflag[1]{%
+  \@tempcnta\c@caption@flags
+  \divide\@tempcnta #1\relax
+  \ifodd\@tempcnta
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi}
+\newcommand*\caption@setcontinued{\caption@setflag1}
+\newcommand*\caption@ifcontinued{\caption@ifflag1}
+\newcommand*\caption@setcaption{\caption@setflag2}
+\newcommand*\caption@ifcaption{\caption@ifflag2}
+\newcommand*\caption@setsubcaption{%
+  \caption@ifcaption{\caption@setflag8}{\caption@setflag4}}
+\newcommand*\caption@ifsubcaption@above{\caption@ifflag4}
+\newcommand*\caption@ifsubcaption@below{\caption@ifflag8}
 \def\caption@caption{%
   \caption@iftype
     {\caption@checkgrouplevel\@empty\caption
      \caption@star
-       {\@nameuse{donemaincaptiontrue}%
-        \caption@refstepcounter\@captype}%
+       {\caption@refstepcounter\@captype}%
        {\caption@dblarg{\@caption\@captype}}}%
-    {\caption@Error{\noexpand\caption outside float}%
-     \caption@gobble}}
+    {\caption@OutsideFloat\caption
+     \caption@withoptargs\@gobbletwo}}
+\newcommand*\caption@OutsideFloat[1]{%
+  \caption@Error{\string#1 outside float}}
 \newcommand*\caption@star[2]{%
   \@ifstar{\caption@startrue#2[]}{#1#2}}
 \long\def\caption@@caption#1[#2]#3{%
   \ifcaption@star \else
     \caption@prepareanchor{#1}{#2}%
     \memcaptioninfo{#1}{\csname the#1\endcsname}{#2}{#3}%
+    \@nameuse{nag@hascaptiontrue}%
   \fi
   \par
+  \caption@nobreak
   \caption@beginex{#1}{#2}{#3}%
     \caption@setfloatcapt{%
-      \caption@boxrestore
+      \caption@parboxrestore
       \if@minipage
         \@setminipage
       \fi
@@ -292,450 +229,148 @@
       \fi
       \@makecaption{\csname fnum@#1\endcsname}%
                    {\ignorespaces\caption@makeanchor{#3}}\par
+      \caption@nobreak
       \caption@if@minipage\@minipagetrue\@minipagefalse}%
   \caption@end}
-\providecommand\M@gettitle[1]{}
 \providecommand\memcaptioninfo[4]{}
 \newcommand*\caption@prepareanchor[2]{%
   \caption@makecurrent{#1}{#2}%
-  \caption@ifhypcap\caption@@start{}%
+  \caption@ifhypcap\caption@@start\relax
   \M@gettitle{#2}}
+\providecommand\M@gettitle[1]{}
+\newcommand*\caption@nobreak{}
+\newcommand*\caption@parboxrestore{\@parboxrestore}
 \long\def\caption@makecaption#1#2{%
-  \caption@iftop
-    {\vskip\belowcaptionskip}%
-    {\caption@rule\vskip\abovecaptionskip}%
+  \caption@nobreak
+  \caption@make@above
+  \caption@nobreak
   \caption@@make{#1}{#2}%
+  \caption@nobreak
+  \caption@make@below
+  \caption@nobreak}
+\newcommand*\caption@make@above{%
   \caption@iftop
-    {\vskip\abovecaptionskip\caption@rule}%
-    {\vskip\belowcaptionskip}}
-\newcommand*\caption@redefine{}
-\g@addto@macro\caption@redefine{%
-  \caption@setbool{incompatible}{0}%
-  \caption@CheckCommand\caption{%
-    % ltfloat.dtx [2002/10/01 v1.1v LaTeX Kernel (Floats)]
-    \def\caption{%
-       \ifx\@captype\@undefined
-         \@latex@error{\noexpand\caption outside float}\@ehd
-         \expandafter\@gobble
-       \else
-         \refstepcounter\@captype
-         \expandafter\@firstofone
-       \fi
-       {\@dblarg{\@caption\@captype}}%
-    }}%
-  \caption@CheckCommand\caption{%
-    % beamerbaselocalstructure.sty,v 1.53 2007/01/28 20:48:21 tantau
-    \def\caption{
-      \ifx\@captype\@undefined
-        \@latex@error{\noexpand\caption outside figure or table}\@ehd
-        \expandafter\@gobble
-      \else
-        \refstepcounter\@captype
-        \expandafter\@firstofone
-      \fi
-      {\@dblarg{\@caption\@captype}}%
-    }}%
-  \caption@CheckCommand\caption{%
-    % float.sty [2001/11/08 v1.3d Float enhancements (AL)]
-    \renewcommand\caption{%
-      \ifx\@captype\@undefined
-        \@latex@error{\noexpand\caption outside float}\@ehd
-        \expandafter\@gobble
-      \else
-        \refstepcounter\@captype
-        \let\@tempf\@caption
-        \expandafter\ifx\csname @float@c@\@captype\endcsname\relax\else
-          \expandafter\expandafter\let
-            \expandafter\@tempf\csname @float@c@\@captype\endcsname
-        \fi
-      \fi
-      \@dblarg{\@tempf\@captype}}}%
-  \caption@CheckCommand\caption{%
-    % hyperref.sty [2007/02/27 v6.75t Hypertext links for LaTeX]
-    % hyperref.sty [2007/04/09 v6.76a Hypertext links for LaTeX]
-    % hyperref.sty [2007/06/12 v6.76h Hypertext links for LaTeX]
-    \def\caption{%
-      \ifx\@captype\@undefined
-        \@latex@error{\noexpand\caption outside float}\@ehd
-        \expandafter\@gobble
-      \else
-        \H@refstepcounter\@captype
-        \@ifundefined{fst@\@captype}{%
-          \let\Hy@tempa\@caption
-        }{%
-          \let\Hy@tempa\Hy@float@caption
-        }%
-        \expandafter\@firstofone
-      \fi
-      {\@dblarg{\Hy@tempa\@captype}}%
-    }}%
-  \caption@CheckCommand\caption{%
-    % hyperref.sty [2007/08/05 v6.76j Hypertext links for LaTeX]
-    \def\caption{%
-      \ifx\@captype\@undefined
-        \@latex@error{\noexpand\caption outside float}\@ehd
-        \expandafter\@gobble
-      \else
-        \H@refstepcounter\@captype
-        \let\Hy@tempa\@caption
-        \@ifundefined{float@caption}{%
-        }{%
-          \expandafter\ifx\csname @float@c@\@captype\endcsname\float@caption
-            \let\Hy@tempa\Hy@float@caption
-          \fi
-        }%
-        \expandafter\@firstofone
-      \fi
-      {\@dblarg{\Hy@tempa\@captype}}%
-    }}%
-  \caption@CheckCommand\caption{%
-    % memhfixc.sty [2010/08/17 v1.15 nameref/hyperref package fixes for memoir class]
-    % \let\m@moldhypcaption\caption
-    \renewcommand{\caption}{\donemaincaptiontrue\m@moldhypcaption}}%
-  \caption@IfCheckCommand{}{%
-    \caption@InfoNoLine{%
-      Incompatible package detected (regarding \string\caption).\MessageBreak
-      \string\caption\space=\space\meaning\caption}%
-    \caption@setbool{incompatible}{1}}%
-  \caption@CheckCommand\@caption{%
-    % ltfloat.dtx [2002/10/01 v1.1v LaTeX Kernel (Floats)]
-    \long\def\@caption#1[#2]#3{%
-      \par
-      \addcontentsline{\csname ext@#1\endcsname}{#1}%
-        {\protect\numberline{\csname the#1\endcsname}{\ignorespaces #2}}%
-      \begingroup
-        \@parboxrestore
-        \if@minipage
-          \@setminipage
-        \fi
-        \normalsize
-        \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
-      \endgroup}}%
-  \caption@CheckCommand\@caption{%
-    % beamerbaselocalstructure.sty,v 1.53 2007/01/28 20:48:21 tantau
-    \long\def\@caption#1[#2]#3{% second argument ignored
-      \par\nobreak
-      \begingroup
-        \@parboxrestore
-        \if@minipage
-          \@setminipage
-        \fi
-        \beamer@makecaption{#1}{\ignorespaces #3}\par\nobreak
-        \endgroup}}%
-  \caption@CheckCommand\@caption{%
-    % magyar.ldf [2005/03/30 v1.4j Magyar support from the babel system]
-    \long\def\@caption#1[#2]#3{%
-      \csname par\endcsname
-      \addcontentsline{\csname ext@#1\endcsname}{#1}%
-        {\protect\numberline{\csname the#1\endcsname.}{\ignorespaces #2}}%
-      \begingroup
-        \@parboxrestore
-        \if@minipage
-          \@setminipage
-        \fi
-        \normalsize
-        \@makecaption{\csname fnum@#1\endcsname}%
-            {\ignorespaces #3}\csname par\endcsname
-      \endgroup}}%
-  \caption@CheckCommand\@caption{%
-    % hyperref.sty [2007/02/27 v6.75t Hypertext links for LaTeX]
-    \long\def\@caption#1[#2]#3{%
-      \hyper@makecurrent{\@captype}%
-      \def\@currentlabelname{#2}%
-      \par\addcontentsline{\csname ext@#1\endcsname}{#1}{%
-        \protect\numberline{\csname the#1\endcsname}{\ignorespaces #2}%
-      }%
-      \begingroup
-        \@parboxrestore
-        \if@minipage
-          \@setminipage
-        \fi
-        \normalsize
-        \@makecaption{\csname fnum@#1\endcsname}{%
-          \ignorespaces
-          \ifHy@nesting
-            \hyper@@anchor{\@currentHref}{#3}%
-          \else
-            \Hy@raisedlink{\hyper@@anchor{\@currentHref}{\relax}}#3%
-          \fi
-        }%
-        \par
-      \endgroup
-    }}%
-  \caption@CheckCommand\@caption{%
-    % hyperref.sty [2007/04/09 v6.76a Hypertext links for LaTeX]
-    % hyperref.sty [2007/06/12 v6.76h Hypertext links for LaTeX]
-    % hyperref.sty [2007/08/05 v6.76j Hypertext links for LaTeX]
-    \long\def\@caption#1[#2]#3{%
-      \expandafter\ifx\csname if@capstart\expandafter\endcsname
-                      \csname iftrue\endcsname
-        \global\let\@currentHref\hc@currentHref
-      \else
-        \hyper@makecurrent{\@captype}%
-      \fi
-      \def\@currentlabelname{#2}%
-      \par\addcontentsline{\csname ext@#1\endcsname}{#1}{%
-        \protect\numberline{\csname the#1\endcsname}{\ignorespaces #2}%
-      }%
-      \begingroup
-        \@parboxrestore
-        \if@minipage
-          \@setminipage
-        \fi
-        \normalsize
-        \expandafter\ifx\csname if@capstart\expandafter\endcsname
-                        \csname iftrue\endcsname
-          \global\@capstartfalse
-          \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces#3}%
-        \else
-          \@makecaption{\csname fnum@#1\endcsname}{%
-            \ignorespaces
-            \ifHy@nesting
-              \hyper@@anchor{\@currentHref}{#3}%
-            \else
-              \Hy@raisedlink{\hyper@@anchor{\@currentHref}{\relax}}#3%
-            \fi
-          }%
-        \fi
-        \par
-      \endgroup
-    }}%
-  \caption@CheckCommand\@caption{%
-    % hyperref.sty [2009/11/27 v6.79k Hypertext links for LaTeX]
-    \long\def\@caption#1[#2]#3{%
-      \expandafter\ifx\csname if@capstart\expandafter\endcsname
-                      \csname iftrue\endcsname
-        \global\let\@currentHref\hc@currentHref
-      \else
-        \hyper@makecurrent{\@captype}%
-      \fi
-      \def\@currentlabelname{#2}%
-      \par\addcontentsline{\csname ext@#1\endcsname}{#1}{%
-        \protect\numberline{\csname the#1\endcsname}{\ignorespaces #2}%
-      }%
-      \begingroup
-        \@parboxrestore
-        \if@minipage
-          \@setminipage
-        \fi
-        \normalsize
-        \expandafter\ifx\csname if@capstart\expandafter\endcsname
-                        \csname iftrue\endcsname
-          \global\@capstartfalse
-          \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces#3}%
-        \else
-          \@makecaption{\csname fnum@#1\endcsname}{%
-            \ignorespaces
-            \ifHy@nesting
-              \expandafter\hyper@@anchor\expandafter{\@currentHref}{#3}%
-            \else
-              \Hy@raisedlink{%
-                \expandafter\hyper@@anchor\expandafter{\@currentHref}{\relax}%
-              }%
-              #3%
-            \fi
-          }%
-        \fi
-        \par
-      \endgroup
-    }}%
-  \caption@CheckCommand\@caption{%
-    % hyperref.sty [2009/12/09 v6.79m Hypertext links for LaTeX]
-    % hyperref.sty [2009/12/28 v6.79z Hypertext links for LaTeX]
-    \long\def\@caption#1[#2]#3{%
-      \expandafter\ifx\csname if@capstart\expandafter\endcsname
-                      \csname iftrue\endcsname
-        \global\let\@currentHref\hc@currentHref
-      \else
-        \hyper@makecurrent{\@captype}%
-      \fi
-      \@ifundefined{NR@gettitle}{%
-        \def\@currentlabelname{#2}%
-      }{%
-        \NR@gettitle{#2}%
-      }%
-      \par\addcontentsline{\csname ext@#1\endcsname}{#1}{%
-        \protect\numberline{\csname the#1\endcsname}{\ignorespaces #2}%
-      }%
-      \begingroup
-        \@parboxrestore
-        \if@minipage
-          \@setminipage
-        \fi
-        \normalsize
-        \expandafter\ifx\csname if@capstart\expandafter\endcsname
-                        \csname iftrue\endcsname
-          \global\@capstartfalse
-          \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces#3}%
-        \else
-          \@makecaption{\csname fnum@#1\endcsname}{%
-            \ignorespaces
-            \ifHy@nesting
-              \expandafter\hyper@@anchor\expandafter{\@currentHref}{#3}%
-            \else
-              \Hy@raisedlink{%
-                \expandafter\hyper@@anchor\expandafter{%
-                  \@currentHref
-                }{\relax}%
-              }%
-              #3%
-            \fi
-          }%
-        \fi
-        \par
-      \endgroup
-    }}%
-  \caption@CheckCommand\@caption{%
-    % nameref.sty [2006/12/27 v2.28 Cross-referencing by name of section]
-    \long\def\@caption#1[#2]{%
-      \def\@currentlabelname{#2}%
-      \NR@@caption{#1}[{#2}]%
-    }}%
-  \caption@CheckCommand\@caption{%
-    % nameref.sty [2009/11/27 v2.32 Cross-referencing by name of section]
-    \long\def\@caption#1[#2]{%
-      \NR@gettitle{#2}%
-      \NR@@caption{#1}[{#2}]%
-    }}%
-  \caption@CheckCommand\@caption{%
-    % subfigure.sty [2002/07/30 v2.1.4 subfigure package]
-    \long\def\@caption#1[#2]#3{%
-      \@ifundefined{if#1topcap}%
-        {\subfig@oldcaption{#1}[{#2}]{#3}}%
-        {\@nameuse{if#1topcap}%
-           \@listsubcaptions{#1}%
-           \subfig@oldcaption{#1}[{#2}]{#3}%
-         \else
-           \subfig@oldcaption{#1}[{#2}]{#3}%
-           \@listsubcaptions{#1}%
-         \fi}}}%
-  \caption@CheckCommand\@caption{%
-    % subfig.sty [2005/06/28 ver: 1.3 subfig package]
-    \def\@caption{\caption@}%
-    }%
-  \caption@IfCheckCommand{}{%
-    \caption@InfoNoLine{%
-      Incompatible package detected (regarding \string\@caption).\MessageBreak
-      \string\@caption\space=\space\meaning\@caption}%
-    \caption@setbool{incompatible}{1}}%
-  \caption@ifundefined\caption@ifcompatibility
-    {\let\caption@ifcompatibility\caption@ifincompatible
-     \let\caption@tempa\caption@WarningNoLine}%
-    {\let\caption@tempa\@gobble}% suppress warning
-  \caption@ifcompatibility{%
-    \caption@tempa{%
-      \noexpand\caption will not be redefined since it's already\MessageBreak
-      redefined by a document class or package which is\MessageBreak
-      unknown to the caption package}%
-    \renewcommand*\caption@redefine{}%
-    \renewcommand*\caption@ContinuedFloat[1]{%
-      \caption@Error{Not available in compatibility mode}}%
-    \caption@AtBeginDocument*{%
-      \let\caption@start\relax
-      \caption@ifundefined\caption@ORI@capstart{}{%
-        \caption@Debug{%
-          Restore hypcap definition of \string\capstart\@gobble}%
-        \let\capstart\caption@ORI@capstart}%
-      \caption@ifundefined\caption@ORI@float@makebox{}{%
-        \caption@Debug{%
-          Restore hyperref redefinition of \string\float@makebox\@gobble}%
-        \let\float@makebox\caption@ORI@float@makebox}%
-    }%
-    \renewcommand*\caption@star[2]{#1#2}%
-  }{%
-    \caption@ifincompatible{%
-      \caption@WarningNoLine{%
-        Forced redefinition of \noexpand\caption since the\MessageBreak
-        unsupported(!) package option `compatibility=false'\MessageBreak
-        was given}%
-    }{}%
-    \renewcommand*\caption@redefine{%
-      \let\caption\caption@caption
-      \let\@caption\caption@@caption}%
-    \caption@redefine
-  }%
-  \caption@AtBeginDocument*{%
-    \let\caption@ORI@capstart\@undefined
-    \let\caption@ORI@float@makebox\@undefined}%
+    \caption@belowskip
+    {\caption@rule\caption@aboveskip}}
+\newcommand*\caption@make@below{%
+  \caption@iftop
+    {\caption@aboveskip\caption@rule}%
+    \caption@belowskip}
+\newcommand*\caption@redefine{%
+  \let\caption\caption@caption
+  \let\@caption\caption@@caption
   \let\caption@ORI@xfloat\@xfloat
-  \def\@xfloat#1[#2]{%
-    \caption@ORI@xfloat{#1}[#2]%
-    \caption@settype{#1}}%
+  \let\@xfloat\caption@xfloat
+  \let\caption@ORI@xdblfloat\@xdblfloat
+  \let\@xdblfloat\caption@xdblfloat
 }
-\caption@AtBeginDocument{\caption@redefine}
+\caption@AtBeginDocument{%
+  \caption@redefine
+  \let\caption@redefine\relax}
 \let\@makecaption\caption@makecaption
+\def\caption@xfloat#1[#2]{%
+  \caption@ORI@xfloat{#1}[#2]%
+  \caption@settype{#1}%
+  \caption@setanchor
+  \caption@xfloat@hook}
+\newcommand*\caption@xfloat@hook{}
+\def\caption@xdblfloat#1[#2]{%
+  \caption@ORI@xdblfloat{#1}[#2]% expands to \@xfloat{#1}[#2] + extra stuff
+  \caption@setoptions{#1*}%
+  \caption@xdblfloat@hook}
+\newcommand*\caption@xdblfloat@hook{}
 \caption@AtBeginDocument{%
   \DeclareCaptionOption{type}{\setcaptiontype{#1}}%
   \DeclareCaptionOption{type*}{\setcaptiontype*{#1}}%
   \DeclareCaptionOptionNoValue{subtype}{\setcaptionsubtype\relax}%
   \DeclareCaptionOptionNoValue{subtype*}{\setcaptionsubtype*}%
 }
-\newcommand\setcaptiontype{%
-  \caption@boxrestore@mini
-  \caption@settype}
-\newcommand\setcaptionsubtype{%
-  \caption@iftype
-    \caption@setsubtype
-    {\caption@Error{\noexpand\setcaptionsubtype outside float}}}%
-\newcommand\caption@setsubtype{%
-  \@ifstar
-    {\caption@@settype{sub}*{sub\@captype}}%
-    {\caption@@settype{sub}{sub\@captype}}}%
+\def\setcaptiontype{%
+  \caption@teststar\@setcaptiontype\@gobble\@iden}
+\newcommand*\@setcaptiontype[1]{%
+  \kernel@ifnextchar[%]
+    {\@setcaptiontype@#1}%
+    {\@@setcaptiontype#1\relax}}
+\def\@setcaptiontype@#1[#2]{%
+  \@@setcaptiontype{#1}{\caption@setoptions{#2}}}
+\newcommand*\@@setcaptiontype[3]{%
+  \caption@settype{#3}#2%
+  \caption@parboxrestore@light
+  #1\caption@setanchor}
 \newcommand*\caption@settype{%
+  \caption@initposition
+  \caption@clrflags
+  \aftergroup\flushsubcaptionlistentries
   \caption@@settype{}}
-\newcommand*\caption@@settype[1]{%
-  \caption@teststar{\caption@@@settype{#1}}\@firstoftwo\@secondoftwo}
-\newcommand*\caption@@@settype[3]{%
-  \caption@Debug{#1type=#3}%
-  \caption@checkgrouplevel{#1}{%
-    \captionsetup{#1type#2*\@empty=...}#2{ or
-                  \@backslashchar#1captionof}{}}%
-  \edef\caption@tempa{#3}%
-  \expandafter\ifx\csname @#1captype\endcsname\caption@tempa \else
-    \ifcaptionsetup@star\else\@nameuse{caption@#1type@warning}\fi
-  \fi
-  \expandafter\let\csname @#1captype\endcsname\caption@tempa
-  \@nameuse{caption@#1typehook}%
-  \caption@setoptions{#3}%
-  \ifx\caption@opt\relax
-    \@nameundef{caption@#1type@warning}%
-  \else
-    \@namedef{caption@#1type@warning}{\caption@Warning{%
-      The #1caption type was already set to
-      `\csname @#1captype\endcsname'\MessageBreak}}%
-  \fi
-  \let\caption@ifrefstepcounter\@secondoftwo
-  #2{}{%
-    \let\@currentlabel\caption@undefinedlabel
-    \ifx\caption@x@label\@undefined
-      \let\caption@x@label\label
-      \let\label\caption@xlabel
-    \fi
-    \caption@start}}
-\newcommand*\caption@typehook{}
-\newcommand*\caption@iftype{%
-  \caption@ifundefined\@captype\@secondoftwo\@firstoftwo}
-\begingroup\expandafter\expandafter\expandafter\endgroup
-\expandafter\ifx\csname currentgrouplevel\endcsname\relax
-  \caption@Debug{TeX engine: TeX}
-  \let\caption@checkgrouplevel\@gobbletwo
-\else
-  \caption@Debug{TeX engine: e-TeX}
-  \newcommand*\caption@checkgrouplevel[2]{%
-    \@ifundefined{#1caption@grouplevel}{%
-       \caption@ifundefined\caption@grouplevel{\let\caption@grouplevel\z@}{}%
-       \ifnum\currentgrouplevel>\caption@grouplevel\relax
-         \expandafter\edef\csname #1caption@grouplevel\endcsname{%
-           \the\currentgrouplevel}%
-       \else
-         \caption@Warning{\string#2\MessageBreak outside box or environment}%
-       \fi
-    }{}}
-\fi
+\newcommand*\caption@@settype[2]{%
+  \caption@Debug{#1type:=#2}%
+  \@nameuse{caption@check#1type}{#2}%
+    {\caption@checkgrouplevel{#1}{\setcaption#1type}%
+     \edef\caption@tempa{#2}%
+     \expandafter\ifx\csname @#1captype\endcsname\caption@tempa \else
+       \@nameuse{caption@#1type@warning}%
+     \fi
+     \expandafter\let\csname @#1captype\endcsname\caption@tempa
+     \@nameuse{caption@#1typehook}%
+     \caption@setoptions{#2}%
+     \ifx\caption@opt\relax
+       \@nameundef{caption@#1type@warning}%
+     \else
+       \@namedef{caption@#1type@warning}{\caption@Warning{%
+         The #1type was already set to
+         `\csname @#1captype\endcsname'\MessageBreak}}%
+     \fi}}
+\newcommand*\setcaptionsubtype{%
+  \caption@teststar\@setcaptionsubtype\@gobble\@iden}
+\newcommand*\@setcaptionsubtype[1]{%
+  \caption@iftype
+    {\caption@ifsubtype
+       {\caption@Debug{type=\@captype, subtype=\@subcaptype}}%
+       {\caption@@settype{sub}{sub\@captype}%
+        #1\caption@setanchor}}%
+    {\caption@OutsideFloat\setcaptionsubtype}}
+\newcommand*\caption@parboxrestore@light{%
+  \let\par\@@par
+  \parindent\z@ \parskip\z@skip
+  \sloppy}
+\newcommand*\caption@setanchor{%
+  \caption@reset@currentlabel
+  \caption@start}
+\newcommand*\caption@reset@currentlabel{%
+  \let\@currentlabel\caption@undefinedlabel
+  \ifx\caption@x@label\@undefined
+    \let\caption@x@label\label
+    \let\label\caption@xlabel
+  \fi}
+\newcommand*\caption@iftype{\caption@ifdefined\@captype}
+\newcommand*\caption@ifsubtype{\caption@ifdefined\@subcaptype}
+\newcommand*\caption@checktype[1]{%
+  \caption@ifdefined@subtype{#1}\@firstoftwo{\caption@ifin@list\sf@counterlist{#1}}%
+    {\caption@Error{Should not be used with subtype `#1'}%
+     \@gobble}%
+    \@firstofone}
+\newcommand*\caption@checksubtype[1]{%
+  \caption@ifdefined@subtype{#1}%
+    \@firstofone
+    {\@ifundefined{c@#1}%
+       {\caption@Error{Undefined counter `#1'}}%
+       {\caption@subtypesource\caption@subtype@source{#1}%
+        \caption@Error{The counter `#1' was defined by\MessageBreak\caption@subtype@source}}%
+     \@gobble}}
+\newcommand*\caption@checkgrouplevel[2]{%
+  \@ifundefined{#1caption@grouplevel}{%
+     \caption@ifundefined\caption@grouplevel{\let\caption@grouplevel\z@}{}%
+     \ifnum\currentgrouplevel>\caption@grouplevel\relax
+       \expandafter\edef\csname #1caption@grouplevel\endcsname{%
+         \the\currentgrouplevel}%
+     \else
+       \caption@Warning{\string#2\MessageBreak outside box or environment}%
+     \fi
+  }{}}%
 \newcommand*\caption@undefinedlabel{%
   \protect\caption@xref{\caption@labelname}{\on@line}}
 \DeclareRobustCommand*\caption@xref[2]{%
-  \caption@WarningNoLine{\noexpand\label without proper \string\caption#2}%
+  \caption@WarningNoLine{\noexpand\label without proper reference#2}%
   \@setref\relax\@undefined{#1}}
 \newcommand*\caption@labelname{??}
 \newcommand*\caption@xlabel{%
@@ -753,144 +388,237 @@
   \@esphack}
 \caption@AtBeginDocument{%
   \def\captionof{\caption@teststar\caption@of{\caption*}\caption}}
-\newcommand*\caption@of[2]{\setcaptiontype*{#2}#1}
-\newcommand*\captionlistentry{%
-  \caption@teststar\@captionlistentry\@firstoftwo\@secondoftwo}
-\newcommand*\@captionlistentry[1]{%
-  \@testopt{\caption@listentry{#1}}\@captype}
-\def\caption@listentry#1[#2]#3{%
-  \@bsphack
-    #1{\caption@gettitle{#3}}%
-      {\caption@refstepcounter{#2}%
-       \caption@makecurrent{#2}{#3}}%
-    \caption@addcontentsline{#2}{#3}%
-  \@esphack}
-\newcommand*\captionbox{%
-  \let\captionbox@settype\@gobble
-  \caption@withoptargs\caption@box}
-\newcommand\caption@box[2]{%
-  \@testopt{\caption@ibox{#1}{#2}}{\wd\@tempboxa}}
-\long\def\caption@ibox#1#2[#3]{%
-  \@testopt{\caption@iibox{#1}{#2}{#3}}\captionbox@hj@default}
-\long\def\caption@iibox#1#2#3[#4]#5{%
-  \setbox\@tempboxa\hbox{#5}%
-  \begingroup
-  \captionbox@settype*% set \caption@position
-  \caption@iftop{%
-    \endgroup
-    \parbox[t]{#3}{%
-      \captionbox@settype\relax
-      \caption@setposition t%
-      \vbox{\caption#1{#2}}%
-      \captionbox@hrule
-      \csname caption@hj@#4\endcsname
-      \unhbox\@tempboxa}%
-  }{%
-    \endgroup
-    \parbox[b]{#3}{%
-      \captionbox@settype\relax
-      \caption@setposition b%
-      \csname caption@hj@#4\endcsname
-      \unhbox\@tempboxa
-      \captionbox@hrule
-      \vtop{\caption#1{#2}}}%
-  }}
-\newcommand*\captionbox@hj@default{c}
-\newcommand*\captionbox@hrule{\hrule\@height\z@\relax}
-\providecommand*\caption@hj@c{\centering}
-\providecommand*\caption@hj@l{\raggedright}
-\providecommand*\caption@hj@r{\raggedleft}
-\providecommand*\caption@hj@s{}
-\def\ContinuedFloat{%
-  \caption@iftype
-    {\addtocounter\@captype\m@ne
-     \caption@ContinuedFloat\@captype}%
-    {\caption@Error{\noexpand\ContinuedFloat outside float}}}
-\def\caption@ContinuedFloat#1{%
-  \@ifstar{\caption@Continued@Float@{#1}}{\caption@Continued@Float{#1}}}
-\def\caption@Continued@Float@{%
-  \addtocounter\@captype\@ne
-  \@stpelt{ContinuedFloat}\stepcounter{ContinuedFloat}%
-  \def\caption@resetContinuedFloat##1{\xdef\caption@CFtype{##1}}%
-  \caption@@ContinuedFloat}
-\def\caption@Continued@Float#1{%
-  \edef\caption@tempa{#1}%
-  \ifx\caption@tempa\caption@CFtype
-    \stepcounter{ContinuedFloat}%
-    \let\caption@resetContinuedFloat\@gobble
-    \caption@@ContinuedFloat{#1}%
-    \sf@ContinuedFloat{#1}%
-  \else
-    \caption@Error{Continued `#1' after `\caption@CFtype'}%
-  \fi}
-\def\caption@@ContinuedFloat#1{%
-  \expandafter\l@addto@macro\csname the#1\endcsname\theContinuedFloat
-  \@ifundefined{theH#1}{}{%
-    \expandafter\l@addto@macro\csname theH#1\endcsname{%
-      \@alph\c@ContinuedFloat}}%
-  \caption@setoptions{ContinuedFloat}%
-  \caption@setoptions{continued#1}}
-\providecommand*\sf@ContinuedFloat[1]{}
-\newcommand*\caption@CFtype{??}
-\newcounter{ContinuedFloat}
-\let\theContinuedFloat\@empty
-\newcommand*\caption@resetContinuedFloat[1]{%
-  \@stpelt{ContinuedFloat}%
-  \xdef\caption@CFtype{#1}%
-  \def\ContinuedFloat{\caption@Error{%
-    \noexpand\ContinuedFloat must be placed at the top of the environment}}}
-\newcommand\phantomcaption{%
+\providecommand*\caption@of[2]{\setcaptiontype*{#2}#1}
+\newcommand*\phantomcaption{%
   \caption@iftype
     {\caption@refstepcounter\@captype}%
-    {\caption@Error{\noexpand\phantomcaption outside float}}}%
-\newcommand*\caption@refstepcounter[1]{%
-  \@ifundefined{c@#1}%
-    {\caption@Error{No float type '#1' defined}}%
-    {\caption@resetContinuedFloat{#1}%
-     \caption@@refstepcounter{#1}%
-     \let\caption@ifrefstepcounter\@firstoftwo}}
-\newcommand*\caption@@refstepcounter{\refstepcounter}
-\let\caption@ifrefstepcounter\@secondoftwo
-\caption@ifundefined\kernel@ifnextchar
-  {\newcommand\caption@dblarg[1]{\@ifnextchar[{#1}{\caption@xdblarg{#1}}}}%
-  {\newcommand\caption@dblarg[1]{\kernel@ifnextchar[{#1}{\caption@xdblarg{#1}}}}%
-\newcommand\caption@xdblarg[2]{#1[{#2\relax}]{#2}}%
-\newcommand*\caption@begin[1]{%
+    {\caption@OutsideFloat\phantomcaption}}
+\newcommand*\captionlistentry{%
+  \caption@teststar\caption@listentry\@firstoftwo\@secondoftwo}
+\newcommand*\caption@listentry[1]{%
+  \kernel@ifnextchar[%]
+    {\caption@listentry@{#1}}%
+    {\caption@@listentry{#1}}}
+\def\caption@listentry@#1[#2]{%
+  \caption@@@listentry{#1}{#2}{\caption@refstepcounter@}}
+\newcommand*\caption@@listentry[1]{%
+  \caption@iftype
+    {\caption@@@listentry{#1}{\@captype}{\caption@refstepcounter}}%
+    {\caption@OutsideFloat\captionlistentry
+     \@gobble}}
+\newcommand*\caption@@@listentry[4]{%
+  \@bsphack
+    #1{\caption@gettitle{#4}}%
+      {#3{#2}\caption@makecurrent{#2}{#4}}%
+    \caption@addcontentsline{#2}{#4}%
+  \@esphack}
+\newcommand*\captiontext{%
+  \caption@iftype
+    {\caption@text\@captype}%
+    {\caption@OutsideFloat\captiontext
+     \caption@withoptargs\@gobbletwo}}
+\newcommand*\caption@text[1]{%
+  \caption@teststar{\caption@@text{#1}}\caption@@@make\caption@@make}
+\newcommand*\caption@@text[2]{%
+  \kernel@ifnextchar[%]
+    {\caption@@@text{#1}#2\@iden}%
+    {\caption@@@text{#1}#2\@gobble[0]}}
+\long\def\caption@@@text#1#2#3[#4]#5{%
   \begingroup
-    \caption@setfnum{#1}%
-    \caption@fixposition
-    \global\let\caption@fixedposition\caption@position}
+    #3{\csname c@#1\endcsname #4\relax}%
+    #2{\caption@fnum{#1}}{#5}%
+  \endgroup}
+\newenvironment{captiongroup}{\setcaptiontype}{}
+\newenvironment{captiongroup*}{\setcaptiontype*}{}
+\newcommand*\caption@minipage{%
+  \@testopt\caption@iminipage b}
+\def\caption@iminipage[#1]{%
+  \caption@withoptargs{\caption@iiminipage{#1}}}
+\newcommand*\caption@iiminipage[3]{%
+  \let\caption@endminipage@hook\@empty
+  \if#1B%
+    \minipage[b]#2{#3}%
+    \def\caption@endminipage@hook{\vspace{0pt}}%
+  \else\if#1T%
+    \minipage[t]#2{#3}%
+    \vspace{0pt}%
+  \else
+    \minipage[#1]#2{#3}%
+  \fi\fi
+  \@floatboxreset
+  \setcaptiontype}
+\newcommand*\caption@endminipage{%
+  \caption@endminipage@hook
+  \endminipage}
+\newenvironment{captionblock}{\caption@minipage}{\caption@endminipage}
+\newcommand*\captionbox{%
+  \caption@withoptargs{\caption@ibox\@gobble}}
+\newcommand\caption@ibox[3]{%
+  \kernel@ifnextchar[%]
+    {\caption@iibox{#1}{#2}{#3}}%
+    {\caption@iibox@{#1}{#2}{#3}}}
+\long\def\caption@iibox#1#2#3[#4]{%
+  \@testopt{\caption@iiibox{#1}{#2}{#3}[{#4}]}\captionbox@innerpos@default}
+\long\def\caption@iibox@#1#2#3#4{%
+  \setbox\@tempboxa\hbox{#4}%
+  \caption@iiibox{#1}{#2}{#3}[\wd\@tempboxa][\captionbox@innerpos@default]{\unhbox\@tempboxa}}
+\long\def\caption@iiibox#1{%
+  \caption@iiiibox{#1}\vbox\vtop}
+\long\def\caption@iiiibox#1#2#3#4#5[#6][#7]#8{%
+  \caption@checkdecl{justification}{#7}{%
+    \begingroup
+    #1*% set \caption@position
+    \caption@iftop{%
+      \endgroup
+      \parbox[t]{#6}{%
+        #1\relax
+        \caption@setposition t%
+        #2{\caption#4{#5}}%
+        \captionbox@hrule
+        \csname caption@justification@#7\endcsname
+        #8}%
+    }{%
+      \endgroup
+      \parbox[b]{#6}{%
+        #1\relax
+        \caption@setposition b%
+        \csname caption@justification@#7\endcsname
+        #8%
+        \captionbox@hrule
+        #3{\caption#4{#5}}}%
+    }}}
+\newcommand*\captionbox@innerpos@default{c}
+\newcommand*\captionbox@hrule{\hrule\@height\z@\relax}
+\providecommand*\caption@justification@c{\centering}
+\providecommand*\caption@justification@l{\raggedright}
+\providecommand*\caption@justification@r{\raggedleft}
+\providecommand*\caption@justification@s{}
+\newcounter{continuedfloat}
+\let\c@ContinuedFloat\c@continuedfloat     % defined for compatibility reasons
+\def\thecontinuedfloat{\theContinuedFloat}
+\let\theContinuedFloat\@empty              % defined for compatibility reasons
+\newcommand*\continuedfloat@captype{??}
+\newcommand*\caption@reset@continuedfloat[1]{%
+  \xdef\continuedfloat@captype{#1}%
+  \@stpelt{continuedfloat}}
+\newcommand*\caption@set@continuedfloat{%
+  \ifx\@captype\continuedfloat@captype
+    \stepcounter{continuedfloat}%
+    \expandafter\@firstoftwo
+  \else
+    \caption@Error{Continued `\@captype' after `\continuedfloat@captype'}%
+    \expandafter\@secondoftwo
+  \fi}
+\def\continuedfloat{%
+  \caption@teststar\caption@continuedfloat\@firstoftwo\@secondoftwo}
+\newcommand*\caption@continuedfloat[1]{%
+  \caption@iftype
+    {#1{\caption@@refstepcounter\@captype}{}%
+     \caption@@continuedfloat\@captype}%
+    {\caption@OutsideFloat\continuedfloat}}
+\newcommand*\caption@@continuedfloat{%
+  \caption@clrflags
+  \caption@set@continuedfloat
+    {\caption@setcontinued
+     \caption@@@continuedfloat}%
+    {\@gobble}}
+\newcommand*\caption@@@continuedfloat[1]{%
+  \caption@setoptions{ContinuedFloat}% for compatibility reasons
+  \caption@setoptions{continuedfloat}%
+  \caption@setoptions{continued#1}%
+  \expandafter\l@addto@macro\csname the#1\endcsname\thecontinuedfloat
+  \@ifundefined{theH#1}{}{%
+    \expandafter\l@addto@macro\csname theH#1\endcsname{%
+      \@alph\c@continuedfloat}}%
+  \let\caption@@@continuedfloat\@gobble}
+\def\ContinuedFloat{\continuedfloat} % defined for compatibility reasons
+\def\caption@ContinuedFloat{%
+  \caption@set@continuedfloat\caption@@@continuedfloat\@gobble}
+\providecommand*\nextfloat{%
+    \caption@teststar\caption@nextfloat\@firstoftwo\@secondoftwo}
+\newcommand*\caption@nextfloat[1]{%
+  \caption@iftype
+    {\caption@@nextfloat\@captype
+     #1{}{\caption@reset@currentlabel\caption@start}}%
+    {\caption@OutsideFloat\nextfloat}}
+\newcommand*\caption@@nextfloat[1]{%
+  \flushsubcaptionlistentries
+  \caption@clrflags
+  \ifx\caption@@@continuedfloat\@gobble
+    % next continued float
+    \caption@set@continuedfloat\caption@setcontinued\relax
+  \fi}
+\newcommand*\caption@refstepcounter{%
+  \@nameuse{donemaincaptiontrue}% Support of the memoir document class
+  \caption@ifrefstepcounter\caption@@refstepcounter\caption@@refcounter}
+\newcommand*\caption@@refstepcounter[1]{%
+  \caption@prepare@stepcounter{#1}%
+  \caption@refstepcounter@{#1}}
+\newcommand*\caption@@refcounter[1]{%
+  \let\caption@stepcounter@ORI\stepcounter
+  \def\stepcounter##1{%
+    \edef\caption@tempa{#1}%
+    \edef\caption@tempb{##1}%
+    \ifx\caption@tempa\caption@tempb
+      % Suppress incrementation of counter
+    \else
+      \caption@stepcounter@ORI{##1}%
+    \fi}%
+  \caption@refstepcounter@{#1}%
+  \let\stepcounter\caption@stepcounter@ORI}
+\newcommand*\caption@refstepcounter@{\refstepcounter}
+\newcommand*\caption@stepcounter{%
+  \caption@ifstepcounter\caption@@stepcounter\caption@@counter}
+\newcommand*\caption@@stepcounter[1]{%
+  \caption@prepare@stepcounter{#1}%
+  \caption@stepcounter@{#1}}
+\newcommand*\caption@@counter[1]{} % nothing to do
+\newcommand*\caption@stepcounter@{\stepcounter}
+\newcommand*\caption@prepare@stepcounter{%
+  \caption@addsubcontentslines\relax
+  \caption@reset@continuedfloat}
+\newcommand*\caption@ifrefstepcounter{%
+  \caption@ifcounter
+    {\caption@ifcaption}%
+    {\caption@ifsubcaption@below{\caption@iftop\@secondoftwo\@firstoftwo}{\@secondoftwo}}%
+    {\caption@setcaption}}
+\newcommand*\caption@ifstepcounter{%
+  \caption@ifcounter
+    {\caption@ifcaption\caption@ifsubcaption@above\@secondoftwo}%
+    {\caption@iftop}%
+    {\caption@setsubcaption}}
+\newcommand*\caption@ifcounter[3]{%
+  \caption@ifflags
+    {#1%
+       {#2\caption@Warning\@gobble{Ambiguous sub-caption(s), use \string\nextfloat}%
+        \caption@clrflags
+        \let\caption@next\@firstoftwo}%
+       {\let\caption@next\@secondoftwo}}%
+    {\let\caption@next\@firstoftwo}%
+  #3%
+  \caption@next}
+\newcommand\caption@dblarg[1]{%
+  \kernel@ifnextchar[%]
+    {\caption@ydblarg{#1}}%
+    {\caption@xdblarg{#1}}}
+\newcommand\caption@xdblarg[2]{%
+  \caption@iftokens{#2}{#1[{#2}]{#2}}{#1[\relax]{}}}
+\long\def\caption@ydblarg#1[#2]#3{%
+  \caption@iflistheading{#1[{#3}]{#3}}{#1[{#2}]{#3}}}
+\newcommand*\caption@begin[1]{%
+  \caption@fixposition
+  \begingroup
+    \caption@setfnum{#1}}
 \newcommand\caption@beginex[3]{%
   \caption@begin{#1}%
-  \let\lst@@caption\relax
+  \caption@beginex@hook
   \caption@addcontentsline{#1}{#2}%
   \caption@ifempty{#3}{}}
+\newcommand*\caption@beginex@hook{}
 \newcommand*\caption@end{%
-  \endgroup
-  \let\caption@position\caption@fixedposition}
-\newcommand*\caption@setfnum[1]{%
-  \@ifundefined{fnum@#1}{\iftrue}{\ifx\caption@lfmt\caption@lfmt@default\else}%
-    \@namedef{fnum@#1}{\caption@fnum{#1}}%
-  \fi}
-\newcommand*\caption@boxrestore{%
-  \caption@parboxrestore{\@parboxrestore}{%
-    \let\if@nobreak\iffalse
-    \let\if@noskipsec\iffalse
-    \let\par\@@par
-    \parindent\z@ \parskip\z@skip
-    \everypar{}%
-    \leftskip\z@skip \rightskip\z@skip \@rightskip\z@skip
-    \parfillskip\@flushglue \lineskip\normallineskip
-    \baselineskip\normalbaselineskip
-    \sloppy
-    \let\\\@normalcr
-  }}
-\newcommand\caption@boxrestore@mini{%
-  \let\par\@@par
-  \parindent\z@ \parskip\z@skip
-  \sloppy}
+  \endgroup}
 \newcommand*\caption@normalsize{%
-  \caption@font*{\KV@caption@fnt@normal\@unused}}
+  \caption@font@normal\@unused}
 \let\caption@setfloatcapt\@firstofone
 \newcommand*\caption@makecurrent[1]{\caption@gettitle}
 \let\caption@makeanchor\@firstofone
@@ -899,58 +627,41 @@
 \let\caption@freezeHref\relax
 \let\caption@defrostHref\relax
 \newcommand\caption@gettitle[1]{%
-  \caption@ifundefined\NR@gettitle
-    {\def\@currentlabelname{#1}}%
-    {\NR@gettitle{#1}}}
-\def\caption@DeclareSubType sub#1\@nil{%
-  \caption@Debug{Initializing subtype for `#1'\@gobble}%
-  \@namedef{caption@c@#1}{0}%
-  \@namedef{caption@beginsub#1}{\caption@beginsubfloat{#1}}}
-\@onlypreamble\caption@DeclareSubType
-\caption@For*{subtypelist}{\caption@DeclareSubType sub#1\@nil}
-\caption@AtBeginDocument*{%
-  \caption@ifundefined\sf@counterlist{}{%
-    \@for\sf@temp:=\sf@counterlist\do{%
-      \expandafter\caption@DeclareSubType\sf@temp\@nil}}}
+  \caption@ifdefined\NR@gettitle
+    {\NR@gettitle{#1}}%                                         % support for recent versions of nameref package
+    {\caption@ifdefined\NR@sect{\def\@currentlabelname{#1}}{}}} % support for older versions of nameref package
+\newcommand*\subcaptionsetup{%
+  \caption@teststar\@subcaptionsetup*{}}
+\newcommand*\@subcaptionsetup[1]{%
+  \@testopt{\captionsetup@sub{#1}}{}}
+\def\captionsetup@sub#1[#2]#3{%
+  \captionsetup#1[sub#2]{#3}}
 \newcommand*\caption@subtypehook{%
   \ifx\caption\caption@subcaption \else
     \caption@warmup
-    \caption@ifrefstepcounter{}{%
-      % no \caption or \subcaption in this (floating) environment yet
-      \caption@Debug{Increment \@captype\ counter =\the\value\@captype}%
-      \caption@l@stepcounter\@captype
-      \let\caption@@@addcontentsline\caption@addsubcontentsline}%
-    \ifnum\csname caption@c@\@captype\endcsname=\value\@captype \else
-      \caption@Debug{Reset sub\@captype\ counter}%
-      \expandafter\xdef\csname caption@c@\@captype\endcsname{%
-        \the\value\@captype}%
-      \@stpelt\@subcaptype
-    \fi
-    \c@ContinuedFloat=0\relax
-    \let\caption@resetContinuedFloat\@gobble
-    \let\caption@addcontentsline\caption@kernel@addcontentsline
+    \caption@stepcounter\@captype
+    \caption@ifcaption
+      {}%
+      {\let\caption@add@contentsline\caption@addsubcontentsline
+       \let\caption@addsubcontentslines\@gobble}%
+    \c@continuedfloat=0\relax
     \let\caption@setfloatcapt\@firstofone
+    \let\caption@chkfloat\@gobbletwo
+    \caption@set{box}{none}%
     \caption@clearmargin
     \caption@iflist{}{\let\caption@setlist\@gobble}%
     \caption@setoptions{sub}%
     \caption@setoptions{subfloat}% for subfig-package compatibility
+    \renewcommand*\caption@settype[1]{%
+      \caption@Error{##1 inside \@subcaptype}}%
     \let\caption\caption@subcaption
+    \let\@caption\caption@@caption
     \let\phantomcaption\caption@subphantom
-    \if@subfloatrow
-      \caption@Debug{Keeping \string\@makecaption}%
-    \else
-      \let\@makecaption\caption@makecaption
-    \fi
+    \let\captionlistentry\caption@sublistentry
+    \let\captiontext\caption@subtext
+    \let\caption@refstepcounter\caption@refstepcounter@
+    \let\@makecaption\caption@makecaption
   \fi}%
-\caption@AtBeginDocument{%
-  \caption@ifundefined\@subfloatrowtrue
-   {\newif\if@subfloatrow
-    \caption@ifundefined\subfloatrow{}%
-    {\caption@Debug{Patching subfloatrow environment}%
-     \g@addto@macro\capsubrowsettings{\@subfloatrowtrue}%
-     \g@addto@macro\killfloatstyle{%
-       \ifx\c@FRobj\c@FRsobj\@subfloatrowtrue\fi}}}%
-   {\caption@Debug{\string\if@subfloatrow is already defined}}}%
 \newcommand*\caption@subcaption{%
   \caption@checkgrouplevel{sub}\subcaption
   \caption@star
@@ -959,104 +670,62 @@
 \newcommand*\caption@subphantom{%
   \caption@checkgrouplevel{sub}\phantomsubcaption
   \caption@refstepcounter\@subcaptype}
-\let\caption@kernel@addcontentsline\caption@addcontentsline
-\renewcommand\caption@addcontentsline[2]{%
-  \sf@ifpositiontop{\@listsubcaptions{#1}}{}%
-  \caption@kernel@addcontentsline{#1}{#2}%
-  \sf@ifpositiontop{}{\@listsubcaptions{#1}}%
-  \caption@addsubcontentslines{#1}}
-\newcommand*\caption@addsubcontentslines[1]{%
-  \begingroup
-    \caption@subcontentslines
-  \endgroup
-  \caption@clearsubcontentslines}%
+\newcommand*\caption@sublistentry{%
+  \caption@teststar\@subcaptionlistentry\@firstoftwo\@secondoftwo}
+\newcommand*\@subcaptionlistentry[1]{%
+  \@testopt{\caption@listentry{#1}}{\@subcaptype}}
+\newcommand*\caption@subtext{%
+  \caption@text\@subcaptype}
+\newcommand*\caption@clearsubcontentslines{%
+  \global\let\caption@subcontentslines\@empty}
+\caption@clearsubcontentslines
 \newcommand*\caption@addsubcontentsline[4]{%
+  \caption@Debug{\string\caption@addsubcontentsline{#1}{#2}}%
   \begingroup
-  \let\label\caption@gobble \let\index\caption@gobble \let\glossary\caption@gobble
+  \caption@prepareslc
   \protected@edef\@tempa{\endgroup
     \noexpand\g@addto@macro\noexpand\caption@subcontentslines{%
       \noexpand\@namedef{the#2}{\csname the#2\endcsname}%
       \ifx\@currentHref\@undefined \else
         \noexpand\def\noexpand\@currentHref{\@currentHref}%
       \fi
-      \protect\caption@@@addcontentsline{#1}{#2}{#3}{#4}}}%
+      \noexpand\caption@@@addcontentsline{#1}{#2}{#3}{#4}}}%
   \@tempa}
-\newcommand*\caption@checksubcontentslines{%
-  \ifx\caption@subcontentslines\@empty \else
-    \caption@Error{%
-      Something's wrong--perhaps a missing \protect\caption\MessageBreak
-      in the last figure or table}%
-    \caption@clearsubcontentslines
-  \fi}
-\newcommand*\caption@clearsubcontentslines{%
-  \global\let\caption@subcontentslines\@empty}
-\caption@AtBeginDocument*{%
-  \caption@ifundefined\sf@ifpositiontop{\let\sf@ifpositiontop\@gobbletwo}{}%
-  \caption@clearsubcontentslines
-  \g@addto@macro\caption@typehook{\caption@checksubcontentslines}%
-  \AtEndDocument{\caption@checksubcontentslines}}%
-\caption@ifundefined\smf@makecaption{}{\let\smf@makecaption\@makecaption}
-\@ifclassloaded{beamer}{%
-  \caption@InfoNoLine{beamer document class}%
-  \expandafter\let\expandafter\caption@ORI@figure
-    \csname\string\figure\endcsname
-  \@namedef{\string\figure}[#1]{%
-    \caption@ORI@figure[#1]%
-    \caption@settype{figure}}
-  \expandafter\let\expandafter\caption@ORI@table
-    \csname\string\table\endcsname
-  \@namedef{\string\table}[#1]{%
-    \caption@ORI@table[#1]%
-    \caption@settype{table}}
+\newcommand*\flushsubcaptionlistentries{%
+  \caption@addsubcontentslines\relax}
+\renewcommand*\caption@addsubcontentslines[1]{%
+  \caption@Debug{\string\flushsubcaptionlistentries}%
+  \begingroup
+    \caption@subcontentslines
+  \endgroup
+  \caption@clearsubcontentslines}
+\caption@IfBabelArabi{%
+  \let\@makecaption\caption@makecaption
+  \def\fnum@figure{\figurename\nobreakspace\thefigure}%
+  \def\fnum@table{\tablename\nobreakspace\thetable}%
 }{}
-\caption@ifundefined\scr@caption{}{%
-  \caption@AtBeginDocument{\let\scr@caption\caption}}
-\@nameuse{caption@frenchb}\@nameundef{caption@frenchb}
-\caption@AtBeginDocument{\caption@ifundefined\frenchTeXmods{}{%
-  \caption@InfoNoLine{frenchle/pro package is loaded}%
-  \let\captionfont@ORI\captionfont
-  \let\captionlabelfont@ORI\captionlabelfont
-  \let\@makecaption@ORI\@makecaption
-
-  \caption@ifundefined\GOfrench
-    {\let\caption@tempa\@firstofone}%
-    {\def\caption@tempa{\g@addto@macro\GOfrench}}%
-  \caption@tempa{%
-    \let\captionfont\captionfont@ORI
-    \let\captionfont@ORI\@undefined
-    \let\captionlabelfont\captionlabelfont@ORI
-    \let\captionlabelfont@ORI\@undefined
-    \let\@makecaption\@makecaption@ORI
-    \let\@makecaption@ORI\@undefined
-    \let\@cnORI\caption
-    \let\caption@tcORI\@tablescaption
-    \def\@tablescaption{\caption@star\relax\caption@tcORI}%
-    \let\@eatDP\@undefined
-    \let\caption@tempa\@empty
-    \ifx\f@ffrench\fnum@figure
-      \l@addto@macro\caption@tempa{\let\fnum@figure\f@ffrench}%
-    \fi
-    \ifx\f@tfrench\fnum@table
-      \l@addto@macro\caption@tempa{\let\fnum@table\f@tfrench}%
-    \fi
-    \def\f@ffrench{\ifx\listoffigures\relax\else\figurename~\thefigure\fi}%
-    \def\f@tfrench{\ifx\listoftables\relax\else\tablename~\thetable\fi}%
-    \caption@tempa
-  }%
-}}
-\def\caption@tempa#1{%
-  \@ifundefined{extras#1}\caption@AtBeginDocument\@firstofone{%
-    \@ifundefined{extras#1}{}{%
-      \caption@InfoNoLine{#1 babel option is loaded}%
-      \expandafter\addto\csname extras#1\endcsname{%
-         % reverse changes made by magyar.ldf
-         \let\@makecaption\caption@makecaption
-         \babel@save\@makecaption
-         \caption@redefine
-         \babel@save\@caption}%
-    }}}
-\caption@tempa{hungarian}%
-\caption@tempa{magyar}%
+\caption@IfFrenchLe{%
+  \def\f@ffrench{\ifx\listoffigures\relax\else\figurename~\thefigure\fi}%
+  \def\f@tfrench{\ifx\listoftables\relax\else\tablename~\thetable\fi}%
+  \let\@eatDP\@undefined
+  \caption@AtBeginDocument{%
+    \let\caption@original@makecaption\@makecaption}%
+  \g@addto@macro\GOfrench{%
+    \let\@makecaption\caption@original@makecaption}%
+}{}
+\caption@IfBabelHungarian{%
+  \caption@AtBeginDocument{%
+    \let\caption@original@makecaption\@makecaption}%
+  \caption@ifdefined\extrashungarian{%
+    \addto\extrashungarian{%
+      \let\@makecaption\caption@original@makecaption}}{}%
+  \caption@ifdefined\extrasmagyar{%
+    \addto\extrasmagyar{%
+      \let\@makecaption\caption@original@makecaption}}{}%
+}{}
+\caption@IfBabelLatvian{%
+  \let\@makecaption\caption@makecaption
+}{}
 \newcommand\caption@IfPackageLoaded[1]{%
   \@testopt{\caption@@IfPackageLoaded{#1}}{}}
 \@onlypreamble\caption@IfPackageLoaded
@@ -1064,7 +733,7 @@
   \@ifpackageloaded{#1}\@firstofone{%
     \caption@Debug{#1 package is not loaded (yet)\@gobble}%
     \caption@AtBeginDocument}{%
-      \caption@If@Package@Loaded{#1}[#2]{#3}{#4}}}
+      \caption@If@Package@Loaded{#1}[{#2}]{#3}{#4}}}
 \@onlypreamble\caption@@IfPackageLoaded
 \long\def\caption@If@Package@Loaded#1[#2]{%
   \@ifpackageloaded{#1}{%
@@ -1080,77 +749,106 @@
   }{\@secondoftwo}}
 \@onlypreamble\caption@If@Package@Loaded
 \newcommand*\caption@clearmargin{%
-  \setcaptionmargin\z@
+  \caption@setmargin\z@
   \let\caption@minmargin\@undefined}
 \caption@setbool{needfreeze}{0}
 \caption@AtBeginDocument*{%
   \caption@ifneedfreeze{%
-  \newcommand*\caption@freeze{%
-    \let\caption@frozen@ContinuedFloat\ContinuedFloat
-    \def\ContinuedFloat{%
-      \caption@withoptargs\caption@SC@ContinuedFloat}%
-    \def\caption@SC@ContinuedFloat##1{%
-      \caption@@freeze{\ContinuedFloat##1}%
-      \let\caption@frozen@setcounter\setcounter
-      \let\caption@frozen@addtocounter\addtocounter
-      \def\setcounter####1####2{\csname c@####1\endcsname####2\relax}%
-      \def\addtocounter####1####2{\advance\csname c@####1\endcsname ####2\relax}%
-      \caption@frozen@ContinuedFloat##1%
-      \let\setcounter\caption@frozen@setcounter
-      \let\addtocounter\caption@frozen@addtocounter}%
-    \let\caption@frozen@setup\caption@setup
-    \def\caption@setup##1{%
-      \caption@@freeze{\caption@setup{##1}}%
-      \caption@frozen@setup{##1}}%
-    \let\caption@frozen@caption\caption
-    \def\caption{%
+    \newcommand*\caption@freezetype[1]{%
+      \caption@settype{#1}%
+      \captionsetup*[sub]{hypcap=true}% Note: This is just a (q&d) workaround!
+      \caption@freeze}%
+    \newcommand*\caption@freeze{%
+      \let\caption@frozen@continuedfloat\continuedfloat
+      \def\continuedfloat{%
+        \caption@@freeze{\caption@@@continuedfloat\@captype}%
+        \caption@frozen@continuedfloat}%
+      \let\caption@frozen@nextfloat\nextfloat
+      \def\nextfloat{\caption@freeze@error}%
+      \let\caption@frozen@setup\caption@setup
+      \def\caption@setup##1{%
+        \caption@@freeze{\caption@setup{##1}}%
+        \caption@frozen@setup{##1}}%
+      \let\caption@frozen@caption\caption
       \def\caption{%
-        \caption@Error{%
-          Only one \noexpand\caption can be placed in this environment}%
-        \caption@gobble}%
-      \@ifstar
-      {\caption@SC@caption*}%
-      {\let\caption@frozen@refstepcounter\caption@@refstepcounter
-       \let\caption@@refstepcounter\caption@l@stepcounter
-       \caption@refstepcounter\@captype
-       \let\caption@@refstepcounter\caption@frozen@refstepcounter
-       \let\@currentlabel\caption@SClabel
-       \caption@withoptargs\caption@SC@caption}}%
-    \long\def\caption@SC@caption##1##2{%
-      \caption@@freeze{\caption##1{##2}}%
-      \ignorespaces}%
-    \let\caption@frozen@label\label
-    \def\label{%
-      \caption@withoptargs\caption@SC@label}%
-    \def\caption@SC@label##1##2{%
-      \ifx\@currentlabel\caption@SClabel
-        \@bsphack
-          \caption@freeze@label{##1}{##2}%
-        \@esphack
+        \def\caption{\caption@freeze@error\caption@gobble}%
+        \@ifstar
+          {\caption@SC@caption*}%
+          {\let\@currentlabel\caption@SClabel
+           \caption@withoptargs\caption@SC@caption}}%
+      \long\def\caption@SC@caption##1##2{%
+        \caption@@freeze{\caption##1{##2}}%
+        \ignorespaces}%
+      \let\caption@frozen@label\label
+      \def\label{%
+        \caption@withoptargs\caption@SC@label}%
+      \def\caption@SC@label##1##2{%
+        \ifx\@currentlabel\caption@SClabel
+          \@bsphack
+            \caption@freeze@label{##1}{##2}%
+          \@esphack
+        \else
+          \caption@frozen@label##1{##2}%
+        \fi}%
+      \def\caption@SClabel{\caption@undefinedlabel}%
+      \def\caption@freeze@label##1##2{%
+        \caption@@freeze{\label##1{##2}}}%
+      \global\let\caption@frozen@content\@empty
+      \long\def\caption@@freeze{%
+        \g@addto@macro\caption@frozen@content}%
+      \def\caption@warmup{%
+        \let\continuedfloat\caption@frozen@continuedfloat
+        \let\nextfloat\caption@frozen@nextfloat
+        \let\caption@setup\caption@frozen@setup
+        \let\caption\caption@frozen@caption
+        \let\label\caption@frozen@label}}%
+    \newcommand*\caption@freeze@error{%
+      \caption@Error{Only one \noexpand\caption can be placed in this environment}}
+    \newcommand*\caption@prepare@defrost{%
+      \def\caption@settype{\caption@@settype{}}}
+    \newcommand*\caption@defrost{%
+      \ifx\caption@frozen@caption\@undefined
+        \caption@frozen@content
       \else
-        \caption@frozen@label##1{##2}%
+        \caption@Error{Internal Error:\MessageBreak
+          \noexpand\caption@defrost in same group as \string\caption@freeze}%
       \fi}%
-    \def\caption@SClabel{\caption@undefinedlabel}%
-    \def\caption@freeze@label##1##2{%
-      \caption@@freeze{\label##1{##2}}}%
-    \global\let\caption@frozen@content\@empty
-    \long\def\caption@@freeze{%
-      \g@addto@macro\caption@frozen@content}%
-    \def\caption@warmup{%
-      \let\ContinuedFloat\caption@frozen@ContinuedFloat
-      \let\caption@setup\caption@frozen@setup
-      \let\caption\caption@frozen@caption
-      \let\label\caption@frozen@label}}%
-  \newcommand*\caption@defrost{%
-    \ifx\caption@frozen@caption\@undefined
-      \caption@frozen@content
-    \else
-      \caption@Error{Internal Error:\MessageBreak
-        \noexpand\caption@defrost in same group as \string\caption@freeze}%
-    \fi}%
   }{}%
   \caption@undefbool{needfreeze}}
 \let\caption@warmup\relax
+\caption@IfPackageLoaded{changepage}[2008/07/23 memoir-v3.7k]{%
+  \providecommand*\caption@patch@adjustwidth[1]{%
+    \expandafter\let\csname caption@#1\expandafter\endcsname\csname #1\endcsname
+    \expandafter\renewcommand\csname #1\endcsname[2]{%
+      \@nameuse{caption@#1}{##1}{##2}%
+      \caption@set@adjustwidth
+      \ignorespaces}}%
+  \caption@patch@adjustwidth{adjustwidth}%
+  \caption@patch@adjustwidth{adjustwidth*}%
+  \let\caption@patch@adjustwidth\relax
+  \newdimen\caption@adjustwidth@hsize
+  \newdimen\caption@adjustwidth@linewidth
+  \providecommand*\caption@set@adjustwidth{%
+    \caption@adjustwidth@hsize\hsize
+    \caption@adjustwidth@linewidth\linewidth
+    \l@addto@macro\caption@beginex@hook\caption@test@adjustwidth}%
+  \providecommand\caption@test@adjustwidth{%
+    \ifdim\hsize=\caption@adjustwidth@hsize
+      \ifdim\linewidth=\caption@adjustwidth@linewidth
+        \hsize=\linewidth
+      \fi
+    \fi}%
+  }{}%
+\caption@IfPackageLoaded{chkfloat}[2012/08/19 v0.1]{%
+  \caption@ifdefined\chkfloat@addcontentsline{%
+    \renewcommand\caption@chkfloat{\chkfloat@addcontentsline}%
+  }{%
+    \renewcommand\caption@chkfloat[2]{%
+      \caption@ifdefined\chkfloat@page{%
+        \addtocontents{fof}{\protect\chkfloat@{\thepage}{\chkfloat@page}{\csname fnum@#1\endcsname: #2}}%
+      }{}}%
+  }%
+  }{}%
 \caption@IfPackageLoaded{float}[2001/11/08 v1.3d]{%
  \@ifpackageloaded{floatrow}{%
   \caption@If@Package@Loaded{floatrow}[2007/08/24 v0.2a]{}{}%
@@ -1167,13 +865,23 @@
       \caption@setstyle*\float@style
       \caption@setoptions\float@style
     }{}%
+    \caption@float@setname{#1}%
     \caption@freezeHref % will be defrosted in \float@makebox
     \caption@ORI@float@setevery{#1}}%
-  \g@addto@macro\caption@typehook{%
-    \expandafter\ifx\csname #1name\endcsname\relax
-      \expandafter\let\csname #1name\expandafter\endcsname
-                      \csname fname@#1\endcsname
+  \caption@AtBeginDocument{%
+    \caption@ifdefined\HyOrg@float@makebox
+      {\let\caption@ORI@float@makebox\HyOrg@float@makebox}%
+      {\let\caption@ORI@float@makebox\float@makebox}%
+    \renewcommand\float@makebox[1]{%
+      \caption@ORI@float@makebox{#1\relax \caption@defrostHref}}%
+  }%
+  \newcommand*\caption@float@setname[1]{%
+    \expandafter\ifx\csname #1name\endcsname\relax % either undefined or \relax
+      \@namedef{#1name}{\@nameuse{fname@#1}}%
     \fi}%
+  \renewcommand*\caption@setname[2]{%
+    \@ifundefined{fname@#1}{}{\caption@ifdefined\floatname\floatname\@gobbletwo{#1}{#2}}%
+    \@namedef{#1name}{#2}}%
   \g@addto@macro\fs@plaintop{\def\@fs@mid{\vspace\abovecaptionskip\relax}}%
   \g@addto@macro\fs@boxed{\def\@fs@mid{\kern\abovecaptionskip\relax}}%
   \providecommand*\float@getstyle[2]{%
@@ -1211,8 +919,25 @@
   \newcommand*\caption@floatflt[1]{%
     \caption@settype{#1}%
     \caption@clearmargin
-    \caption@setfullparboxrestore
-    \caption@setoptions{floating#1}}%
+    \caption@setoptions{floating#1}%
+    \caption@setanchor}%
+}{}
+\caption@IfPackageLoaded{floatrow}[2008/08/02 v0.3b]{%
+  \renewcommand\captionlabel[1]{{\def\FR@tmp{\@captype}\ifnum\floatbox@depth>\@ne
+       \def\FR@tmp{sub\@captype}\setcaptionsubtype*\stepcounter{\FR@tmp}\fi
+   \caption@@@make{\caption@fnum\FR@tmp}{#1}}}
+  \renewenvironment{subfloatrow}{\capsubrowsettings
+    \caption@subfloatrow@hook % as replacement for \captionsetup{subtype}
+    \@nameuse{subfloatrow*}}{\@nameuse{endsubfloatrow*}}
+  \providecommand*\caption@subfloatrow@hook{}
+  \renewenvironment{subfloatrow*}[1][2]{\let\flrow@to\empty
+    \let\Xhsize\sXhsize%\let\Zhsize\sZhsize
+    \FR@ifunloc{\let\FR@ifcountH\@firstoftwo}\let\c@FRobj\c@FRsobj
+    \def\FRleftmargin{}\def\FRrightmargin{}\let\floatrowsep\subfloatrowsep
+    \floatrow[#1]\killfloatstyle
+    \let\caption@makecaption\flrow@makecaption}% <- This line added
+    {\ifdim\lastskip>\z@\unskip\fi
+     \@ifundefined{adjustsubfloats}\relax\adjustsubfloats\endfloatrow}
 }{}
 \caption@IfPackageLoaded{fltpage}[1998/10/29 v.0.3]{%
   \caption@setbool{needfreeze}{1}%
@@ -1227,13 +952,7 @@
     \def\FP@captype{#1}%
     \begin{lrbox}{\FP@floatCorpusBOX}%
     \minipage\hsize % changes from LR mode to vertical mode
-    \caption@settype*{#1}%
-    \caption@freeze
-    \global\let\FP@Label\@empty
-    \caption@ifFPrefcap
-      {}%
-      {\def\caption@freeze@label##1##2{%
-          \g@addto@macro\FP@Label{\FP@label##1{##2}}}}%
+    \caption@freezetype{#1}%
     \ignorespaces}%
   \renewcommand*\FP@floatEnd{%
     \endminipage
@@ -1241,33 +960,16 @@
     \stepcounter{FP@\FP@captype C}%
     \caption@label\FP@positionLabel
     \FP@helpNote\FP@captype\FP@positionLabel
-    \edef\FP@RestoreCounter{%
-      \noexpand\setcounter{\FP@captype}{\the\value\FP@captype}%
-      \noexpand\setcounter{ContinuedFloat}{\the\value{ContinuedFloat}}}%
     \FP@float
       {\FP@positionLabel}% location label test
-      {\begin\FP@captype[p!]%
+      {\caption@prepare@defrost
+       \begin\FP@captype[p!]%
          \usebox\FP@floatCorpusBOX
-         \let\caption@SClentry\@empty
-         \def\caption{\caption@dblarg{\@caption\@captype}}%
-         \long\def\@caption##1[##2]##3{\def\caption@SClentry{##2}}%
-         \let\FP@label\label
-         \let\label\caption@gobble
-         \caption@defrost
-         \caption@ifFPlistcap
-           {\caption@refstepcounter\@captype
-            \expandafter\caption@makecurrent\expandafter\@captype
-                                         \expandafter{\caption@SClentry}}%
-           {\ifx\caption@SClentry\@empty \else
-               \expandafter\captionlistentry\expandafter{\caption@SClentry}%
-             \fi}%
-         \caption@makeanchor\relax
-         \FP@Label
        \end\FP@captype}%
-      {\FP@RestoreCounter
-       \@ifundefined{theH\FP@captype}{}{%
+      {\@ifundefined{theH\FP@captype}{}{%
          \expandafter\l@addto@macro\csname theH\FP@captype\endcsname{.FP}}}%
-      {\begin\FP@captype[b!]%
+      {\caption@prepare@defrost
+       \begin\FP@captype[b!]%
          \let\FP@savedSetfnumCommand\caption@setfnum
          \def\caption@setfnum##1{%
            \FP@savedSetfnumCommand{##1}%
@@ -1278,7 +980,6 @@
          \setlength\belowcaptionskip{2pt plus 2pt minus 1pt}% length below caption
          \caption@setoptions{FP\@captype}%
          \FP@separatorCaption
-         \caption@ifFPlistcap{}{\let\caption@addcontentsline\@gobbletwo}%
          \caption@defrost
        \end\FP@captype}%
   }%
@@ -1304,8 +1005,8 @@
       Hyperref support is turned off\MessageBreak
       because hyperref has stopped early}%
   }{%
-    \g@addto@macro\caption@prepareslc{\measuring@true}%
-    \renewcommand*\caption@@refstepcounter{\H@refstepcounter}%
+    \AtCaptionSingleLineCheck{\measuring@true}%
+    \renewcommand*\caption@refstepcounter@{\H@refstepcounter}%
     \renewcommand*\caption@makecurrent[2]{%
       \caption@makecurrentHref{#1}%
       \caption@Debug{hyperref current=\@currentHref}%
@@ -1321,7 +1022,7 @@
           \expandafter\hyper@@anchor\expandafter{\@currentHref}{\relax}%
         }#1%
       \fi}%
-    \g@addto@macro\caption@prepareslc{\let\caption@makeanchor\@firstofone}%
+    \AtCaptionSingleLineCheck{\let\caption@makeanchor\@firstofone}%
     \newif\if@capstart
     \def\caption@start{\caption@ifhypcap\caption@start@\relax}%
     \def\caption@start@{%
@@ -1383,17 +1084,9 @@
         \caption@startanchor\caption@currentHref
         \global\let\caption@currentHref\@undefined
       \fi}%
-    \caption@ifundefined\HyOrg@float@makebox{}{%
-      \caption@Debug{%
-        Redefining \noexpand\float@makebox (again)\@gobble}%
-      \let\caption@ORI@float@makebox\float@makebox % save for compatibility mode
-      \renewcommand\float@makebox[1]{%
-        \HyOrg@float@makebox{#1\relax \caption@defrostHref}}%
-    }%
   }}{}
 \caption@IfPackageLoaded{hypcap}{% v1.0
   \ifx\caption@start\relax \else % hyperref hasn't stopped early
-    \let\caption@ORI@capstart\capstart % save for compatibility mode
     \caption@ifundefined\capstarttrue % check for v1.10 of hypcap package
       {\def\capstart{\caption@start@}}%
       {\def\capstart{\ifcapstart\caption@start@\fi}}%
@@ -1403,12 +1096,14 @@
     \renewcommand*\caption@hypcapspace{\hypcapspace}%
   \fi}{}
 \caption@IfPackageLoaded{listings}[2004/02/13 v1.2]{%
+  \caption@setbool{lst@Init}{0}%
+  \lst@AddToHook{Init}{\caption@setbool{lst@Init}{1}}%
   \let\caption@ORI@lst@MakeCaption\lst@MakeCaption
-  \def\lst@MakeCaption#1{% #1 is `t' or `b'
+  \renewcommand*\lst@MakeCaption[1]{% #1 is `t' or `b'
     \begingroup
-    \ifdim\hsize>\linewidth
-      \hsize\linewidth
-    \fi
+      \caption@iflst@Init{}{%
+        \edef\caption@lst@leftskip{\noexpand\hskip-\the\@totalleftmargin\noexpand\relax}%
+        \l@addto@macro\caption@beginhook\caption@lst@leftskip}%
       \caption@setposition{#1}%
       \caption@iftop{%
         \@tempdima\belowcaptionskip
@@ -1417,6 +1112,12 @@
       \caption@setup{rule=0}%
       \caption@setoptions{lstlisting}%
       \caption@setautoposition{#1}%
+      \ifx\lst@@caption\@empty \else
+        \let\caption@ORI@addcontentsline\addcontentsline
+        \renewcommand*\addcontentsline[3]{%
+          \let\addcontentsline\caption@ORI@addcontentsline
+          \caption@addcontentsline{lstlisting}{\lst@@caption}}%
+      \fi
       \caption@begin{lstlisting}%
         \caption@ORI@lst@MakeCaption{#1}%
       \caption@end
@@ -1424,57 +1125,87 @@
   \def\lst@makecaption{\caption@starfalse\@makecaption}%
   \def\lst@maketitle{\caption@startrue\@makecaption\@empty}%
   \providecommand*\ext@lstlisting{lol}%
+  \l@addto@macro\caption@beginex@hook{\let\lst@@caption\relax}%
 }{}
 \providecommand*\LTcaptype{table}
+\providecommand*\caption@LT@array{}
+\newcommand\caption@AtBeginLongtable{%
+  \g@addto@macro\caption@LT@array}
 \caption@IfPackageLoaded{longtable}[1995/05/24 v3.14]{%
-  \RequirePackage{ltcaption}[2007/09/01]%
+  \RequirePackage{ltcaption}[2018/08/26]%
   \let\LT@@makecaption\@undefined
   \caption@AtBeginDocument{%
     \let\caption@ORI@LT@array\LT@array
     \renewcommand*\LT@array{%
-      \global\let\caption@opt@@longtable\@undefined
-      \def\captionsetup{%
-        \noalign\bgroup
-        \@ifstar\@captionsetup\@captionsetup}% gobble *
-      \def\@captionsetup##1{\LT@captionsetup{##1}\egroup}%
-      \def\LT@captionsetup##1{%
-        \captionsetup@startrue\caption@setup@options[@longtable]{##1}%
-        \global\let\caption@opt@@longtable\caption@opt@@longtable}%
-      \def\@captionabovetrue{\LT@captionsetup{position=t}}%
-      \def\@captionabovefalse{\LT@captionsetup{position=b}}%
-      \def\captionlistentry{%
-        \noalign\bgroup
-        \@ifstar{\egroup\LT@captionlistentry}% gobble *
-                {\egroup\LT@captionlistentry}}%
-      \def\LT@captionlistentry##1{%
-        \caption@listentry\@firstoftwo[\LTcaptype]{##1}}%
-%%        \let\Hy@LT@currentHlabel\@currentHlabel
-%%          \let\@currentHlabel\Hy@LT@currentHlabel
-      \def\ContinuedFloat{\noalign{%
-        \caption@Error{\noexpand\ContinuedFloat outside float}}}%
+      \caption@LT@array
       \caption@ORI@LT@array}}%
-  \long\def\LT@c@ption#1[#2]#3{%
-    \LT@makecaption#1{\csname fnum@\LTcaptype\endcsname}{#3}%
-    \LT@captionlistentry{#2}}%
+  \caption@AtBeginLongtable{%
+    \global\let\caption@opt@@longtable\@undefined
+    \def\captionsetup{%
+      \noalign\bgroup
+      \@ifstar\@captionsetup\@captionsetup}% gobble *
+    \def\@captionsetup#1{\LT@captionsetup{#1}\egroup}%
+    \def\LT@captionsetup#1{%
+      \caption@setup@options\@gobble[@longtable]{#1}%
+      \global\let\caption@opt@@longtable\caption@opt@@longtable}%
+    \def\captionlistentry{%
+      \noalign\bgroup
+      \@ifstar{\egroup\LT@listentry\LTcaptype}% gobble *
+              {\egroup\LT@listentry\LTcaptype}}%
+%%      \let\Hy@LT@currentHlabel\@currentHlabel
+%%        \let\@currentHlabel\Hy@LT@currentHlabel
+    \def\continuedfloat{\noalign{%
+      \caption@OutsideFloat\continuedfloat}}%
+    \let\bicaption\LT@bicaption
+  }%
+  \def\LT@capti@n{%
+    \@ifstar
+      {\egroup\LT@c@ption\@gobble[]}%
+      {\egroup\caption@xdblarg{\LT@c@ption\@firstofone}}}%
   \renewcommand\LT@makecaption[3]{%
     \caption@LT@make{%
-      \caption@settype*\LTcaptype
-      \ifdim\LTcapwidth=4in \else
-        \setcaptionwidth\LTcapwidth
-      \fi
-      \caption@setoptions{longtable}%
-      \caption@setoptions{@longtable}%
+      \caption@LT@settype\LTcaptype
+      \caption@LT@setup
       \caption@setautoposition{\ifcase\LT@rows t\else b\fi}%
       \caption@startrue#1\caption@starfalse
-      \caption@resetContinuedFloat\LTcaptype
+      \caption@prepare@stepcounter\LTcaptype
       \caption@begin\LTcaptype
         \caption@normalsize
         \vskip-\ht\strutbox
-        \caption@iftop{\vskip\belowcaptionskip}{\vskip\abovecaptionskip}%
+        \caption@ifdefined\FBifcaptop{%
+          \let\caption@belowskip\@empty}{}%
+        \caption@make@above
         \caption@@make{#2}{#3}\endgraf
-        \caption@iftop{\vskip\abovecaptionskip}{\vskip\belowcaptionskip}%
+        \caption@make@below
       \caption@end}}%
-}{}
+  \renewcommand*\LT@listentry[2]{%
+    \begingroup
+      \caption@LT@settype{#1}%
+      \caption@listentry\@firstoftwo[{#1}]{#2}%
+    \endgroup\ignorespaces}%
+  \newcommand*\caption@LT@settype[1]{%
+    \caption@settype{#1}%
+    \ifdim\LTcapwidth=4in \else
+      \caption@setwidth\LTcapwidth
+    \fi
+    \caption@setoptions{longtable}%
+    \caption@setoptions{@longtable}}%
+  \caption@AtBeginDocument{\caption@ifdefined\flrow@setlist@{%
+    \caption@InfoNoLine{Fixing longtable code of `floatrow' package}%
+    \let\caption@flrow@setlist@\flrow@setlist@
+    \renewcommand\flrow@setlist@[1]{%
+      \def\caption@tempa{{table}{longtable}}%
+      \def\caption@tempb{#1}%
+      \ifx\caption@tempa\caption@tempb
+        \def\@captype{table}%
+      \fi
+      \caption@flrow@setlist@{#1}}%
+  }{}}%
+}{%
+  \let\caption@AtBeginLongtable\@gobble
+  \let\caption@LT@array\@undefined
+}
+\providecommand*\caption@LT@setup{}
 \caption@IfPackageLoaded{picinpar}{%
   \long\def\figwindow[#1,#2,#3,#4] {%
     \caption@window{figure}%
@@ -1489,12 +1220,16 @@
     \caption@setautoposition b%
     \caption@settype{#1}%
     \caption@clearmargin
-    \caption@setfullparboxrestore}%
+    \caption@setanchor}%
   \newcommand\caption@wincaption[1]{%
     \ifdim\picwd=\z@
       \let\caption@makecurrent\@gobbletwo
       \let\caption@@start\relax
       \caption@prepareslc
+    \else
+      % don't increment the figure or table counter again
+      \caption@clrflags
+      \caption@setcontinued
     \fi
     \edef\@tempa{\expandafter\noexpand\@car#1\@nil}%
     \if\@tempa*%
@@ -1523,10 +1258,10 @@
     \long\def\caption[##1]##2{%
       \caption@freezeHref % will be defrosted in \ivparpic
       \caption@settype\@piccaptype
-      \caption@clearmargin
-      \caption@setfullparboxrestore
+        \caption@clearmargin
       \caption@setoptions{parpic}%
       \caption@setautoposition b%
+      \caption@setanchor
       \expandafter\expandafter\expandafter\caption@ORI
         \expandafter\expandafter\expandafter[%
         \expandafter\expandafter\expandafter{%
@@ -1541,7 +1276,7 @@
       \caption@defrostHref
       \let\noindent\caption@ORI@noindent
       \noindent}%
-    \caption@ORI@ivparpic(#1,#2)(#3,#4)[#5][#6]{#7}%
+    \caption@ORI@ivparpic(#1,#2)(#3,#4)[{#5}][{#6}]{#7}%
     \let\noindent\caption@ORI@noindent}%
 }{%
   \let\piccaptiontype\@undefined
@@ -1551,48 +1286,69 @@
   \def\rotcaptionof{%
     \caption@teststar\caption@of{\rotcaption*}\rotcaption}%
   \long\def\@makerotcaption#1#2{%
-    \ifdim\captionwidth=\z@
-      \setcaptionwidth{.8\textheight}%
-      \caption@slc{#1}{#2}{.8\vsize}{%
-        \let\caption@makerot\caption@@make
-        \caption@clearmargin
-        \let\caption@parbox\@secondoftwo}%
-      \caption@set@bool\caption@ifslc0% been there, done that
-    \fi
-    \rotatebox{90}{\caption@makerot{#1}{#2}}%
+    \rotatebox{90}{%
+      \ifdim\caption@width=\z@
+        \caption@setwidth{.8\vsize}%
+        \l@addto@macro\caption@singleline{%
+          \caption@setup{parbox=none}}%
+      \fi
+      \let\caption@calcmargin\relax
+      \caption@@make{#1}{#2}}%
     \nobreak\hspace{12pt}}%
-  \newcommand\caption@makerot[2]{%
-    \begin{minipage}\captionwidth\caption@@make{#1}{#2}\end{minipage}}%
 }{}
+\caption@ifdocumentclass{koma}%
+  {\long\def\caption@IfKomaPackageLoaded#1[#2]#3#4{%
+     \caption@InfoNoLine{KOMA-Script #1 package detected}%
+     #3}}%
+  {\let\caption@IfKomaPackageLoaded\caption@IfPackageLoaded}
+\caption@IfKomaPackageLoaded{scrextend}[2002/07/01 v3.0]{%
+  \let\caption@addmargin@env\@addmargin
+  \renewcommand*\@addmargin{%
+    \@testopt\caption@@addmargin\@tempa}%
+  \def\caption@@addmargin[#1]#2{%
+    \caption@addmargin@env[{#1}]{#2}%
+    \caption@set@addmargin
+    \ignorespaces}%
+  \newdimen\caption@addmargin@hsize
+  \newdimen\caption@addmargin@linewidth
+  \providecommand*\caption@set@addmargin{%
+    \caption@addmargin@hsize\hsize
+    \caption@addmargin@linewidth\linewidth
+    \l@addto@macro\caption@beginex@hook\caption@test@addmargin}%
+  \providecommand\caption@test@addmargin{%
+    \ifdim\hsize=\caption@addmargin@hsize
+      \ifdim\linewidth=\caption@addmargin@linewidth
+        \hsize=\linewidth
+      \fi
+    \fi}%
+  }{}%
 \caption@IfPackageLoaded{sidecap}[2003/06/06 v1.6f]{%
   \caption@setbool{needfreeze}{1}%
   \let\caption@ORI@SC@zfloat\SC@zfloat
   \def\SC@zfloat#1#2#3[#4]{%
     \caption@ORI@SC@zfloat{#1}{#2}{#3}[#4]%
     \SC@RestoreCommands
-    \caption@settype*{#2}%
-    \caption@freeze
-    \let\SC@label\label}%
+    \caption@freezetype{#2}%
+    \let\SC@label\label
+    \ignorespaces}%
   \providecommand*\SC@RestoreCommands{%
     \let\caption=\SC@orig@caption \let\label=\SC@orig@label}%
   \let\caption@ORI@endSC@FLOAT\endSC@FLOAT
   \def\endSC@FLOAT{%
-    \let\caption@ORI@settype\caption@settype
-    \def\caption@settype##1{% will be done in \@xfloat
-      \caption@ORI@settype*{##1}% do not change \@currentlabel
-      \caption@setSC@justify
-%%%   \caption@setoptions{SCfloat}%
-      \caption@setoptions{SC\@captype}%
-      \caption@start}%
     \def\caption@setSC@justify{%
       \caption@clearmargin
         \ifx\SC@justify\@empty \else
-          \let\caption@hj\SC@justify
+          \let\caption@justification\SC@justify
           \let\SC@justify\@empty
         \fi}%
     \let\caption\SC@orig@caption
-    \def\SC@orig@caption[##1]##2{\caption@defrost}%
+    \def\SC@orig@caption[##1]##2{%
+      \caption@setSC@justify
+%%%   \caption@setoptions{SC}%
+      \caption@setoptions{SC\@captype}%
+      \caption@defrost}%
     \caption@setSC@justify % for compatibility mode
+    \caption@prepare@defrost
     \caption@ORI@endSC@FLOAT}%
 }{}
 \caption@IfPackageLoaded{subfigure}[2002/01/23 v2.1]{%
@@ -1621,14 +1377,13 @@
   \let\caption@ORI@xtablecaption\@xtablecaption
   \long\def\@xtablecaption[#1]#2{%
     \caption@gettitle{#2}%
-    \caption@ORI@xtablecaption[#1]{#2}}%
+    \caption@ORI@xtablecaption[{#1}]{#2}}%
   \long\def\ST@caption#1[#2]#3{\par%
-    \caption@settype*{#1}%
+    \caption@settype{#1}%
     \caption@setoptions{supertabular}%
-    \def\caption@fixposition{%
-      \caption@setposition{\if@topcaption t\else b\fi}}%
+    \caption@setposition{\if@topcaption t\else b\fi}%
     \caption@beginex{#1}{#2}{#3}%
-      \caption@boxrestore
+      \caption@parboxrestore
       \caption@normalsize
       \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
     \caption@end}%
@@ -1641,15 +1396,14 @@
   \let\caption@ORI@xtablecaption\@xtablecaption
   \long\def\@xtablecaption[#1]#2{%
     \caption@gettitle{#2}%
-    \caption@ORI@xtablecaption[#1]{#2}}%
+    \caption@ORI@xtablecaption[{#1}]{#2}}%
   \long\def\ST@caption#1[#2]#3{\par%
-    \caption@settype*{#1}%
+    \caption@settype{#1}%
     \caption@setoptions{xtabular}%
-    \def\caption@fixposition{%
-      \caption@setposition{\if@topcaption t\else b\fi}}%
+    \caption@set{position}{\if@topcaption t\else b\fi}%
     \@initisotab
     \caption@beginex{#1}{#2}{#3}%
-      \caption@boxrestore
+      \caption@parboxrestore
       \caption@normalsize
       \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
     \caption@end
@@ -1659,18 +1413,22 @@
 \caption@IfPackageLoaded{threeparttable}[2003/06/13 v3.0]{%
   \let\caption@ORI@threeparttable\threeparttable
   \renewcommand*\threeparttable{%
-    \caption@settype{table}%
-      \caption@setposition a% ?
-      \caption@clearmargin
-    \caption@setoptions{threeparttable}%
+    \caption@setthreeparttabletype{threepart}{table}%
     \caption@ORI@threeparttable}%
   \let\caption@ORI@measuredfigure\measuredfigure
   \renewcommand*\measuredfigure{%
-    \caption@settype{figure}%
-      \caption@setposition a% ?
-      \caption@clearmargin
-    \caption@setoptions{measuredfigure}%
+    \caption@setthreeparttabletype{measured}{figure}%
     \caption@ORI@measuredfigure}%
+  \newcommand*\caption@setthreeparttabletype[2]{%
+    \caption@ifsubtype
+      {\def\caption@threeparttabletype{#1sub#2}%
+       \let\caption@setanchor\relax}%
+      {\caption@settype{\@ifundefined{@captype}{#2}{\@captype}}%
+       \def\caption@threeparttabletype{#1#2}}%
+%%% \caption@setposition{auto}% ?
+    \caption@clearmargin
+    \caption@setoptions\caption@threeparttabletype
+    \caption@setanchor}%
   \def\TPT@caption#1[#2]#3{%
     \gdef\TPT@docapt{%
       \global\let\TPT@docapt\@undefined
@@ -1695,7 +1453,7 @@
       \@nameuse{fst@#1}%
       \def\WF@floatstyhook{\let\@currbox\WF@box
          \global\setbox\WF@box\float@makebox{\wd\WF@box}}}%
-    \@ifnextchar[\WF@wr{\WF@wr[]}}
+    \@testopt\WF@wr{}}
   \def\WF@rapt[#1]#2{% final two args: #1 = overhang,  #2 = width,
     \gdef\WF@ovh{#1}% hold overhang for later, when \width is known
     \global\setbox\WF@box\vtop\bgroup \setlength\hsize{#2}%
@@ -1708,9 +1466,29 @@
     \@ifundefined{fst@#1}{}{\@float@setevery{#1}}%
     \caption@settype{#1}%
     \caption@clearmargin
-%%%    \caption@setoptions{wrapfloat}%
-    \caption@setoptions{wrap#1}}%
+%%% \caption@setoptions{wrap}%
+    \caption@setoptions{wrap#1}%
+    \caption@setanchor}%
 }{}
+\newcommand*\caption@checkcounter[1]{%
+  \caption@check{\the#1}{\@nameuse{the#1}}}
+\newcommand*\caption@check[3]{%
+  \edef\caption@tempa{#2}%
+  \edef\caption@tempb{#3}%
+  \ifx\caption@tempa\caption@tempb
+    \caption@Info{\string#1 = \caption@tempa}%
+  \else
+    \caption@Error{\string#1 = \caption@tempa\space <> \caption@tempb}%
+  \fi}
+\newcommand*\caption@checkref[2]{%
+  \@ifundefined{r@#1}{}%
+    {\expandafter\expandafter\expandafter
+       \caption@@checkref\csname r@#1\endcsname\@nil{#1}{#2}}}
+\def\caption@@checkref#1#2\@nil#3#4{%
+  \caption@check{\ref{#3}}{#1}{#4}}
+\caption@endtitles@code
+\let\caption@endtitles@code\@undefined
+\let\AfterCaptionPackage\@firstofone
 \endinput
 %%
 %% End of file `caption.sty'.
