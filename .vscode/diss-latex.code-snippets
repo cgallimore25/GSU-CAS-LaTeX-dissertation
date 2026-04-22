@@ -81,6 +81,15 @@
 		"description": "Create a quantity range with single units display and hyphen separator"
 	  },
 
+	  "Hyphenated Number Range": {
+		"scope": "latex",
+		"prefix": "nrh",
+		"body": [
+		  "\\numrange[range-phrase = --]{${1}}{${2}}$0"
+		],
+		"description": "Create a unitless number range with a hyphen separator"
+	  },
+
 	  // Statistical reporting----------------------------------------------------------------------------------------
 
 	  "T-test Statistics": {
