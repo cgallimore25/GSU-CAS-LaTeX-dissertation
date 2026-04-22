@@ -6,7 +6,9 @@
 %%
 %% bicaption.dtx  (with options: `package')
 %% 
-%% Copyright (C) 1994-2012 Axel Sommerfeldt (axel.sommerfeldt@f-m.fm)
+%% Copyright (C) 1994-2023 Axel Sommerfeldt (axel.sommerfeldt@f-m.fm)
+%% 
+%% https://gitlab.com/axelsommerfeldt/caption
 %% 
 %% --------------------------------------------------------------------------
 %% 
@@ -22,30 +24,39 @@
 %% 
 %% This Current Maintainer of this work is Axel Sommerfeldt.
 %% 
-%% This work consists of the files caption.ins, caption.dtx, caption2.dtx,
-%% caption3.dtx, bicaption.dtx, ltcaption.dtx, subcaption.dtx, and newfloat.dtx,
-%% the derived files caption.sty, caption2.sty, caption3.sty,
-%% bicaption.sty, ltcaption.sty, subcaption.sty, and newfloat.sty,
-%% and the user manuals caption-deu.tex, caption-eng.tex, and caption-rus.tex.
+%% This work consists of the files
+%%   caption.ins, caption.dtx, caption-light.dtx, caption2.dtx, caption3.dtx,
+%%   caption-ams-smf.dtx, caption-beamer.dtx, caption-elsarticle.dtx,
+%%   caption-koma.dtx, caption-memoir.dtx, caption-ntg.dtx,
+%%   caption-thesis.dtx, bicaption.dtx, ltcaption.dtx, subcaption.dtx,
+%% the derived files
+%%   caption.sty, caption-light.sty, caption2.sty, caption3.sty,
+%%   caption-ams-smf.sto, caption-beamer.sto, caption-elsarticle.sto,
+%%   caption-koma.sto, caption-memoir.sto, caption-ntg.sto,
+%%   caption-thesis.sto, bicaption.sty, ltcaption.sty, subcaption.sty.
 %% 
 \NeedsTeXFormat{LaTeX2e}[1994/12/01]
-\ProvidesPackage{bicaption}[2011/10/30 v1.0a Bilingual Captions (AR)]
-\RequirePackage{caption}[2011/08/28] % needs v3.2c or newer
-\caption@AtBeginDocument{\caption@ifcompatibility{%
-  \caption@Error{%
-    The `bicaption' package does not work correctly\MessageBreak
-    in compatibility mode}}{}}
+\providecommand\DeclareRelease[3]{}
+\providecommand\DeclareCurrentRelease[2]{}
+\DeclareCurrentRelease{v1}{2011/07/13}
+\ProvidesPackage{bicaption}[2023/02/19 v1.6 Bilingual Captions (AR)]
+\RequirePackage{caption}[2011/11/10] % we need at least v3.2e
+\newcommand*\bicaption@Info[1]{%
+  \PackageInfo{bicaption}{#1}}
+\newcommand*\bicaption@InfoNoLine[1]{%
+  \PackageInfo{bicaption}{#1\@gobble}}
 \newcommand*\bicaption@Warning[1]{%
   \bicaption@WarningNoLine{#1\on@line}}
 \newcommand*\bicaption@WarningNoLine[1]{%
   \PackageWarning{bicaption}{#1.^^J\bicaption@wh\@gobbletwo}}
 \newcommand*\bicaption@wh{%
-  See the bicaption package documentation for explanation.}
+  See the `bicaption' package documentation for explanation.}
 \newcommand*\bicaption@Error[1]{%
-  \PackageError{bicaption}{#1}\bicaption@eh}
-\newcommand*\bicaption@eh{%
+  \PackageError{bicaption}{#1}{\caption@@eh{bicaption}}}
+\providecommand*\caption@@eh[1]{%
   If you do not understand this error, please take a closer look\MessageBreak
-  at the documentation of the `bicaption' package.\MessageBreak\@ehc}
+  at the documentation of the `#1' package, especially the\MessageBreak
+  section about errors.\MessageBreak\@ehc}
 \newcount\bicaption@lang
 \DeclareCaptionOption{bi-lang}{%
   \caption@ifinlist{#1}{0,all,both}{%
@@ -63,89 +74,179 @@
   \caption@set@bool\bicaption@ifslc{#1}}
 \DeclareCaptionOption{bi-swap}[1]{%
   \caption@set@bool\bicaption@ifswap{#1}}
-\DeclareCaptionOption{lang}{\def\bicaption@language{#1}}
+\DeclareCaptionOption{bi-separator}[1]{%
+  \caption@set{biseparator}{#1}}
+\providecommand*\caption@set[2]{%
+  \@ifundefined{caption@#1@#2}%
+    {\caption@Error{Undefined #1 `#2'}}%
+    {\expandafter\let\csname caption@#1\expandafter\endcsname\csname caption@#1@#2\endcsname}}
+\newcommand\DeclareBiCaptionSeparator[2]{%
+  \caption@decl{biseparator}{#1}{#2}}
+\@onlypreamble\DeclareBiCaptionSeparator
+\providecommand*\caption@decl[2]{%
+  \global\long\expandafter\def\csname caption@#1@#2\endcsname}
+\DeclareBiCaptionSeparator{none}{}
+\DeclareBiCaptionSeparator{smallskip}{\smallskip}
+\DeclareBiCaptionSeparator{medskip}{\medskip}
+\DeclareBiCaptionSeparator{bigskip}{\bigskip}
+\caption@ifundefined\SetCaptionDefault
+  {\def\caption@biseparator@default{\caption@biseparator@none}}
+  {\SetCaptionDefault{biseparator}{none}}
+\DeclareCaptionOption{lang}{%
+  \caption@ifundefined\bicaption@language
+    \bicaption@language@setupkeys
+    \relax
+  \edef\bicaption@language{#1}%
+  \let\bicaption@language@setoptions\@empty
+  \global\let\bicaption@language@value\bicaption@language}
 \let\KV@caption@language\KV@caption@lang
-\newcommand*\bicaption@selectlanguage{%
-  \@ifstar
-    {\bicaption@select@language\select@language}
-    {\bicaption@select@language\selectlanguage}}
-\newcommand*\bicaption@select@language[1]{%
+\newcommand*\bicaption@language@keylist{}
+\newcommand*\DeclareCaptionLangOption[1]{%
+  \@ifundefined{KV@caption@#1}%
+    {\bicaption@Error{Undefined caption option `#1'}}%
+    {\@cons\bicaption@language@keylist{{#1}}}}
+\let\DeclareCaptionLanguageOption\DeclareCaptionLangOption
+\newcommand*\bicaption@language@setupkeys{%
+  \def\@elt##1{%
+    \expandafter\let\csname KV@bicaption@##1\expandafter\endcsname
+                    \csname KV@caption@##1\endcsname
+    \@namedef{KV@caption@##1}{\bicaption@KV{##1}}}%
+  \bicaption@language@keylist
+  \let\@elt\relax}
+\newcommand\bicaption@KV[2]{%
+  \@bicaption@KV{#1}{#2}%
+  \l@addto@macro\bicaption@language@setoptions{%
+    \@bicaption@KV{#1}{#2}}}
+\newcommand\@bicaption@KV[1]{%
+  \@nameuse{KV@bicaption@#1}}
+\DeclareCaptionLangOption{name}
+\newcommand*\bicaption@selectlanguage[1]{%
   \caption@ifundefined\bicaption@language{}{%
-    \expandafter#1\expandafter{\bicaption@language}}}
-\g@addto@macro\caption@applyfont{%
-  \bicaption@selectlanguage*}
-\g@addto@macro\caption@prepareslc{%
-  \let\bicaption@language\@undefined}
-\caption@ExecuteOptions{caption}{bi-lang=0,bi-slc=1,bi-swap=0}
-\ifcsname bbl@main@language\endcsname
-  \edef\@tempa{\noexpand\captionsetup[bi-first]{lang=\bbl@main@language}}
-  \@tempa
-\else\ifcsname xpg@main@language\endcsname
-  \edef\@tempa{\noexpand\captionsetup[bi-first]{lang=\xpg@main@language}}
-  \@tempa
-\else
-  \bicaption@WarningNoLine{Please load this package after the babel package}
-\fi\fi
-\caption@SetupOptions{bicaption}{\captionsetup[bi-second]{#2}}%
+    \expandafter\selectcaptionlanguage\expandafter#1\expandafter
+      {\bicaption@language}%
+    \bicaption@language@setoptions}}
+\g@addto@macro\caption@beginhook{%
+  \bicaption@selectlanguage\@firstoftwo}
+\providecommand*\selectcaptionlanguage[1]{%
+  #1\select@language\selectlanguage}
+\caption@ExecuteOptions{caption}{bi-lang=0,bi-slc=1,bi-swap=0,bi-separator=default}
+\AtBeginDocument{%
+  \ifcsname captionmainlanguage\endcsname
+    \bicaption@InfoNoLine{%
+      Main language is set to \captionmainlanguage}%
+  \else
+    \bicaption@setmainlanguage
+  \fi
+  \ifcsname captionmainlanguage\endcsname
+    \captionsetup*[bi-first]{lang=\captionmainlanguage}%
+  \else
+    \ifcsname bicaption@language@value\endcsname % option "lang=" was used
+      \expandafter\bicaption@Warning
+    \else
+      \expandafter\bicaption@Info
+    \fi
+      {Main language is not set}%
+  \fi}
+\newcommand*\bicaption@setmainlanguage{%
+  \ifcsname bbl@main@language\endcsname
+    \bicaption@InfoNoLine{%
+      babel found, main language is \bbl@main@language}%
+    \let\captionmainlanguage\bbl@main@language
+  \else\ifcsname xpg@main@language\endcsname
+    \bicaption@InfoNoLine{%
+      polyglossia found, main language is \xpg@main@language}%
+    \let\captionmainlanguage\xpg@main@language
+  \fi\fi}
+\@onlypreamble\bicaption@setmainlanguage
+\caption@SetupOptions{bicaption}{\captionsetup*[bi-second]{#2}}%
 \caption@ProcessOptions*{bicaption}
-\let\caption@kernel@addcontentsline@ORI\caption@kernel@addcontentsline
-\renewcommand*\caption@kernel@addcontentsline[2]{%
+\let\bicaption@addcontentsline@ORI\caption@addcontentsline
+\renewcommand*\caption@addcontentsline[2]{%
+  \bicaption@LT@setup
+  \global\let\bicaption@LT@setup\relax
   \caption@ifundefined\bicaption@lentry
-    {\caption@kernel@addcontentsline@ORI{#1}{#2}}%
-    {\expandafter\bicaption@addcontentsline\expandafter{\bicaption@lentry}{#1}{#2}%
+    {\bicaption@addcontentsline@ORI{#1}{#2}}%
+    {\expandafter\bicaption@addcontentsline\expandafter
+       {\bicaption@lentry}{#1}{#2}%
      \global\let\bicaption@lentry\@undefined}}
 \newcommand\bicaption@addcontentsline[3]{%
   \begingroup
+    \let\caption@addsubcontentslines\@gobble
     \caption@setoptions{bi}%
-  \ifnum\bicaption@lang=2\relax \else
-    \begingroup
-      \caption@setoptions{bi-first}%
-      \bicaption@@addcontentsline{#2}{#3}%
-    \endgroup
-  \fi
-  \ifnum\bicaption@lang=1\relax \else
-    \begingroup
-      \caption@setoptions{bi-second}%
-      \bicaption@@addcontentsline{#2}{#1}%
-    \endgroup
-  \fi
-  \endgroup}
+    \ifnum\bicaption@lang=2\relax \else
+      \begingroup
+        \caption@setoptions{bi-first}%
+        \bicaption@@addcontentsline{#2}{#3}%
+      \endgroup
+    \fi
+    \ifnum\bicaption@lang=1\relax \else
+      \begingroup
+        \caption@setoptions{bi-second}%
+        \bicaption@@addcontentsline{#2}{#1}%
+      \endgroup
+    \fi
+  \endgroup
+  \caption@addsubcontentslines{#2}}
 \newcommand*\bicaption@@addcontentsline[2]{%
   \caption@ifcontentsline{#2}{%
-    \bicaption@selectlanguage\relax
-    \caption@kernel@addcontentsline@ORI{#1}{#2}}}
-\let\caption@@make@ORI\caption@@make
+    \bicaption@selectlanguage\@secondoftwo
+    \bicaption@addcontentsline@ORI{#1}{#2}}}
+\caption@ifundefined\caption@@make@
+  {\let\caption@@make@\caption@@make}
+  {}
 \renewcommand\caption@@make[2]{%
   \caption@ifundefined\bicaption@text
-    {\caption@@make@ORI{#1}{#2}}%
-    {\expandafter\bicaption@@make\expandafter{\bicaption@text}{#1}{#2}%
-     \global\let\bicaption@text\@undefined}}
+    {\begingroup
+       \caption@@make@{#1}{#2}%
+     \endgroup}%
+    {\expandafter\bicaption@@make\expandafter
+       {\bicaption@text}{#1}{#2}%
+     \global\let\bicaption@text\@undefined}%
+  \@nameuse{caption@@make@epilogue}}
 \newcommand\bicaption@@make[3]{%
   \caption@setoptions{bi}%
   \ifnum\bicaption@lang=0\relax
     \bicaption@ifslc
-      {\caption@@slc{#2}{#3}{\captionwidth}{}%
-                    {\caption@set@bool\caption@ifslc0}%
-       \caption@@slc{#2}{#1}{\captionwidth}{}%
-                    {\caption@set@bool\caption@ifslc0}}%
+      {\bicaption@slc{#2}{#3}{}{\caption@setsinglelinecheck0}%
+       \bicaption@slc{#2}{#1}{}{\caption@setsinglelinecheck0}}%
       {}%
   \fi
   \ifnum\bicaption@lang=2\relax
-    \bicaption@label
-    \global\let\bicaption@label\relax
+    \caption@thelabel
+    \let\bicaption@tempa\relax
   \else
     \begingroup
       \caption@setoptions{bi-first}%
-      \caption@@make@ORI{#2}{#3}%
+      \caption@@make@{#2}{#3}%
     \endgroup
+    \def\bicaption@tempa{\bicaption@separator\caption@biseparator}%
   \fi
   \ifnum\bicaption@lang=1\relax
   \else
+    \bicaption@tempa
     \begingroup
       \caption@setoptions{bi-second}%
-      \caption@@make@ORI{#2}{#1}%
+      \caption@@make@{#2}{#1}%
     \endgroup
-  \fi}
+  \fi
+  \global\bicaption@clrlabel}
+\newcommand*\bicaption@separator{\par}
+\caption@ifundefined\caption@@slc
+  {\newcommand\bicaption@slc{\caption@slc}}
+  {\newcommand\bicaption@slc[2]{\caption@@slc{#1}{#2}{\captionwidth}}}
+\providecommand*\caption@setsinglelinecheck{%
+  \caption@set@bool\caption@ifslc}
+\newcommand*\bicaptionsetup{%
+  \caption@teststar\@bicaptionsetup*{}}
+\newcommand*\@bicaptionsetup[1]{%
+  \kernel@ifnextchar[%]
+    {\bicaption@setup@options{#1}}%
+    {\bicaption@setup*}}
+\def\bicaption@setup@options#1[#2]{%
+  \bicaption@setup{#1[{#2}]}}
+\newcommand*\bicaption@setup[2]{%
+  \captionsetup#1[bi-first]{#2}%
+  \captionsetup#1[bi-second]}
 \newcommand\bicaption{\@bicaption\caption}
 \newcommand\bicaptionbox{\@bicaption\captionbox}
 \newcommand\bisubcaption{\@bicaption\subcaption}
@@ -153,50 +254,69 @@
 \newcommand\bisubcaptionbox{\@bicaption\subcaptionbox}
 \let\subbicaptionbox\bisubcaptionbox
 \newcommand*\@bicaption[1]{%
-  \def\bicaption@cmd{#1}%
   \@ifstar
-    {\l@addto@macro\bicaption@cmd*%
+    {\def\bicaption@cmd{\bicaption@star{#1}}%
      \@@bicaption}%
-    {\caption@dblarg\@@@bicaption}}
+    {\def\bicaption@cmd{#1}%
+     \caption@dblarg\@@@bicaption}}
 \newcommand\@@bicaption[1]{%
   \@@@@bicaption{}{#1}[]}
 \long\def\@@@bicaption[#1]#2{%
   \caption@dblarg{\@@@@bicaption{#1}{#2}}}
 \long\def\@@@@bicaption#1#2[#3]#4{%
-  \bicaption@getlabel#2\label{}\@nil
+  \bicaption@getlabel{#2}%
   \bicaption@ifswap
-    {\bicaption@setup{#1}{#2}%
+    {\bicaption@set{#1}{#2}%
      \bicaption@cmd[{#3}]{#4}}%
-    {\bicaption@setup{#3}{#4}%
+    {\bicaption@set{#3}{#4}%
      \bicaption@cmd[{#1}]{#2}}}
-\long\def\bicaption@getlabel#1\label#2#3\@nil{%
-  \def\@tempa{#2}%
-  \ifx\@tempa\@empty
-    \let\bicaption@label\relax
-  \else
-    \def\@tempb{*}%
-    \ifx\@tempa\@tempb
-      \def\bicaption@label{\label*}%
-      \bicaption@@getlabel#3\@nil
+\long\def\bicaption@star#1[#2]{#1*}
+\@ifundefined{caption@getlabel}{%
+  \newcommand\bicaption@getlabel[1]{%  caption3 < v1.7
+    \bicaption@@getlabel#1\label{}\@nil}
+  \long\def\bicaption@@getlabel#1\label#2#3\@nil{%
+    \def\@tempa{#2}%
+    \ifx\@tempa\@empty
+      \let\caption@thelabel\relax
     \else
-      \def\bicaption@label{\label}%
-      \bicaption@@getlabel{#2}#3\@nil
-    \fi
-  \fi}
-\long\def\bicaption@@getlabel#1#2\@nil{%
-  \def\@tempa{#1}%
-  \def\@tempb{[}%
-  \ifx\@tempa\@tempb
-    \bicaption@@@getlabel#1#2\@nil
-  \else
-    \l@addto@macro\bicaption@label{{#1}}%
-  \fi}
-\long\def\bicaption@@@getlabel[#1]#2\@nil{%
-  \l@addto@macro\bicaption@label{[{#1}]}%
-  \bicaption@@getlabel#2\@nil}
-\newcommand\bicaption@setup[2]{%
+      \def\@tempb{*}%
+      \ifx\@tempa\@tempb
+        \def\caption@thelabel{\label*}%
+        \bicaption@@@getlabel#3\@nil
+      \else
+        \def\caption@thelabel{\label}%
+        \bicaption@@@getlabel{#2}#3\@nil
+      \fi
+    \fi}
+  \long\def\bicaption@@@getlabel#1#2\@nil{%
+    \def\@tempa{#1}%
+    \def\@tempb{[}%
+    \ifx\@tempa\@tempb
+      \bicaption@@@@getlabel#1#2\@nil
+    \else
+      \l@addto@macro\caption@thelabel{{#1}}%
+    \fi}
+  \long\def\bicaption@@@@getlabel[#1]#2\@nil{%
+    \l@addto@macro\caption@thelabel{[{#1}]}%
+    \bicaption@@@getlabel#2\@nil}
+}{\@ifundefined{caption@@@@getlabel}{%
+  \newcommand\bicaption@getlabel[1]{%  caption3 >= v1.7
+    \caption@getlabel#1\label{}\@nil}
+}{%
+  \newcommand*\bicaption@getlabel{%    caption3 >= v2.0
+    \caption@getlabel}
+}}
+\@ifundefined{caption@clrlabel}{%
+  \newcommand*\bicaption@clrlabel{\let\caption@thelabel\relax} %  caption3 < v2.3
+}{%
+  \newcommand*\bicaption@clrlabel{\caption@clrlabel}           %  caption3 >= v2.3
+}
+\newcommand\bicaption@set[2]{%
   \def\bicaption@lentry{#1}%
-  \def\bicaption@text{\ignorespaces#2}}
+  \def\bicaption@text{\ignorespaces #2}}
+\newcommand*\bicaption@clear{%
+  \let\bicaption@lentry\@undefined
+  \let\bicaption@text\@undefined}
 \AtBeginDocument{%
   \ifx\caption@freeze\@undefined \else
     \g@addto@macro\caption@freeze{%
@@ -204,7 +324,7 @@
       \def\bicaption{%
         \caption@withoptargs\caption@SC@bicaption}%
       \long\def\caption@SC@bicaption#1#2{%
-        \@ifnextchar[%]
+        \kernel@ifnextchar[%]
           {\caption@SC@bi@caption{#1}{#2}}%
           {\caption@SC@bi@caption@{#1}{#2}}}%
       \long\def\caption@SC@bi@caption#1#2[#3]#4{%
@@ -216,11 +336,57 @@
       \l@addto@macro\caption@warmup{%
         \let\bicaption\caption@frozen@bicaption}}%
   \fi}
-\newcommand*\bicaption@declarelist[1]{%
-  \@namedef{listof#1}{\bicaption@listof#1}}
-\@onlypreamble\bicaption@declarelist
-\def\bicaption@listof#1 {\@nameuse{listof#1}}
-\caption@ForEachType{\bicaption@declarelist{#1}}
+\caption@IfPackageLoaded{listings}[2004/02/13 v1.2]{%
+  \lst@Key{caption1}\relax{%
+    \lstKV@OptArg[{#1}]{#1}{%
+      \bicaption@ifswap
+        {\bicaption@set{##1}{##2}}%
+        {\def\lst@@caption{##1}\def\lst@caption{##2}}}%
+    \let\lst@title\@empty}%
+  \lst@Key{caption2}\relax{%
+    \lstKV@OptArg[{#1}]{#1}{%
+      \bicaption@ifswap
+        {\def\lst@@caption{##1}\def\lst@caption{##2}}%
+        {\bicaption@set{##1}{##2}}}%
+    \let\lst@title\@empty}%
+  \lst@AddToHookExe{TextStyle}{%
+    \bicaption@clear}%
+}{}
+\newcommand\LT@bicaption{%
+  \noalign\bgroup
+    \@ifstar
+      {\gdef\bicaption@cmd{\LT@c@ption\@gobble}%
+       \LT@@bicaption}%
+      {\gdef\bicaption@cmd{\LT@c@ption\@firstofone}%
+       \caption@dblarg\LT@@@bicaption}}
+\newcommand\LT@@bicaption[1]{%
+  \LT@@@@bicaption{}{#1}[]}
+\long\def\LT@@@bicaption[#1]#2{%
+  \caption@dblarg{\LT@@@@bicaption{#1}{#2}}}
+\long\def\LT@@@@bicaption#1#2[#3]#4{%
+  \gdef\bicaption@LTsetup{%
+    \bicaption@getlabel{#2}%
+    \bicaption@LT@setup}%
+  \gdef\bicaption@LT@setup{%
+    \bicaption@ifswap
+      {\bicaption@set{#1}{#2}}%
+      {\bicaption@set{#3}{#4}}}%
+  \bicaption@ifswap
+    {\egroup\bicaption@cmd[{#3}]{#4}}%
+    {\egroup\bicaption@cmd[{#1}]{#2}}}
+\let\bicaption@LTsetup\relax
+\let\bicaption@LT@setup\relax
+\caption@ifundefined\caption@LT@setup{%
+  % Fallback code for caption v3.2
+  \captionsetup*[longtable]{bicaption-lt-setup}
+  \DeclareCaptionOptionNoValue{bicaption-lt-setup}{%
+    \bicaption@LTsetup
+    \global\let\bicaption@LTsetup\relax}
+}{%
+  \g@addto@macro\caption@LT@setup{%
+    \bicaption@LTsetup
+    \global\let\bicaption@LTsetup\relax}
+}
 \endinput
 %%
 %% End of file `bicaption.sty'.

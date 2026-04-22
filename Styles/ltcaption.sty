@@ -6,7 +6,9 @@
 %%
 %% ltcaption.dtx  (with options: `package')
 %% 
-%% Copyright (C) 1994-2012 Axel Sommerfeldt (axel.sommerfeldt@f-m.fm)
+%% Copyright (C) 1994-2022 Axel Sommerfeldt (axel.sommerfeldt@f-m.fm)
+%% 
+%% https://gitlab.com/axelsommerfeldt/caption
 %% 
 %% --------------------------------------------------------------------------
 %% 
@@ -22,14 +24,22 @@
 %% 
 %% This Current Maintainer of this work is Axel Sommerfeldt.
 %% 
-%% This work consists of the files caption.ins, caption.dtx, caption2.dtx,
-%% caption3.dtx, bicaption.dtx, ltcaption.dtx, subcaption.dtx, and newfloat.dtx,
-%% the derived files caption.sty, caption2.sty, caption3.sty,
-%% bicaption.sty, ltcaption.sty, subcaption.sty, and newfloat.sty,
-%% and the user manuals caption-deu.tex, caption-eng.tex, and caption-rus.tex.
+%% This work consists of the files
+%%   caption.ins, caption.dtx, caption-light.dtx, caption2.dtx, caption3.dtx,
+%%   caption-ams-smf.dtx, caption-beamer.dtx, caption-elsarticle.dtx,
+%%   caption-koma.dtx, caption-memoir.dtx, caption-ntg.dtx,
+%%   caption-thesis.dtx, bicaption.dtx, ltcaption.dtx, subcaption.dtx,
+%% the derived files
+%%   caption.sty, caption-light.sty, caption2.sty, caption3.sty,
+%%   caption-ams-smf.sto, caption-beamer.sto, caption-elsarticle.sto,
+%%   caption-koma.sto, caption-memoir.sto, caption-ntg.sto,
+%%   caption-thesis.sto, bicaption.sty, ltcaption.sty, subcaption.sty.
 %% 
 \NeedsTeXFormat{LaTeX2e}[1994/12/01]
-\ProvidesPackage{ltcaption}[2011/09/12 v1.3 longtable captions (AR)]
+\providecommand\DeclareRelease[3]{}
+\providecommand\DeclareCurrentRelease[2]{}
+\DeclareCurrentRelease{v1}{2007-04-15}
+\ProvidesPackage{ltcaption}[2021/01/08 v1.4c longtable captions (AR)]
 \@ifpackageloaded{longtable}{}{%
   \PackageError{ltcaption}{longtable package not loaded, aborting}{RTFM}}
 \providecommand*\LTcaptype{table}
@@ -59,6 +69,7 @@
     \def\hyper@makecurrent{%
       \caption@LTtype\caption@LT@makecurrent}%
     \def\lst@@caption{\relax}%
+    \def\captionnewline{\par}%
     \ltcaption@ORI@LT@array}}
 \newcommand*\caption@LTtype[2]{%
   \edef\caption@LT@tempa{#2}%
@@ -72,13 +83,7 @@
 \newcommand*\caption@LT@table{table}%
 \long\def\LT@c@ption#1[#2]#3{%
   \LT@makecaption#1{\csname fnum@\LTcaptype\endcsname}{#3}%
-  \def\@tempa{#2}%
-  \ifx\@tempa\@empty\else
-     {\let\\\space
-     \addcontentsline{\csname ext@\LTcaptype\endcsname}{\LTcaptype}%
-       {\protect\numberline{\csname the\LTcaptype\endcsname}{#2}}}%
-  \fi
-  \ignorespaces}
+  \LT@listentry\LTcaptype{#2}}
 \renewcommand\LT@makecaption[3]{%
   \LT@@makecaption{%
     \sbox\@tempboxa{%
@@ -149,6 +154,14 @@
     \def\next{\caption@LT@parse@ @}%
   \fi\fi\fi
   \next}
+\newcommand*\LT@listentry[2]{%
+  \def\@tempa{#2}%
+  \ifx\@tempa\@empty\else
+     {\let\\\space
+     \addcontentsline{\csname ext@#1\endcsname}{#1}%
+       {\protect\numberline{\csname the#1\endcsname}{#2}}}%
+  \fi
+  \ignorespaces}
 \newenvironment{longtable*}{%
   \let\caption@LT@type\@gobble
    \let\caption@LT@raisedlink\Hy@raisedlink
@@ -159,7 +172,7 @@
    \def\LT@c@ption##1[##2]##3{%
      \ifx##1\@firstofone
        \PackageError{ltcaption}%
-         {Not allowed in longtable* environment}%
+         {\noexpand\caption is not available in longtable* environment}%
          {If you do not understand this error, please take a closer
           look\MessageBreak at the documentation of the `ltcaption'
           package.\MessageBreak \@ehc}%
@@ -170,7 +183,7 @@
  {\endlongtable}
 \@ifundefined{@komalongtablefalse}{}{%
   \if@komalongtable
-    \renewcommand{\LT@makecaption}[3]{%
+    \renewcommand\LT@makecaption[3]{%
       \noalign{%
         \if@captionabove
           \vskip\belowcaptionskip
@@ -190,6 +203,22 @@
     }%
     \let\LT@@makecaption\@undefined
   \fi}
+\@ifclassloaded{memoir}{%
+  \@ifundefined{@@makecaption}{}{%
+    \renewcommand\LT@makecaption[3]{%
+      \caption@LT@make{%
+        \let\@memtempa\relax
+        % starred form -> #1 = \@gobble
+        \ifx#1\@gobble
+          \let\@contnfont\@empty
+          \let\@contdelim\@empty
+          \@@makecaption{}{#3}%
+        \else
+          \@@makecaption{#2}{#3}%
+        \fi
+        \endgraf\vskip\belowcaptionskip}}%
+    \let\LT@@makecaption\@undefined
+  }}{}
 \endinput
 %%
 %% End of file `ltcaption.sty'.
