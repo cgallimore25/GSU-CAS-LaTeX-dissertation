@@ -82,36 +82,44 @@
 % ------------ Glossary specific settings --------------- %
 
 % Define our implementation for the listofabbreviations hook
+% \newcommand{\printabbreviations}{%
+%   \renewcommand{\glossarysection}[2][]{}
+%   \glsaddall
+%   \setlength{\LTleft}{0pt}
+%   \setlength{\LTright}{0pt}
+%   \vspace{-1.1\baselineskip}
+%   \renewcommand{\arraystretch}{1}
+%   \printnoidxglossary[type=acronym,style=mylong,toctitle=\loaname,nonumberlist]
+% }
+
+% v5.0 compatible: suppress glossarysection heading at preamble level
+\AtBeginDocument{%
+  \RenewDocumentCommand{\glossarysection}{O{} m}{}%
+  \RenewDocumentCommand{\glsnamefont}{m}{\textbf{#1}}%
+  \RenewDocumentCommand{\glossentrydesc}{m}{%
+    \ifglshasfield{description}{#1}{%
+      \glsentrydesc{#1}%
+    }{%
+      \glsentrylong{#1}%
+    }%
+    \ifglshasfield{user1}{#1}{%
+      \space(``\glsuseri{#1}'')%
+    }{}%
+  }%
+}
+
 \newcommand{\printabbreviations}{%
-  \renewcommand{\glossarysection}[2][]{}
   \glsaddall
   \setlength{\LTleft}{0pt}
   \setlength{\LTright}{0pt}
   \vspace{-1.1\baselineskip}
   \renewcommand{\arraystretch}{1}
-  \printnoidxglossary[type=acronym,style=mylong,toctitle=\loaname,nonumberlist]
+  \printnoidxglossary[type=acronym,style=mylong,toctitle=\loaname,nonumberlist]%
 }
 
-\renewcommand{\glsnamefont}[1]{\textbf{#1}}
 \loadglsentries{Frontmatter/abbreviations.tex}
 \makenoidxglossaries
 
-% Custom glossary formatting - alternative definitions for entries
-\renewcommand{\glossentrydesc}[1]{%
-  % First try using the description field directly
-  \ifglshasfield{description}{#1}{%
-    \glsentrydesc{#1}%
-  }{%
-    % Fall back to long form if no description available
-    \glsentrylong{#1}%
-  }%
-  % Then check if we should add user1 in quotes
-  \ifglshasfield{user1}{#1}{%
-    \space(``\glsuseri{#1}'')%
-  }{}%
-}
-
-% Commands for alternate glossary terms
 \newcommand{\altgls}[1]{%
   \ifglshasfield{user1}{#1}{%
     \glsuseri{#1}%
@@ -127,6 +135,15 @@
     \glspl{#1}%
   }%
 }
+
+% ------------------------------------------------------- %
+
+% ------------------- Table verbatim -------------------- %
+
+% \newcommand{\tinyverb}[1]{{\scriptsize\texttt{#1}}}
+\DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
+\DefineVerbatimEnvironment{example}{Verbatim}{fontsize=\small}
+\DefineVerbatimEnvironment{tinyverb}{Verbatim}{fontsize=\tiny}
 
 % ------------------------------------------------------- %
 
