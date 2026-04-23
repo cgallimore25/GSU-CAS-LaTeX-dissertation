@@ -14,8 +14,8 @@
 	% Input tables
 	\input{./Tables/Sample_Table2.tex}
 
-	For a large dissertation document, troubleshooting table formatting can take a long time between edits.
-	This template includes a standalone 
+	For a large dissertation document, troubleshooting table formatting can take a long time between edits due to increasing document compilation time.
+	This template includes a \verb|standalone| package that allows you to compile individual \texttt{table.tex} files in isolation, which can help more rapidly prototype your design.
 
 	\Cref{tab:landscape} below shows an example of a table positioned on its own page in landscape orientation.
 	
@@ -50,6 +50,7 @@
 		\centering
 		\includegraphics[height =4in]{./Plots/nature.jpg} 
 		\caption{An individual figure!}
+		\label{fig:sample-img}
 	\end{figure*}
 			
 	% \begin{figure}[H] % place float exactly here 'H'
@@ -63,7 +64,8 @@
 	\subsubsection{Multi-panel figures}
 
 	Figures with multiple panels are a more interesting case. 
-	This template allows creation of in-text links to the captions of subpanels with a phantom subcaption . 
+	This template includes functionality that allows creation of in-text links to individual subpanel captions and programmatic formatting of the prefix to subcaptions. 
+	Here, we specify a parenthetical style with an inset uppercase letter (see \Cref{fig:sample_figure}). 
 
 	\begin{figure*}
         \centering
@@ -82,6 +84,11 @@
             }
 			\label{fig:sample_figure}
     \end{figure*}
+
+	Linked references between figures (e.g. \Crefrange{fig:sample-img}{fig:sample_figure}) and subpanels of the same figure (e.g. \subpanelrange{fig:sf2a-donut}{fig:sf2d-dists}{D}) are enabled via custom additions to \verb|usercommands.tex|. 
+	These reference the subcaption label by their specific namespace, and will automatically update when you add or remove figures and panels, making them robust to new additions.
+	You can modify these commands to print short or long forms of the ``figure'' prefix, or to change the style of the range conjunctions.
+	Insertion of these ranged references can also be aliased in the \texttt{diss-latex.code-snippets} file to tab complete them, which can be done here with \texttt{frng} and \texttt{spr}, respectively.
 
 
 \end{document}
