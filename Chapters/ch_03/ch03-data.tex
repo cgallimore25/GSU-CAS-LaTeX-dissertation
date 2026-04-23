@@ -5,23 +5,33 @@
 
 \section{Visualizing data}
 
+	Tables, equations, and figures are the primary ways of communicating data or theory. 
+	They can also be linked and referenced using the same \verb|\label{}| scheme as chapters and sections, which is especially useful for large documents where the order of presentation may change during writing and editing.
+	Much like the way modern reference managers handle citations, this makes the numbers or letters assigned to these elements dynamic and robust to changes in the document.
+	Depending on the editor you use, these unique label namespaces are also \textit{remembered}, allowing you to tab complete them.
+
 	\subsection{Tables}
 
-	Below is an example table that demonstrates control of column width and alignment, missing value handling, font size and weight, row spacing, and the usage of horizontal rules. 
-	Table captions are placed above figures in CAS dissertations. 
-	The lines of source code below are aliased inside of the \texttt{.vscode} directory in the \texttt{diss-latex.code-snippets} file, allowing you to type the prefix---e.g. \verb|qrh| (``quantity range hyphenated'') for \verb|qtyrange|---and tab its completion, followed by tabbing your cursor through the three inputs.
-	\\
-	% Input tables
-	\input{./Tables/Sample_Table2.tex}
+	\subsubsection{Formatting control}
 
-	For a large dissertation document, troubleshooting table formatting can take a long time between edits.
-	This template includes a standalone 
+	Above is an example table that demonstrates control of column width and alignment, missing value handling, font size and weight, row spacing, and the usage of horizontal rules (see \Cref{tab:unit_table}). 
+	Table captions are placed above figures in CAS dissertations. 
+	The lines of source code shown in \Cref{tab:unit_table} are aliased inside of the \texttt{.vscode} directory in the \texttt{diss-latex.code-snippets} file, allowing you to type the prefix---e.g. \verb|qrh| (``quantity range hyphenated'') for \verb|qtyrange|---and tab its completion, followed by tabbing your cursor through the three inputs.
+
+	\subsubsection{Standalone compilation}
+
+	For a large dissertation document, troubleshooting table formatting can take a long time between edits due to increasing document compilation time.
+	This template includes a \verb|standalone| package that allows you to compile individual \texttt{table.tex} files in isolation, which can help more rapidly prototype your design.
+	The \texttt{table-testing.tex} file in the \texttt{Tables/} directory includes the requisite document class and example code to do this. 
+	You can replace its contents with the code from your table files and then copy the final version back into the main document.
+	It's also possible to create a snippet that inserts this boilerplate standalone document class routine inside of a blank source \texttt{.tex} file.
+
+	\subsubsection{Page orientation}
 
 	\Cref{tab:landscape} below shows an example of a table positioned on its own page in landscape orientation.
 	
 	\input{./Tables/Sample_Table.tex}
 	
-
 	\subsection{Equations}
 
 	Below is an example mathematical equation that incorporates more units and abbreviations, as well as a demonstration of typesetting inline math.
@@ -36,13 +46,22 @@
 	The constant $g$ in \Cref{eq:csd} represents the conductivity of the extracellular medium, defined for these analyses as \SI[per-mode=fraction]{0.3}{\siemens/\m}, consistent with putative bounds of extracellular impedance measurements (\qtyrange[range-units=single,range-phrase=-]{\sim 0.3}{0.6}{\siemens\per\m}) for frequencies below \SI{10}{\kHz}. 
 	
 	Notice how \verb|\siemens\per\m|---much like the examples in the above table---can be displayed as a fraction or exponential notation. 
-	Also note that the above equation can be shortened when you reference it with its lowercase \verb|\cref{eq:csd}| commmand, which appears as \cref{eq:csd}. 
+	Also note that equations are unique in that they are numbered inside of a parenthetical when referenced, as is the convention for many fields. 
+	Lastly, the above equation can be shortened when you reference it with its lowercase \verb|\cref{eq:csd}| commmand, which appears as \cref{eq:csd}. 
+	Parenthetical or casing behavior can likely be redefined to the conventions of your field and dissertation guidelines, such as by substituting the default parentheses for brackets or always capitalizing a shorthand ``Eq''.
 	
 
 	\subsection{Figures}
 
 	Figures are displayed with \verb|\includegraphics{}| commands inside of figure environments, which allow you to control their placement and formatting.
 	They can be anything from \texttt{jpegs}, \texttt{pngs}, and \texttt{tiffs} to vector graphics like \texttt{pdfs}.
+	\Cref{fig:sample-img} below shows an example of a single image.
+	We can also make an abbreviation for this figure reference. 
+	For example, \verb|\fshort{}|, defined in the \texttt{usercommands.tex}, allows specification of the prefix: 
+
+	\begin{displayquote}
+		``\fshort{fig:sample-img} below shows an example of a single image.''
+	\end{displayquote}
 
 	\subsubsection{A single image}
 
@@ -50,6 +69,7 @@
 		\centering
 		\includegraphics[height =4in]{./Plots/nature.jpg} 
 		\caption{An individual figure!}
+		\label{fig:sample-img}
 	\end{figure*}
 			
 	% \begin{figure}[H] % place float exactly here 'H'
@@ -63,9 +83,12 @@
 	\subsubsection{Multi-panel figures}
 
 	Figures with multiple panels are a more interesting case. 
-	This template allows creation of in-text links to the captions of subpanels with a phantom subcaption . 
+	This template includes functionality that allows creation of in-text links to individual subpanel captions and programmatic formatting of the prefix inside of the main figure caption. 
+	Here, we specify a parenthetical style with an inset uppercase letter (see the caption of \Cref{fig:sample_figure}). 
+	Notice in the source code how panel letters are not hard coded, but instead assigned and incremented by the number and order of \verb|\subref{}| commands. 
+	\\  % skip a line for nicer separation between paragraph & figure
 
-	\begin{figure*}
+	\begin{figure*}[hb]
         \centering
         \includegraphics[width=13cm]{./Plots/sample_figure.pdf}
         {
@@ -82,6 +105,18 @@
             }
 			\label{fig:sample_figure}
     \end{figure*}
+
+	Linked references between figures (e.g. \Crefrange{fig:sample-img}{fig:sample_figure}) and subpanels of the same figure (e.g. \subpanelrange{fig:sf2a-donut}{fig:sf2d-dists}{D}) are enabled via custom additions to \texttt{usercommands.tex}. 
+	These reference the subcaption label by their namespace used in \verb|\subref{}|, and will automatically update when you add or remove figures and panels, making them robust to new additions.
+	You can modify these commands to print short or long forms of the ``figure'' prefix, or to change the style of the range conjunctions.
+	These custom commands for ranged references can \textit{themselves} be aliased in the \texttt{diss-latex.code-snippets} file, allowing you to tab complete their insertion by only keying in a few letters of the prefix.
+	Here, they are \texttt{frng} and \texttt{spr}, respectively.
+
+	Figures in this example document are included as a single file regardless if its individual or multi-panel. 
+	If you needed to generate your figure panels individually inside of \LaTeX, the \texttt{subcaption} package should provide a \texttt{subfigure} environment enabling this.
+	Though this is not documented here, as post-processing of figures exported from computing languages like Python, R, or MATLAB inside of vector graphics softwares is more common in scientific applications.
+
+	\Cref{sec:s2-figs} below describes how Appendix Figures and Tables fit into the chapter-figure number notation seen in the \hyperlink{toc}{Table of Contents} and \hyperlink{lof}{List of Figures}
 
 
 \end{document}
