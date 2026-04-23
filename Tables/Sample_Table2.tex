@@ -1,0 +1,44 @@
+\SaveVerb[fontsize=\normalsize]{nrverb}|\numrange[range-phrase = --]{10}{20}|
+\SaveVerb[fontsize=\normalsize]{msverb}|\qtyrange[range-units=single,range-phrase=-]{100}{200}{\ms}|
+\SaveVerb[fontsize=\normalsize]{hertzverb}|\qtyrange[range-units=single,range-phrase=-]{2}{101}{\hertz}|
+\SaveVerb[fontsize=\normalsize]{hzverb}|\qtyrange[range-units=single,range-phrase=-]{2}{101}{\Hz}|
+\SaveVerb[fontsize=\normalsize]{umverb}|\qtyrange[range-units=single,range-phrase=-]{50}{100}{\um}|
+\SaveVerb[fontsize=\normalsize]{smexpverb}|\qtyrange[range-units=single,range-phrase=-]{0.1}{0.2}{\mol\per\L}|
+\SaveVerb[fontsize=\normalsize]{smfrcverb}|\qtyrange[range-units=single,range-phrase=-]{0.1}{0.2}{\mol/\L}|
+
+
+\renewcommand\arraystretch{1.5}
+\begin{table}[h]
+    \centering
+    \caption{Unit table showing various hyphenated ranges. Shown here are a unitless range, a pre-configured shorthand command for milliseconds, proper display of units involving greek letters, two different commands for the same unit, and lastly two different notations for conveying ratios.}
+    \label{tab:unit_table}
+    \footnotesize
+    \begin{tabular}{>{\centering\arraybackslash}p{2.75cm}>{\centering\arraybackslash}p{2.75cm}p{10cm}c}
+        \toprule
+        \textbf{Display} & \textbf{Unit} & \textbf{Source Code} \\
+        \midrule
+        \numrange[range-phrase = --]{10}{20}
+        & \textbf{---}
+        & {\scriptsize\UseVerb{nrverb}} \\
+        \qtyrange[range-units=single,range-phrase=-]{100}{200}{\ms}
+        & milliseconds
+        & {\scriptsize\UseVerb{msverb}} \\
+        \qtyrange[range-units=single,range-phrase=-]{50}{100}{\um}
+        & micrometers
+        & {\scriptsize\UseVerb{umverb}} \\
+        \qtyrange[range-units=single,range-phrase=-]{2}{101}{\hertz}
+        & hertz
+        & {\scriptsize\UseVerb{hertzverb}} \\
+        \qtyrange[range-units=single,range-phrase=-]{2}{101}{\Hz}
+        & hertz
+        & {\scriptsize\UseVerb{hzverb}} \\
+        \qtyrange[range-units=single,range-phrase=-]{0.1}{0.2}{\mol\per\L}
+        & mol per L
+        & {\scriptsize\UseVerb{smexpverb}} \\
+        \qtyrange[range-units=single,range-phrase=-]{0.1}{0.2}{\mol/\L}
+        & mol per L
+        & {\scriptsize\UseVerb{smfrcverb}} \\
+
+        \bottomrule
+    \end{tabular}
+\end{table}
