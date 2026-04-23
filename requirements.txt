@@ -1,4 +1,5 @@
 collection-latexrecommended
+import
 relsize
 tocloft
 titlesec
