@@ -11,51 +11,11 @@
 	Table captions are placed above figures in CAS dissertations. 
 	The lines of source code below are aliased inside of the \texttt{.vscode} directory in the \texttt{diss-latex.code-snippets} file, allowing you to type the prefix---e.g. \verb|qrh| (``quantity range hyphenated'') for \verb|qtyrange|---and tab its completion, followed by tabbing your cursor through the three inputs.
 	\\
+	% Input tables
+	\input{./Tables/Sample_Table2.tex}
 
-	\SaveVerb[fontsize=\normalsize]{nrverb}|\numrange[range-phrase = --]{10}{20}|
-	\SaveVerb[fontsize=\normalsize]{msverb}|\qtyrange[range-units=single,range-phrase=-]{100}{200}{\ms}|
-	\SaveVerb[fontsize=\normalsize]{hertzverb}|\qtyrange[range-units=single,range-phrase=-]{2}{101}{\hertz}|
-	\SaveVerb[fontsize=\normalsize]{hzverb}|\qtyrange[range-units=single,range-phrase=-]{2}{101}{\Hz}|
-	\SaveVerb[fontsize=\normalsize]{umverb}|\qtyrange[range-units=single,range-phrase=-]{50}{100}{\um}|
-	\SaveVerb[fontsize=\normalsize]{smexpverb}|\qtyrange[range-units=single,range-phrase=-]{0.1}{0.2}{\mol\per\L}|
-	\SaveVerb[fontsize=\normalsize]{smfrcverb}|\qtyrange[range-units=single,range-phrase=-]{0.1}{0.2}{\mol/\L}|
-	
-
-	\renewcommand\arraystretch{1.5}
-	\begin{table}[h]
-		\centering
-		\caption{Unit table showing various hyphenated ranges. Shown here are a unitless range, a pre-configured shorthand command for milliseconds, proper display of units involving greek letters, two different commands for the same unit, and lastly two different notations for conveying ratios.}
-		\label{tab:unit_table}
-		\footnotesize
-		\begin{tabular}{>{\centering\arraybackslash}p{2.75cm}>{\centering\arraybackslash}p{2.75cm}p{10cm}c}
-			\toprule
-			\textbf{Display} & \textbf{Unit} & \textbf{Source Code} \\
-			\midrule
-			\numrange[range-phrase = --]{10}{20}
-			& \textbf{---}
-			& {\scriptsize\UseVerb{nrverb}} \\
-			\qtyrange[range-units=single,range-phrase=-]{100}{200}{\ms}
-			& milliseconds
-			& {\scriptsize\UseVerb{msverb}} \\
-			\qtyrange[range-units=single,range-phrase=-]{50}{100}{\um}
-			& micrometers
-			& {\scriptsize\UseVerb{umverb}} \\
-			\qtyrange[range-units=single,range-phrase=-]{2}{101}{\hertz}
-			& hertz
-			& {\scriptsize\UseVerb{hertzverb}} \\
-			\qtyrange[range-units=single,range-phrase=-]{2}{101}{\Hz}
-			& hertz
-			& {\scriptsize\UseVerb{hzverb}} \\
-			\qtyrange[range-units=single,range-phrase=-]{0.1}{0.2}{\mol\per\L}
-			& mol per L
-			& {\scriptsize\UseVerb{smexpverb}} \\
-			\qtyrange[range-units=single,range-phrase=-]{0.1}{0.2}{\mol/\L}
-			& mol per L
-			& {\scriptsize\UseVerb{smfrcverb}} \\
-
-			\bottomrule
-		\end{tabular}
-	\end{table}
+	For a large dissertation document, troubleshooting table formatting can take a long time between edits.
+	This template includes a standalone 
 
 	\Cref{tab:landscape} below shows an example of a table positioned on its own page in landscape orientation.
 	
@@ -81,6 +41,11 @@
 
 	\subsection{Figures}
 
+	Figures are displayed with \verb|\includegraphics{}| commands inside of figure environments, which allow you to control their placement and formatting.
+	They can be anything from \texttt{jpegs}, \texttt{pngs}, and \texttt{tiffs} to vector graphics like \texttt{pdfs}.
+
+	\subsubsection{A single image}
+
 	\begin{figure*}[hb] % place approximately here 'h', OR at the bottom 'b' of the page (adding 'b' relaxes the demand)
 		\centering
 		\includegraphics[height =4in]{./Plots/nature.jpg} 
@@ -94,6 +59,29 @@
 	% 	\subfloat[\label{fig:HD8538_HRD}]{\includegraphics[height =2.5in]{./Plots/nature.jpg}}
 	% 	\caption{Multiple figures!}
 	% \end{figure}
+
+	\subsubsection{Multi-panel figures}
+
+	Figures with multiple panels are a more interesting case. 
+	This template allows creation of in-text links to the captions of subpanels with a phantom subcaption . 
+
+	\begin{figure*}
+        \centering
+        \includegraphics[width=13cm]{./Plots/sample_figure.pdf}
+        {
+        \phantomsubcaption\label{fig:sf2a-donut}
+        \phantomsubcaption\label{fig:sf2b-dot-plot}
+        \phantomsubcaption\label{fig:sf2c-contour}
+        \phantomsubcaption\label{fig:sf2d-dists}
+        }
+            \caption{Example of a figure with subpanels. 
+            \subref{fig:sf2a-donut} Donut plot of the proportions of male and female survey responses.
+            \subref{fig:sf2b-dot-plot} Correlation matrix of activity between brain regions.
+            \subref{fig:sf2c-contour} Typical MATLAB contour plot. 
+			\subref{fig:sf2d-dists} Distributions of data for two groups.
+            }
+			\label{fig:sample_figure}
+    \end{figure*}
 
 
 \end{document}
