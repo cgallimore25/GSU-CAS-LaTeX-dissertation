@@ -5,12 +5,17 @@
 
 \section{Visualizing data}
 
+	Tables, equations, and figures are the primary ways of communicating data or theory. 
+	They can also be linked and referenced using the same \verb|\label{}| scheme as chapters and sections, which is especially useful for large documents where the order of presentation may change during writing and editing.
+	Much like the way modern reference managers handle citations, this makes the numbers or letters assigned to these elements dynamic and robust to changes in the document.
+	Depending on the editor you use, these unique label namespaces are also \textit{remembered}, allowing you to tab complete them.
+
 	\subsection{Tables}
 
-	Below is an example table that demonstrates control of column width and alignment, missing value handling, font size and weight, row spacing, and the usage of horizontal rules. 
+	Below is an example table that demonstrates control of column width and alignment, missing value handling, font size and weight, row spacing, and the usage of horizontal rules (see \Cref{tab:unit_table}). 
 	Table captions are placed above figures in CAS dissertations. 
 	The lines of source code below are aliased inside of the \texttt{.vscode} directory in the \texttt{diss-latex.code-snippets} file, allowing you to type the prefix---e.g. \verb|qrh| (``quantity range hyphenated'') for \verb|qtyrange|---and tab its completion, followed by tabbing your cursor through the three inputs.
-	\\
+
 	% Input tables
 	\input{./Tables/Sample_Table2.tex}
 
@@ -43,6 +48,13 @@
 
 	Figures are displayed with \verb|\includegraphics{}| commands inside of figure environments, which allow you to control their placement and formatting.
 	They can be anything from \texttt{jpegs}, \texttt{pngs}, and \texttt{tiffs} to vector graphics like \texttt{pdfs}.
+	\Cref{fig:sample-img} below shows an example of a single image.
+	We can also make an abbreviation for this figure reference. 
+	For example, \verb|\fshort{}|, defined in the \texttt{usercommands.tex}, allows specification of the prefix: 
+
+	\begin{displayquote}
+		``\fshort{fig:sample-img} below shows an example of a single image.''
+	\end{displayquote}
 
 	\subsubsection{A single image}
 
@@ -64,7 +76,7 @@
 	\subsubsection{Multi-panel figures}
 
 	Figures with multiple panels are a more interesting case. 
-	This template includes functionality that allows creation of in-text links to individual subpanel captions and programmatic formatting of the prefix to subcaptions. 
+	This template includes functionality that allows creation of in-text links to individual subpanel captions and programmatic formatting of the prefix inside of the main figure caption. 
 	Here, we specify a parenthetical style with an inset uppercase letter (see \Cref{fig:sample_figure}). 
 
 	\begin{figure*}
@@ -85,10 +97,11 @@
 			\label{fig:sample_figure}
     \end{figure*}
 
-	Linked references between figures (e.g. \Crefrange{fig:sample-img}{fig:sample_figure}) and subpanels of the same figure (e.g. \subpanelrange{fig:sf2a-donut}{fig:sf2d-dists}{D}) are enabled via custom additions to \verb|usercommands.tex|. 
+	Linked references between figures (e.g. \Crefrange{fig:sample-img}{fig:sample_figure}) and subpanels of the same figure (e.g. \subpanelrange{fig:sf2a-donut}{fig:sf2d-dists}{D}) are enabled via custom additions to \texttt{usercommands.tex}. 
 	These reference the subcaption label by their specific namespace, and will automatically update when you add or remove figures and panels, making them robust to new additions.
 	You can modify these commands to print short or long forms of the ``figure'' prefix, or to change the style of the range conjunctions.
-	Insertion of these ranged references can also be aliased in the \texttt{diss-latex.code-snippets} file to tab complete them, which can be done here with \texttt{frng} and \texttt{spr}, respectively.
+	These custom commands for ranged references can \textit{themselves} be aliased in the \texttt{diss-latex.code-snippets} file, allowing you to tab complete their insertion by only keying in a few letters of the prefix.
+	Here, they are \texttt{frng} and \texttt{spr}, respectively.
 
 
 \end{document}
