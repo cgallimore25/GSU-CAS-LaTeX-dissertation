@@ -1,0 +1,40 @@
+% table_test.tex
+\documentclass{standalone}
+\usepackage{booktabs}  % For professional tables
+\usepackage{multirow}
+\usepackage{siunitx}   % For number alignment
+\usepackage{makecell}  % Provides \thead
+
+% make siunitx respect surrounding font series commands
+\sisetup{
+text-series-to-math = true ,
+propagate-math-font = true
+}
+
+\renewcommand\theadalign{bc}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
+
+\begin{document}
+    % Remove the table environment - standalone doesn't need/support it
+    \begin{tabular}{p{2.1cm}lccccc}
+        \toprule
+        \textbf{Analysis} & \textbf{Comparison} & \textbf{\textit{F}(3,12)} & \textbf{Mean Diff.} & \textbf{SE} & \textbf{\textit{p}-value} & \textbf{95\% CI}\\
+        \midrule
+        \addlinespace[6pt]
+        \multicolumn{7}{l}{\textbf{Main Effects}} \\
+        \addlinespace[3pt]
+        Time & Overall & 5.83  &  -- & -- & \textbf{*0.011} & --  \\
+        Context & Control vs. Deviant & --  & -0.0059 & 0.0030 & 0.117 & [-0.014, 0.002] \\
+        \midrule
+        \addlinespace[6pt]
+        \multicolumn{7}{l}{\textbf{Interaction: Time {\texttimes} Context}} \\
+        \addlinespace[3pt]
+        Control & Pre vs. MK-801 &  --  & -0.0078 & 0.0055 & 0.224 & [-0.023, 0.007] \\
+        Deviant & Pre vs. MK-801 &  --  & -0.0186 & 0.0059 & \textbf{*0.034} & [-0.035, -0.002] \\
+        \bottomrule
+        \addlinespace[3pt]
+        \multicolumn{7}{l}{\textbf{*} $\mathbf{p < .05}$} \\
+    \end{tabular}
+\end{document}
