@@ -56,6 +56,24 @@
 		"description": "Create new two column figure code block"
 	  },
 
+	  "Figure range": {
+		"scope": "latex",
+		"prefix": "frng",
+		"body": [
+		  "\\Crefrange{${1}}{${2}}$0"
+		],
+		"description": "Create a figure range reference"
+	  },
+
+	  "Subpanel range": {
+		"scope": "latex",
+		"prefix": "spr",
+		"body": [
+		  "\\subpanelrange{${1}}{${2}}{${3}}$0"
+		],
+		"description": "Create a subpanel range reference"
+	  },
+
 	  // List environments----------------------------------------------------------------------------------------
 
 	  "Inline Enumerated List": {
