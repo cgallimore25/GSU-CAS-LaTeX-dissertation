@@ -421,11 +421,15 @@
 {\chaptertitleposition\bfseries\chaptertitleheadsize\singlespace}[]
 
 % For numberless \chapter (the Dedication/Acknowledgements/ToC title) I have \bfseries (boldface).  This does NOT seem to affect the title or abstract displayed.
+% Trying [block] shape (not [display]) so there is no phantom label line consuming vertical space above the title.
 
+% \titleformat{name=\chapter,numberless}[block]
 \titleformat{name=\chapter,numberless}[display]
 {\chapterheadingsize}
 {\color{white}\chapterheadposition\chaptertitlename\hspace{0em}
   {\chapternumbersize\thechapter}\ \afterchaptername}{\chapterbetweentitle}
+% {}
+% {0pt}
 {\chaptertitleposition\bfseries\chaptertitleheadsize\singlespace}[]
 
 \titlespacing*{\chapter}{0pt}{\chapterheadspace}{\titleheadspace}

@@ -225,19 +225,25 @@ propagate-math-font = true
                                              % This prints the word "DRAFT" in gray color in the header of your dissertation. 
                                              % You can go wild here if you want. Just make sure you disable the draft option before final printing.
 
-% Your specific information
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                      Your specific information                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\fulllegalname(Full Legal Name)           % Full legal name, required for copyright pg
 \author(First and Last Name)              % Name required.
-\title(Your Title in Title Caps)          % Title of dissertation Required, must be in Title Case
+\title(Your Title in Title Caps)          % Dissertation Title Required, must be in Title Case
 \titlesize(12)(12)                        % This is for changing the default font size for your title. 
                                           % The first argument is the font size, the second is the line spacing for long titles that wrap to more than one line.
                                           % Default is equivalent to the \LARGE command, which is roughly (22)(22).
 
 % \committee: The first parenthesis must contain your supervisor name.
+%             Omit "Dr." or "Ph.D", only put first and last name
 %             You can have two supervisors, in which case, the 2nd supervisor goes into the square brackets, next to the first. 
-%             If you have one like me, then leave the 2nd entry blank, like below. The rest of the parentheses contains the rest of your committee members. 
-%             Note that there is no need to put the "Dr." title in front of any of the names. Adjust margins to 1.0in on all sides
+%             If you have one like me, then leave the square brackets entry blank. 
+%             Remaining parentheses contain the rest of your committee members. 
+%             For <4 regular committee members, delete one pair of parentheses entirely.  
 
-\committee(Committee Chair)[]
+\committee(Committee Chair)[Committee Co-Chair]
           (Committee Member)
           (Committee Member)
           (Committee Member)

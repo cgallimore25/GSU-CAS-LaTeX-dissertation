@@ -1,13 +1,13 @@
 %%%%%%%%%%%%%%%%%%%% The front matter of your document %%%%%%%%%%%%%%%%%%%%
 
+\titlepage\clearpage               % Title page   (gsudiss.cls \titlepage)
+\abstractpage\clearpage            % Abstract page (gsudiss.cls \abstractpage)
 
 \frontmatter
 \pagestyle{main}
 
 \certifypage                 % Produces the certify page, if this option is
                              % set in the class file.
-
-
 
 \copyrightpage               % Produces the copyright page.
 \clearpage
@@ -42,3 +42,6 @@
                              % package. See my "abbreviation.tex" file
                              % for example usage. If you don't have
                              % this file, the command does nothing.
+
+\prefacepage                 % The preface page is optional.
+\clearpage                             % Does nothing if no "preface.tex" file exists.
