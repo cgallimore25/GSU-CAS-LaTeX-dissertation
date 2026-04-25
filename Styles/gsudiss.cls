@@ -743,14 +743,24 @@
       "dedication.tex" could not be found; I will continue without
       it.}}}
 
-%------------------------Acknowledgments----------------------------------
+%------------------------Acknowledgements---------------------------------
 
 \def\acknowledgmentpage{%
-  \IfFileExists{Frontmatter/acknowledgments.tex}
-  {\chapter*{ACKNOWLEDGMENTS}
-    \addcontentsline{toc}{chapter}{ACKNOWLEDGMENTS}
-    \input{Frontmatter/acknowledgments}}
-  {\typeout{The file "acknowledgments.tex" could not be found; I will continue
+  \IfFileExists{Frontmatter/acknowledgements.tex}
+  {\chapter*{ACKNOWLEDGEMENTS}
+    \addcontentsline{toc}{chapter}{ACKNOWLEDGEMENTS}
+    \input{Frontmatter/acknowledgements}}
+  {\typeout{The file "acknowledgements.tex" could not be found; I will continue
+      without it.}}}
+
+%------------------------Preface Page-------------------------------------
+
+\def\prefacepage{%
+  \IfFileExists{Frontmatter/preface.tex}
+  {\chapter*{PREFACE}
+    \addcontentsline{toc}{chapter}{PREFACE}
+    \input{Frontmatter/preface}}
+  {\typeout{The file "preface.tex" could not be found; I will continue
       without it.}}}
 
 %------------------------Table of Contents--------------------------------
