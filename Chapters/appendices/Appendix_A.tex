@@ -3,7 +3,37 @@
 
 \setupappendix{A}  % See `usercommands.tex` for definitions
 
-\section{Something}
-This is the appendix!
+\section{Chapter 3 supplementary material}\label{sec:app-a}
+
+\subsection{Supplemental information}\label{sec:s2-info}
+
+Appendices in this template are typeset single-spaced by default.
+This can be changed in \texttt{backmatter.tex}, though consult with formatting review and the guidelines for your department. 
+There's a variety of different ways you can structure an appendix based on your field. 
+In science, these might be the supplementary materials that accompany individual chapters or published manuscripts. 
+In other fields, they may correspond to derivations, proofs, algorithms, equations, methods, analyses, protocols, or attempted methodologies not germane to the main body text. 
+
+\subsection{Supplemental figures}\label{sec:s2-figs}
+
+Notice that all figures in this template are emumerated first by the chapter number, followed by a second number representing the order in which it appears in the chapter. 
+For Appendices, this template correctly enumerates its encompassed figures and tables by its letter rather than an additional chapter number (see \Cref{fig:a1-f1}). 
+The same logic applies for subpanel references, such as \subpanelrange{fig:a1a}{fig:a1b}{B}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=14cm]{./Plots/a1_sample.pdf}
+    {
+    \phantomsubcaption\label{fig:a1a}
+    \phantomsubcaption\label{fig:a1b}
+    }
+    \caption{
+        Appendix A example figure. 
+        \subref{fig:a1a} Shows raster plots of single neuron activity relative to the onset of target (orange) and non-target (teal) stimuli, followed by a \gls{psth} of their trial averages.
+        \subref{fig:a1b} Polar histogram of preferred local field potential phases for recorded neurons following target and non-target stimuli.  
+    }
+    \label{fig:a1-f1}
+\end{figure}
+
+\subsection{Supplemental tables}
 
 \end{document}
