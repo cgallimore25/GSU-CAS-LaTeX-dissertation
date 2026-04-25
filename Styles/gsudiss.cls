@@ -421,11 +421,15 @@
 {\chaptertitleposition\bfseries\chaptertitleheadsize\singlespace}[]
 
 % For numberless \chapter (the Dedication/Acknowledgements/ToC title) I have \bfseries (boldface).  This does NOT seem to affect the title or abstract displayed.
+% Trying [block] shape (not [display]) so there is no phantom label line consuming vertical space above the title.
 
+% \titleformat{name=\chapter,numberless}[block]
 \titleformat{name=\chapter,numberless}[display]
 {\chapterheadingsize}
 {\color{white}\chapterheadposition\chaptertitlename\hspace{0em}
   {\chapternumbersize\thechapter}\ \afterchaptername}{\chapterbetweentitle}
+% {}
+% {0pt}
 {\chaptertitleposition\bfseries\chaptertitleheadsize\singlespace}[]
 
 \titlespacing*{\chapter}{0pt}{\chapterheadspace}{\titleheadspace}
@@ -577,14 +581,14 @@
   \def\supervisor{#1}
 
   \def\committeemembers{\hspace{1.6in}
-    \centerline{\parbox[t]{0.3\textwidth}{\setstretch{2} Committee Chair:\\Committee:}
-      \hspace{1cm} \parbox[t]{0.3\textwidth}{\raggedleft \setstretch{2}
+    \centerline{\parbox[t]{0.3\textwidth}{\raggedleft\setstretch{2} Committee Chair:\\\phantom{x}\\Committee:}
+      \hspace{1cm} \parbox[t]{0.3\textwidth}{\raggedright \setstretch{2}
         {#1}\\
-        \ifthenelse{\equal{#2}{}}{}{{#2}\\}
-        \ifthenelse{\equal{#3}{}}{}{{#3}\\}
-        \ifthenelse{\equal{#4}{}}{}{{#4}\\}
-        \ifthenelse{\equal{#5}{}}{}{{#5}\\}
-        \ifthenelse{\equal{#6}{}}{}{{#6}\\}
+        \ifthenelse{\equal{#2}{}}{\phantom{x}\\}{{#2}\\}
+        \ifthenelse{\equal{#3}{}}{\phantom{x}\\}{{#3}\\}
+        \ifthenelse{\equal{#4}{}}{\phantom{x}\\}{{#4}\\}
+        \ifthenelse{\equal{#5}{}}{\phantom{x}\\}{{#5}\\}
+        \ifthenelse{\equal{#6}{}}{\phantom{x}\\}{{#6}\\}
         \ifthenelse{\equal{#7}{}}{}{{#7}\\}
         \ifthenelse{\equal{#8}{}}{}{{#8}\\}
       }}
@@ -669,21 +673,23 @@
   \end{center}
 }{}
 
+%------------------------Index Words Command------------------------------
+% Use \indexwords{keyword, keyword} at the end of Frontmatter/abstract.tex.
+% \vfill pushes it to the bottom of whichever page the abstract ends on.
+\newcommand{\indexwords}[1]{%
+  \vfill
+  \noindent\parbox[t]{0.25\textwidth}{\setstretch{1} INDEX WORDS:}%
+  \hspace{3pt}\parbox[t]{0.70\textwidth}{\setstretch{1}#1}}
+
 %------------------------Abstract Page------------------------------------
+% Abstract text and \indexwords{} live in Frontmatter/abstract.tex.
+% \vfill inside that file pushes INDEX WORDS to the bottom of the page.
 \def\abstractpage{\pagenumbering{gobble}
-  \begin{center}
-    \parbox[]{\textwidth}{\setstretch{2}\centering\titlefontsize\titlediss}
-  \end{center}
-  \vspace{0.4in}
-  \centerline{by} \vspace*{0.5in}
-  \centerline{\writer} \vspace*{0.5in}
-  \centerline{Under the Direction of \supervisor, PhD}
-  \vspace{1.0in}
   \begin{abstract}
-    \input{Frontmatter/abstract}
-  \end{abstract}\\[0.5in]
-  \noindent \parbox[t]{0.25\textwidth}{\setstretch{1} INDEX WORDS:} \hspace{3pt}
-  \parbox[t]{0.75\textwidth}{\setstretch{1}\input{Frontmatter/index-words}}
+    \begin{doublespace}
+      \input{Frontmatter/abstract}
+    \end{doublespace}
+  \end{abstract}
  % \cleardoublepage
 }
 
@@ -718,11 +724,11 @@
   \begin{center}
     \parbox[]{\textwidth}{\setstretch{2}\centering\titlefontsize\titlediss}
   \end{center}
-  \vspace*{0.5in}
+  \vspace*{0.6in}
   \centerline{by}
-  \vspace*{0.5in}
+  \vspace*{0.6in}
   \centerline{\writer}
-  \vspace*{1in}
+  \vspace*{0.6in}
   \committeemembers
   \approval
 %  \cleardoublepage
