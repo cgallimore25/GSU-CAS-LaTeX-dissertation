@@ -669,21 +669,23 @@
   \end{center}
 }{}
 
+%------------------------Index Words Command------------------------------
+% Use \indexwords{keyword, keyword} at the end of Frontmatter/abstract.tex.
+% \vfill pushes it to the bottom of whichever page the abstract ends on.
+\newcommand{\indexwords}[1]{%
+  \vfill
+  \noindent\parbox[t]{0.25\textwidth}{\setstretch{1} INDEX WORDS:}%
+  \hspace{3pt}\parbox[t]{0.70\textwidth}{\setstretch{1}#1}}
+
 %------------------------Abstract Page------------------------------------
+% Abstract text and \indexwords{} live in Frontmatter/abstract.tex.
+% \vfill inside that file pushes INDEX WORDS to the bottom of the page.
 \def\abstractpage{\pagenumbering{gobble}
-  \begin{center}
-    \parbox[]{\textwidth}{\setstretch{2}\centering\titlefontsize\titlediss}
-  \end{center}
-  \vspace{0.4in}
-  \centerline{by} \vspace*{0.5in}
-  \centerline{\writer} \vspace*{0.5in}
-  \centerline{Under the Direction of \supervisor, PhD}
-  \vspace{1.0in}
   \begin{abstract}
-    \input{Frontmatter/abstract}
-  \end{abstract}\\[0.5in]
-  \noindent \parbox[t]{0.25\textwidth}{\setstretch{1} INDEX WORDS:} \hspace{3pt}
-  \parbox[t]{0.75\textwidth}{\setstretch{1}\input{Frontmatter/index-words}}
+    \begin{doublespace}
+      \input{Frontmatter/abstract}
+    \end{doublespace}
+  \end{abstract}
  % \cleardoublepage
 }
 
