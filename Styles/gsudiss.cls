@@ -472,6 +472,13 @@
   \def\writer{#1}
 }
 
+\def\fulllegalname{%
+  \@ifnextchar({\fulllegalname@i}{\fulllegalname@i(The author's full legal name is required)}%)
+}
+\def\fulllegalname@i(#1){%
+  \def\legalname{#1}
+}
+
 \def\title{%
   \@ifnextchar({\title@i}{\title@i(The title of the Dissertation is required)}%)
 }
@@ -509,14 +516,14 @@
   \@ifnextchar({\graduationyear@i}{\graduationyear@i(\number\year)}%)
 }
 \def\graduationyear@i(#1){%
-  \def\graduation{#1}
+  \def\gradyr{#1}
 }
 
 \def\graduationmonth{%
   \@ifnextchar({\graduationmonth@i}{\graduationmonth@i(August)}%)
 }
 \def\graduationmonth@i(#1){%
-  \def\graduate{#1}
+  \def\gradmonth{#1}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -614,15 +621,13 @@
 
 %%%%%%%%%%% Definitions of front matter%%%%%%%%%%%%%%%%%%
 
-\def\certifywords{
-  \ifthenelse{\equal{\onlinesubmission}{yes}}
-  {\centerline{A Dissertation Submitted in Partial Fulfillment of
-    the Requirements for the Degree of}}
-  {\centerline{A Dissertation Submitted in Partial Fulfillment of
-    the Requirements for the Degree of}}
-  \centerline{Doctor of Philosophy}
-  \centerline{in the College of Arts and Sciences}
-  \centerline{Georgia State University}}
+\def\certifywords{%
+  {\setstretch{2}\centering
+    A Dissertation Submitted in Partial Fulfillment of the Requirements for the Degree of\\
+    Doctor of Philosophy\\
+    in the College of Arts and Sciences\\
+    Georgia State University\\
+    \gradyr\par}}
 
 \def\certifyword{
   \centerline{A Dissertation Submitted in Partial Fulfillment of
@@ -637,7 +642,7 @@
     Office of Graduate Studies\\
     College of Arts and Sciences\\
     Georgia State University\\
-    \graduate\ \graduation}}
+    \gradmonth\ \gradyr}}
 
 %------------------------Committee Certification Page---------------------
 \ifthenelse{\equal{\printcertifypage}{yes}}{
@@ -649,7 +654,7 @@
         \begin{center}
           \parbox[]{\textwidth}{\setstretch{1.1}\centering\titlefontsize\titlediss\vspace*{\addedspace}}
           \parbox[]{\textwidth}{\setstretch{1}\certifyword\vspace*{\addedspace}}
-          \parbox[]{\textwidth}{\setstretch{1.2}\centering\graduation\\by\\{\writer}\\committee:\vspace*{\addedspace}}
+          \parbox[]{\textwidth}{\setstretch{1.2}\centering\gradyr\\by\\{\writer}\\committee:\vspace*{\addedspace}}
           \parbox[]{\textwidth}{\setstretch{1}\signaturelines}
         \end{center}
       \end{minipage}
@@ -687,23 +692,23 @@
   \begin{center}
     \parbox[]{\textwidth}{\setstretch{2}\centering\titlefontsize\titlediss}
   \end{center}
-  \vspace*{1.5in}
+  \vspace*{1.25in}
   \centerline{by}
-  \vspace*{1.5in}
+  \vspace*{1.25in}
   \centerline{\writer}
-  \vspace*{2.0in}
+  \vspace*{1.25in}
+  \centerline{Under the Direction of \supervisor, PhD}
+  \vspace*{1.25in}
   \certifywords
-%  \vspace*{1.5in}
-  \centerline{\graduation}
 %  \cleardoublepage
 }
 
 %------------------------Copyright Page-----------------------------------
 \def\copyrightpage{\pagenumbering{gobble}
-  \vspace*{0.7\textheight}
+  \null\vfill
   \begin{center}
     \parbox[]{\textwidth}{\setstretch{1}
-      \begin{center}Copyright by\\Your Name\\\graduation\end{center}}
+      \begin{center}Copyright by\\\legalname\\\gradyr\end{center}}
   \end{center}
 %  \cleardoublepage
 }
