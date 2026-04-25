@@ -577,14 +577,14 @@
   \def\supervisor{#1}
 
   \def\committeemembers{\hspace{1.6in}
-    \centerline{\parbox[t]{0.3\textwidth}{\setstretch{2} Committee Chair:\\Committee:}
-      \hspace{1cm} \parbox[t]{0.3\textwidth}{\raggedleft \setstretch{2}
+    \centerline{\parbox[t]{0.3\textwidth}{\raggedleft\setstretch{2} Committee Chair:\\\phantom{x}\\Committee:}
+      \hspace{1cm} \parbox[t]{0.3\textwidth}{\raggedright \setstretch{2}
         {#1}\\
-        \ifthenelse{\equal{#2}{}}{}{{#2}\\}
-        \ifthenelse{\equal{#3}{}}{}{{#3}\\}
-        \ifthenelse{\equal{#4}{}}{}{{#4}\\}
-        \ifthenelse{\equal{#5}{}}{}{{#5}\\}
-        \ifthenelse{\equal{#6}{}}{}{{#6}\\}
+        \ifthenelse{\equal{#2}{}}{\phantom{x}\\}{{#2}\\}
+        \ifthenelse{\equal{#3}{}}{\phantom{x}\\}{{#3}\\}
+        \ifthenelse{\equal{#4}{}}{\phantom{x}\\}{{#4}\\}
+        \ifthenelse{\equal{#5}{}}{\phantom{x}\\}{{#5}\\}
+        \ifthenelse{\equal{#6}{}}{\phantom{x}\\}{{#6}\\}
         \ifthenelse{\equal{#7}{}}{}{{#7}\\}
         \ifthenelse{\equal{#8}{}}{}{{#8}\\}
       }}
@@ -720,11 +720,11 @@
   \begin{center}
     \parbox[]{\textwidth}{\setstretch{2}\centering\titlefontsize\titlediss}
   \end{center}
-  \vspace*{0.5in}
+  \vspace*{0.6in}
   \centerline{by}
-  \vspace*{0.5in}
+  \vspace*{0.6in}
   \centerline{\writer}
-  \vspace*{1in}
+  \vspace*{0.6in}
   \committeemembers
   \approval
 %  \cleardoublepage
