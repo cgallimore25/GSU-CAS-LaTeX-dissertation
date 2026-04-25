@@ -51,7 +51,18 @@
     {\MakeSentenceCase{#1}}}
 
 
-\newcommand{\authoryr}[1]{\citeauthor{#1} (\citeyear{#1})}
+\NewDocumentCommand{\authoryr}{s m}{%
+  \IfBooleanTF{#1}%
+    {\citeauthor{#2} (\citeyear{#2})}%
+    {\hyperlink{cite.\therefsection @#2}{\citeauthor{#2} (\citeyear{#2})}}%
+}
+
+% For linking inline Author (Year) citations to the bibliography 
+% \newcommand{\authoryr}[1]{%
+%   \hyperlink{cite.\therefsection @#1}{\citeauthor{#1} (\citeyear{#1})}%
+% }
+% If you dont want these hyperlinked, you can use:
+% \newcommand{\authoryr}[1]{\citeauthor{#1} (\citeyear{#1})}
 
 % ------------------------------------------------------- %
 
